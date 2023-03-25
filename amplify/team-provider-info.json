@@ -1,0 +1,58 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chatgptlinechatbot-dev-02210-authRole",
+      "UnauthRoleArn": "arn:aws:iam::660988641828:role/amplify-chatgptlinechatbot-dev-02210-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::660988641828:role/amplify-chatgptlinechatbot-dev-02210-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-chatgptlinechatbot-dev-02210-deployment",
+      "UnauthRoleName": "amplify-chatgptlinechatbot-dev-02210-unauthRole",
+      "StackName": "amplify-chatgptlinechatbot-dev-02210",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:660988641828:stack/amplify-chatgptlinechatbot-dev-02210/80d364f0-c98e-11ed-9062-06e366a9df13",
+      "AmplifyAppId": "d34o9vgjq1lt33"
+    },
+    "categories": {
+      "function": {
+        "chatGPTLineChatBotFunction": {
+          "deploymentBucketName": "amplify-chatgptlinechatbot-dev-02210-deployment",
+          "s3Key": "amplify-builds/chatGPTLineChatBotFunction-5549726a327934523041-build.zip",
+          "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
+          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
+        }
+      },
+      "api": {
+        "chatGPTLineChatBotRestApi": {},
+        "chatGPTLineChatBotGraphQLApi": {}
+      }
+    }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-chatgptlinechatbot-prod-212431-authRole",
+      "UnauthRoleArn": "arn:aws:iam::660988641828:role/amplify-chatgptlinechatbot-prod-212431-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::660988641828:role/amplify-chatgptlinechatbot-prod-212431-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-chatgptlinechatbot-prod-212431-deployment",
+      "UnauthRoleName": "amplify-chatgptlinechatbot-prod-212431-unauthRole",
+      "StackName": "amplify-chatgptlinechatbot-prod-212431",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:660988641828:stack/amplify-chatgptlinechatbot-prod-212431/d57c4e30-ca3e-11ed-9964-0a79a3bd085d",
+      "AmplifyAppId": "d34o9vgjq1lt33"
+    },
+    "categories": {
+      "function": {
+        "chatGPTLineChatBotFunction": {
+          "deploymentBucketName": "amplify-chatgptlinechatbot-prod-212431-deployment",
+          "s3Key": "amplify-builds/chatGPTLineChatBotFunction-5549726a327934523041-build.zip",
+          "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
+          "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod"
+        }
+      },
+      "api": {
+        "chatGPTLineChatBotGraphQLApi": {},
+        "chatGPTLineChatBotRestApi": {}
+      }
+    }
+  }
+}

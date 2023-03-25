@@ -13,9 +13,13 @@ def handler(event, context):
 
         # Parse the event body as a JSON object
         event_body = json.loads(event['body'])
+        print("event_body:",event_body)
         prompt_text = line_request_body_parser.get_prompt_text(event_body)
+        print("prompt_text:",prompt_text)
         line_user_id = line_request_body_parser.get_line_user_id(event_body)
+        print("line_user_id:",line_user_id)
         reply_token = line_request_body_parser.get_reply_token(event_body)
+        print("reply_token:",reply_token)
         # Check if the event is a message type and is of text type
         if prompt_text is None or line_user_id is None or reply_token is None:
             raise Exception('Elements of the event body are not found.')

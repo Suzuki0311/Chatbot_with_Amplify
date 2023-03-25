@@ -1,0 +1,83 @@
+{
+  "api": {
+    "chatGPTLineChatBotGraphQLApi": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    },
+    "chatGPTLineChatBotRestApi": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "chatGPTLineChatBotFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_chatGPTLineChatBotFunction_baseSecretPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_dbTableNamePostfix": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    }
+  }
+}

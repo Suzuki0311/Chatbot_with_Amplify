@@ -12,6 +12,7 @@ def handler(event, context):
         guard.verify_request(event)
 
         # Parse the event body as a JSON object
+        # Test_after remove text
         event_body = json.loads(event['body'])
         print("event_body:",event_body)
         prompt_text = line_request_body_parser.get_prompt_text(event_body)

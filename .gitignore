@@ -19,6 +19,7 @@ amplifytools.xcconfig
 Chatbot_with_Amplify/*
 amplify/backend/function/chatGPTLineChatBotFunction/src/src.egg-info/*
 amplify/backend/function/chatGPTLineChatBotFunction/src/build/*
+amplify/backend/function/chatGPTLineChatBotFunction/src/event.json
 .secret-*
 **.sample
 #amplify-do-not-edit-end

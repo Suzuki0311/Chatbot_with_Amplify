@@ -2,8 +2,10 @@
 
 # setup(name='src', version='1.0')
 
-from setuptools import setup, find_packages
-from setuptools import setup, find_namespace_packages
+print("Running setup.py")
+
+# from setuptools import setup, find_packages
+# from setuptools import setup, find_namespace_packages
 
 # setup(
 #     name="my_package",
@@ -18,12 +20,24 @@ from setuptools import setup, find_namespace_packages
 #     # ...
 # )
 
+# setup(
+#     # ...
+#     packages=find_packages(
+#         where='src',
+#         include=['my_package*'],  # alternatively: `exclude=['additional*']`
+#     ),
+#     package_dir={"": "src"}
+#     # ...
+# )
+
+from setuptools import setup, find_packages
+
 setup(
-    # ...
+    name="my_package",
+    version="0.1",
     packages=find_packages(
         where='src',
-        include=['my_package*'],  # alternatively: `exclude=['additional*']`
+        include=['my_package*'],
     ),
     package_dir={"": "src"}
-    # ...
 )

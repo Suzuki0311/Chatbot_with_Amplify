@@ -17,6 +17,8 @@ amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
 Chatbot_with_Amplify/*
+amplify/backend/function/chatGPTLineChatBotFunction/src/src.egg-info/*
+amplify/backend/function/chatGPTLineChatBotFunction/src/build/*
 .secret-*
 **.sample
 #amplify-do-not-edit-end

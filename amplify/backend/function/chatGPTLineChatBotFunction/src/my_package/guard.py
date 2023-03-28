@@ -2,7 +2,9 @@ import hashlib
 import hmac
 import base64
 # import const
-from . import const
+# from . import const
+from my_package import const
+
 
 
 

@@ -22,6 +22,7 @@ frontend:
       commands:
         - echo "Skipping frontend build"
         - mkdir empty_directory
+        - echo "This is a dummy file." > empty_directory/dummy.txt
   artifacts:
     baseDirectory: empty_directory
     files:

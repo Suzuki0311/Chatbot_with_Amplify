@@ -20,6 +20,13 @@ backend:
   phases:
     preBuild:
       commands:
+        - curl https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz -o python-3.8.tgz
+        - tar xzf python-3.8.tgz
+        - cd Python-3.8.12
+        - ./configure --prefix=/usr/local/python3.8
+        - make && sudo make install
+        - cd ..
+        - sudo ln -s /usr/local/python3.8/bin/python3.8 /usr/local/bin/python3
         - cd amplify/backend/function/chatGPTLineChatBotFunction
         - python3 -m ensurepip --upgrade
         - python3 -m pip install --upgrade pip

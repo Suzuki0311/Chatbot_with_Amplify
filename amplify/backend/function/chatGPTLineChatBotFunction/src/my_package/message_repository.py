@@ -1,9 +1,13 @@
 import uuid
 from datetime import datetime
 
-import chatgpt_api
-import db_accessor
-import message_repository
+# import chatgpt_api
+# import db_accessor
+# import message_repository
+from . import chatgpt_api
+from . import db_accessor
+from . import message_repository
+
 
 QUERY_LIMIT = 5
 

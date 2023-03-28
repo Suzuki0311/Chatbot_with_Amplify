@@ -1,4 +1,5 @@
-import const
+# import const
+from . import const
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 

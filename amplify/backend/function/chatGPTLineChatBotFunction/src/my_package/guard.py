@@ -1,7 +1,9 @@
 import hashlib
 import hmac
 import base64
-import const
+# import const
+from . import const
+
 
 
 def verify_request(event):

@@ -1,5 +1,6 @@
 import openai
-import const
+# import const
+from . import const
 
 # Model name
 GPT3_MODEL = 'gpt-3.5-turbo'

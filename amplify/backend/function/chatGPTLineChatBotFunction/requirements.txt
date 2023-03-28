@@ -29,7 +29,7 @@ requests==2.28.2
 rsa==4.9
 s3transfer==0.6.0
 six==1.16.0
--e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@a736f0c30bf0288c0d0999498b93239b91cb3506#egg=src&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction/src
+# -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@a736f0c30bf0288c0d0999498b93239b91cb3506#egg=src&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction/src
 tqdm==4.65.0
 urllib3==1.26.15
 yarl==1.8.2

@@ -5,6 +5,10 @@ import json
 # import line_request_body_parser
 # import message_repository
 
+import sys
+print("sys.path:", sys.path)
+
+
 from . import guard
 from . import line_api
 from . import line_request_body_parser

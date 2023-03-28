@@ -39,7 +39,7 @@ backend:
         - cd ../../../../
         - amplifyPush --simple
   artifacts:
-    baseDirectory: build
+    baseDirectory: chatbot_with_amplify/build
     files:
       - '**/*'
   cache:

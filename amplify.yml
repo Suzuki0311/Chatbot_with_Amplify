@@ -28,7 +28,7 @@ backend:
         - pip3 install -r requirements.txt
     build:
       commands:
-        - pipenv run python -m zipfile -r ../../../../function.zip .
+        - pipenv run python -m zipfile -c ../../../../function.zip .
         - cd ../../../../
         - amplifyPush --simple
   artifacts:

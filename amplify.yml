@@ -21,10 +21,11 @@ frontend:
     build:
       commands:
         - echo "Skipping frontend build"
+        - mkdir empty_directory
   artifacts:
-    baseDirectory: /
+    baseDirectory: empty_directory
     files:
-      - ''
+      - '**/*'
 backend:
   phases:
     preBuild:

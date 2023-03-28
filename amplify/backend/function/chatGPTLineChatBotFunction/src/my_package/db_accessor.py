@@ -1,6 +1,6 @@
 import boto3
 from datetime import datetime
-import const
+from . import const
 
 TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
 QUERY_INDEX_NAME = 'byLineUserId'

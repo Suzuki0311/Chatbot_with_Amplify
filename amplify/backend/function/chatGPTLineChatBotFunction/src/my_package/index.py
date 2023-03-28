@@ -1,9 +1,14 @@
 import json
 
-import guard
-import line_api
-import line_request_body_parser
-import message_repository
+# import guard
+# import line_api
+# import line_request_body_parser
+# import message_repository
+
+from . import guard
+from . import line_api
+from . import line_request_body_parser
+from . import message_repository
 
 
 def handler(event, context):

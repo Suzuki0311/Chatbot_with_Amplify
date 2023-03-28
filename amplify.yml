@@ -1,21 +1,21 @@
 version: 1
-frontend:
-  phases:
-    preBuild:
-      commands:
-        - cd chatbot_with_amplify
-        - yarn install
-    build:
-      commands:
-        - cd chatbot_with_amplify
-        - yarn run build
-  artifacts:
-    baseDirectory: chatbot_with_amplify/build
-    files:
-      - '**/*'
-  cache:
-    paths:
-      - chatbot_with_amplify/node_modules/**/*
+# frontend:
+#   phases:
+#     preBuild:
+#       commands:
+#         - cd chatbot_with_amplify
+#         - yarn install
+#     build:
+#       commands:
+#         - cd chatbot_with_amplify
+#         - yarn run build
+#   artifacts:
+#     baseDirectory: chatbot_with_amplify/build
+#     files:
+#       - '**/*'
+#   cache:
+#     paths:
+#       - chatbot_with_amplify/node_modules/**/*
 frontend:
   phases:
     build:

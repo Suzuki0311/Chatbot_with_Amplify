@@ -23,9 +23,7 @@ backend:
         - python3 -m pip install --upgrade pip
         - pip3 install --upgrade virtualenv
         - pip3 install pipenv
-        # - pip3 install -r amplify/backend/function/chatGPTLineChatBotFunction/requirements.txt
-        - pipenv install
-        - pipenv run pip install -r requirements.txt
+        - pip3 install -r amplify/backend/function/chatGPTLineChatBotFunction/requirements.txt
     build:
       commands:
         - amplifyPush --simple

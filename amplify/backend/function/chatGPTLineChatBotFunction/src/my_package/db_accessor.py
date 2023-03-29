@@ -28,10 +28,12 @@ def query_by_line_user_id(line_user_id: str, limit: int) -> list:
         # Limit the number of results
         'Limit': limit
     }
+    print("query_params:",query_params)
 
     try:
         # Call the query method of the DynamoDB client with the query parameters
         query_result = dynamodb.query(**query_params)
+        print("query_params:",query_params)
         # Return the list of items from the query result
         return query_result['Items']
     except Exception as e:
@@ -51,6 +53,7 @@ def put_message(partition_key: str, uid: str, role: str, content: str, now: date
             'createdAt': {'S': now.isoformat()},
         },
     }
+    print("options:",options)
     # Try to put the item into the table using dynamodb client
     try:
         dynamodb.put_item(**options)

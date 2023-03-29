@@ -38,6 +38,7 @@ def handler(event, context):
 
         # Create the completed text by Chat-GPT 3.5 turbo
         completed_text = message_repository.create_completed_text(line_user_id, prompt_text)
+        print("completed_text:",completed_text)
         # Reply the message using the LineBotApi instance
         line_api.reply_message_for_line(reply_token, completed_text)
 

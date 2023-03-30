@@ -67,13 +67,19 @@ def handler(event, context):
                     # 他の言語コードと名前を追加
                 }
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            print("line_bot_api:",line_bot_api)
             message_image_content = line_bot_api.get_message_content(message_image_id)
+            print("message_image_content:",message_image_content)
             image_bytes = io.BytesIO(message_image_content)
+            print("image_bytes:",image_bytes)
             service_account_info = json.loads(const.GOOGLE_APPLICATION_CREDENTIALS)
             credentials = service_account.Credentials.from_service_account_info(service_account_info)
             client = vision.ImageAnnotatorClient(credentials=credentials)
+            print("client:",client)
             image = vision.Image(content=image_bytes.getvalue())
+            print("image:",image)
             response = client.document_text_detection(image=image)
+            print("response:",response)
             target_sentence = response.full_text_annotation.text
             print("target_sentence:",target_sentence)
             translate_client = translate_v2.Client(credentials=credentials)

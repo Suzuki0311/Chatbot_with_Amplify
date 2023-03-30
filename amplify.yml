@@ -47,7 +47,7 @@ backend:
         - echo "List installed packages:"
         - pip3 list
         - echo "Directory structure:"
-        - find 
+        - find src
     build:
       commands:
         - pipenv run python -m zipfile -c ../../../../function.zip .

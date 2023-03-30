@@ -70,7 +70,7 @@ def handler(event, context):
             print("line_bot_api:",line_bot_api)
             message_image_content = line_bot_api.get_message_content(message_image_id)
             print("message_image_content:",message_image_content)
-            image_bytes = io.BytesIO(message_image_content)
+            image_bytes = io.BytesIO(message_image_content.content)
             print("image_bytes:",image_bytes)
             service_account_info = json.loads(const.GOOGLE_APPLICATION_CREDENTIALS)
             credentials = service_account.Credentials.from_service_account_info(service_account_info)

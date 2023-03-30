@@ -44,6 +44,10 @@ backend:
         - pip3 install --upgrade virtualenv
         - pip3 install pipenv
         - pip3 install -r requirements.txt
+        - echo "List installed packages:"
+        - pip3 list
+        - echo "Directory structure:"
+        - find 
     build:
       commands:
         - pipenv run python -m zipfile -c ../../../../function.zip .

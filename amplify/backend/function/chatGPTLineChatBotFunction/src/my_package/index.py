@@ -40,6 +40,11 @@ def handler(event, context):
         print("reply_token:",reply_token)
         message_image_id = line_request_body_parser.get_image_content(event_body)
         print("message_image_id:",message_image_id)
+        profile = line_bot_api.get_profile(line_user_id)
+        print(" profile:", profile)
+        user_language = profile.language
+        print("user_language:",user_language)
+
         if message_image_id != None:
             # Create an instance of the LineBotApi with the Line channel access token
             language_code_to_name = {
@@ -79,13 +84,15 @@ def handler(event, context):
             image = vision.Image(content=image_bytes.getvalue())
             print("image:",image)
             response = client.document_text_detection(image=image)
-            print("response:",response)
+            # print("response:",response)
             target_sentence = response.full_text_annotation.text
             print("target_sentence:",target_sentence)
             translate_client = translate_v2.Client(credentials=credentials)
             text_language = translate_client.detect_language(target_sentence)
             text_language = language_code_to_name[text_language['language']]
-            print("text_language:",text_language)
+            # print("text_language:",text_language)
+            prompt_text = text_language
+
 
 
         # Check if the event is a message type and is of text type

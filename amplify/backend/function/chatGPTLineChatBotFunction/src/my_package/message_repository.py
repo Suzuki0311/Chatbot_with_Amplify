@@ -7,6 +7,7 @@ from datetime import datetime
 from . import chatgpt_api
 from . import db_accessor
 from . import message_repository
+from . import index
 
 
 QUERY_LIMIT = 5
@@ -29,7 +30,11 @@ def _fetch_chat_histories_by_line_user_id(line_user_id, prompt_text):
         chat_histories = list(map(lambda item: {"role": item["role"]["S"], "content": item["content"]["S"]}, reserved_results))
         print("chat_histories:",chat_histories)
         # Create the list of a current user prompt
-        current_prompts = [{"role": "user", "content": prompt_text}]
+        if index.message_image_id != None:
+            current_prompts = [{"role": "system", "content": "you are an excellent writer"},
+                               {"role": "user", "content": prompt_text}]
+        else:
+            current_prompts = [{"role": "user", "content": prompt_text}]
         print("current_prompts:",current_prompts)
 
         # Join the lists

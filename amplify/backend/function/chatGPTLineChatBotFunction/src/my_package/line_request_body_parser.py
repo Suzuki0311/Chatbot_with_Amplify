@@ -14,3 +14,8 @@ def get_reply_token(event_body):
     if event_body['events'][0]['replyToken']:
         return event_body['events'][0]['replyToken']
     return None
+
+def get_image_content(event_body):
+    if event_body['events'][0]['type'] == 'message' and event_body['events'][0]['message']['type'] == 'image':
+        return event_body['events'][0]['message']['id']
+    return None

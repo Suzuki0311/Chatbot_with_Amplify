@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-src = {editable = true, path = "./src"}
 boto3 = "*"
 line-bot-sdk = "*"
 openai = "*"

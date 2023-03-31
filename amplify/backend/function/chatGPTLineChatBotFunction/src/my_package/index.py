@@ -42,13 +42,9 @@ def handler(event, context):
         print("message_image_id:",message_image_id)
         profile = line_bot_api.get_profile(line_user_id)
         print(" profile:", profile)
-        user_language = profile.language
-        print("user_language:",user_language)
-        text_language = None
 
-        if message_image_id != None:
-            # Create an instance of the LineBotApi with the Line channel access token
-            language_code_to_name = {
+
+        language_code_to_name = {
                 'en': 'English',
                 'ja': 'Japanese',
                 'zh': 'Chinese',
@@ -72,6 +68,15 @@ def handler(event, context):
                 'vi': 'Vietnamese'
                     # 他の言語コードと名前を追加
                 }
+
+
+        user_language = language_code_to_name[profile.language]
+        print("user_language:",user_language)
+        text_language = None
+
+        if message_image_id != None:
+            # Create an instance of the LineBotApi with the Line channel access token
+            
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
             print("line_bot_api:",line_bot_api)
             message_image_content = line_bot_api.get_message_content(message_image_id)

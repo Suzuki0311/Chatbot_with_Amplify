@@ -44,10 +44,20 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
     ]
     elif user_language == 'Spanish':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+        return  [
+            QuickReplyButton(action=MessageAction(label="Traducción Española", text="Traduce lo anterior al Español.")),
+            QuickReplyButton(action=MessageAction(label="Traducir inglés", text="Traduce lo anterior al inglés.")),
+            QuickReplyButton(action=MessageAction(label="Menú de 1 semana", text="Sugerir un menú para la semana.")),
+            QuickReplyButton(action=MessageAction(label="Viajar a Tokyo", text="Planea para mí un viaje a Tokyo de 3 días y 2 noches")),
+            QuickReplyButton(action=MessageAction(label="Reporte de lectura", text="Diseñar un informe de libro para la piedra filosofal de Harry Potter")),
+            QuickReplyButton(action=MessageAction(label="Hacerse rico", text="Dime como hacerme rico")),
+            # QuickReplyButton(action=MessageAction(label="E-mail de agradecimento ao chefe", text="Escreva um e-mail de agradecimento ao meu chefe que cuidou de min na festa")),
+            # QuickReplyButton(action=MessageAction(label="Atração turística famosa do Japão", text="Diga-me algumas atrações turísticas famosas no Japão.")),
+            QuickReplyButton(action=MessageAction(label="Detalle", text="Cuéntame más en detalle")),
+            QuickReplyButton(action=MessageAction(label="Aprender ingles", text="Proporcione una lista de algunas palabras esenciales del inglés comercial y sus traducciones al Español.")),
+            QuickReplyButton(action=MessageAction(label="Buscar tema", text="Por favor, hágame algunas preguntas y elaboren juntos un tema de investigación para la universidad.")),
+            # QuickReplyButton(action=MessageAction(label="Conforte seu namorado/namorada", text="Escreva um e-mail para fazer as pazes com seu amante que brigou")),
+            QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame."))
     ]
     elif user_language == 'French':
         return [
@@ -75,19 +85,19 @@ def create_quick_reply_buttons(user_language):
     ]
     elif user_language == 'Portuguese':
         return  [
-            QuickReplyButton(action=MessageAction(label="Traducción Española", text="Traduce lo anterior al Español.")),
-            QuickReplyButton(action=MessageAction(label="Traducir inglés", text="Traduce lo anterior al inglés.")),
-            QuickReplyButton(action=MessageAction(label="Menú de 1 semana", text="Sugerir un menú para la semana.")),
-            QuickReplyButton(action=MessageAction(label="Viajar a Tokyo", text="Planea para mí un viaje a Tokyo de 3 días y 2 noches")),
-            QuickReplyButton(action=MessageAction(label="Reporte de lectura", text="Diseñar un informe de libro para la piedra filosofal de Harry Potter")),
-            QuickReplyButton(action=MessageAction(label="Hacerse rico", text="Dime como hacerme rico")),
+            QuickReplyButton(action=MessageAction(label="Traduzir portugues", text="Traduza o acima para o portugues")),
+            QuickReplyButton(action=MessageAction(label="Traduzir inglês", text="Traduza o acima para o inglês")),
+            QuickReplyButton(action=MessageAction(label="Cardápio de 1 semana", text="Sugira um menu para a semana")),
+            QuickReplyButton(action=MessageAction(label="Viajar para Tokyo", text="Planeje para min uma viagem para Tokyo por 3 dias e 2 noites")),
+            QuickReplyButton(action=MessageAction(label="Relatório de leitura", text="Desenhe um relatório de livro para a Pedra Filosofal de Harry Potter")),
+            QuickReplyButton(action=MessageAction(label="Ficar rico", text="Me diga como ficar rico")),
             # QuickReplyButton(action=MessageAction(label="E-mail de agradecimento ao chefe", text="Escreva um e-mail de agradecimento ao meu chefe que cuidou de min na festa")),
             # QuickReplyButton(action=MessageAction(label="Atração turística famosa do Japão", text="Diga-me algumas atrações turísticas famosas no Japão.")),
-            QuickReplyButton(action=MessageAction(label="Detalle", text="Cuéntame más en detalle")),
-            QuickReplyButton(action=MessageAction(label="Aprender ingles", text="Proporcione una lista de algunas palabras esenciales del inglés comercial y sus traducciones al Español.")),
-            QuickReplyButton(action=MessageAction(label="Buscar tema", text="Por favor, hágame algunas preguntas y elaboren juntos un tema de investigación para la universidad.")),
+            QuickReplyButton(action=MessageAction(label="Detalhe", text="Me conte mais em detalhes")),
+            QuickReplyButton(action=MessageAction(label="Aprender inglês", text="Por favor, apresente uma lista de algumas palavras essenciais em inglês para negócios e suas traduções para o português")),
+            QuickReplyButton(action=MessageAction(label="Tema de pesquisa", text="Por favor, faça-me algumas perguntas e crie um tópico de pesquisa para a universidade juntos.")),
             # QuickReplyButton(action=MessageAction(label="Conforte seu namorado/namorada", text="Escreva um e-mail para fazer as pazes com seu amante que brigou")),
-            QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame."))
+            QuickReplyButton(action=MessageAction(label="Cansei do trabalho", text="Estou cansado do trabalho, então, por favor, me anime"))
     ]
     elif user_language == 'Thai':
         return [

@@ -75,7 +75,7 @@ def create_quick_reply_buttons(user_language):
     ]
     elif user_language == 'Portuguese':
         return  [
-            QuickReplyButton(action=MessageAction(label="Traduzir em Japonês", text="Traduza o acima para o japonês")),
+            QuickReplyButton(action=MessageAction(label="Traduzir em portugues", text="Traduza o acima para o portugues")),
             QuickReplyButton(action=MessageAction(label="Traduzir para inglês", text="Traduza o acima para o inglês")),
             QuickReplyButton(action=MessageAction(label="Cardápio de 1 semana", text="Sugira um menu para a semana")),
             QuickReplyButton(action=MessageAction(label="Viajar para Tokyo", text="Planeje para min uma viagem para Tokyo por 3 dias e 2 noites")),

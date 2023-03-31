@@ -44,6 +44,7 @@ def handler(event, context):
         print(" profile:", profile)
         user_language = profile.language
         print("user_language:",user_language)
+        text_language = None
 
         if message_image_id != None:
             # Create an instance of the LineBotApi with the Line channel access token

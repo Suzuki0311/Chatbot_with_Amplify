@@ -7,12 +7,19 @@ from . import line_request_body_parser
 from . import message_repository
 from . import language_codes
 from linebot import LineBotApi
-from linebot.models import TextSendMessage
+from linebot.models import TextSendMessage, QuickReply, QuickReplyButton, MessageAction
 from . import const
 import io
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
+
+def create_quick_reply_buttons():
+    return [
+        QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+        QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+        QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    ]
 
 def extract_info_from_event_body(event_body):
     prompt_text = line_request_body_parser.get_prompt_text(event_body)
@@ -73,8 +80,12 @@ def handler(event, context):
         completed_text = message_repository.create_completed_text(line_user_id, prompt_text, message_image_id, text_language, user_language)
         print("completed_text:",completed_text)
 
-        # Reply the message using the LineBotApi instance
-        line_api.reply_message_for_line(reply_token, completed_text)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons()
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
+        # Reply the message using the LineBotApi instance with quick replies
+        line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
 
     except Exception as e:
         # Log the error

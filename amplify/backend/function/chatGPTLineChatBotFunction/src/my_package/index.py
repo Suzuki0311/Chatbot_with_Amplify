@@ -42,7 +42,7 @@ def handler(event, context):
         print("message_image_id:",message_image_id)
         profile = line_bot_api.get_profile(line_user_id)
         print(" profile:", profile)
-        user_language = profile.language
+        user_language = language_code_to_name[profile.language]
         print("user_language:",user_language)
 
         if message_image_id != None:
@@ -91,7 +91,7 @@ def handler(event, context):
             text_language = translate_client.detect_language(target_sentence)
             text_language = language_code_to_name[text_language['language']]
             # print("text_language:",text_language)
-            prompt_text = text_language
+            prompt_text = target_sentence
 
 
 

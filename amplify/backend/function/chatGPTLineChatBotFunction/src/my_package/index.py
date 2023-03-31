@@ -42,7 +42,7 @@ def handler(event, context):
         print("message_image_id:",message_image_id)
         profile = line_bot_api.get_profile(line_user_id)
         print(" profile:", profile)
-        user_language = language_code_to_name[profile.language]
+        user_language = profile.language
         print("user_language:",user_language)
 
         if message_image_id != None:

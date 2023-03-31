@@ -59,6 +59,12 @@ def handler(event, context):
 
         # Extract necessary information from event_body
         prompt_text, line_user_id, reply_token, message_image_id, profile = extract_info_from_event_body(event_body)
+
+        # Check if the event is a quick reply
+        quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
+        if quick_reply_text is not None:
+            prompt_text = quick_reply_text
+
         print("prompt_text:",prompt_text, "line_user_id:",line_user_id, "reply_token:",reply_token, "message_image_id:",message_image_id, "profile:",profile)
 
         # Get user's language

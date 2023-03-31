@@ -62,6 +62,8 @@ def handler(event, context):
         if message_image_id is not None:
             prompt_text, text_language = process_image(message_image_id)
             print("The prompt_text when image is present:",prompt_text, "text_language:",text_language)
+        else:
+            text_language = None
 
         # Check if the event is a message type and is of text type
         if prompt_text is None or line_user_id is None or reply_token is None:

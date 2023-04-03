@@ -1,3 +1,4 @@
+import os
 import boto3
 from datetime import datetime
 from . import const
@@ -5,7 +6,16 @@ from . import const
 TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
 QUERY_INDEX_NAME = 'byLineUserId'
 
-dynamodb = boto3.client('dynamodb')
+# 環境変数 IS_LOCAL をチェック
+is_local = os.environ.get('IS_LOCAL', 'False') == 'True'
+
+if is_local:
+    # ローカル環境の場合、DynamoDBクライアントを作成し、エンドポイントを指定
+    dynamodb = boto3.client('dynamodb', endpoint_url='http://localhost:62224')
+    TABLE_NAME = 'MessagesLocal'
+else:
+    # 本番環境の場合、DynamoDBクライアントを作成し、エンドポイントはデフォルトにする
+    dynamodb = boto3.client('dynamodb')
 
 
 def query_by_line_user_id(line_user_id: str, limit: int) -> list:

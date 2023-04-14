@@ -1,6 +1,6 @@
 projects:
   chatGPTLineChatBotGraphQLApi:
-    schemaPath: src/graphql/schema.json
+    schemaPath: amplify/backend/api/chatGPTLineChatBotGraphQLApi/build/schema.graphql
     includes:
       - src/graphql/**/*.js
     excludes:

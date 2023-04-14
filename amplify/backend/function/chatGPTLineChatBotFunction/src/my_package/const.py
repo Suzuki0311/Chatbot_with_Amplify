@@ -17,3 +17,7 @@ else:
     LINE_CHANNEL_SECRET = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}LINE_CHANNEL_SECRET')
     LINE_CHANNEL_ACCESS_TOKEN = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}LINE_CHANNEL_ACCESS_TOKEN')
     GOOGLE_APPLICATION_CREDENTIALS = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}GOOGLE_APPLICATION_CREDENTIALS')
+    DB_HOST = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}DB_HOST')
+    DB_USER = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}DB_USER')
+    DB_PASSWORD = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}DB_PASSWORD')
+    DB_NAME = aws_systems_manager.get_secret(f'{BASE_SECRET_PATH}DB_NAME')

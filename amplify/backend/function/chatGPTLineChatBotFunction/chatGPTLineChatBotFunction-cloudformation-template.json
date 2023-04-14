@@ -172,6 +172,94 @@
             },
             "DB_TABLE_NAME_POSTFIX": {
               "Ref": "dbTableNamePostfix"
+            },
+            "DB_HOST": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Sub": [
+                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
+                      {
+                        "appId": {
+                          "Ref": "secretsPathAmplifyAppId"
+                        },
+                        "env": {
+                          "Ref": "env"
+                        },
+                        "functionName": "chatGPTLineChatBotFunction"
+                      }
+                    ]
+                  },
+                  "DB_HOST"
+                ]
+              ]
+            },
+            "DB_USER": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Sub": [
+                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
+                      {
+                        "appId": {
+                          "Ref": "secretsPathAmplifyAppId"
+                        },
+                        "env": {
+                          "Ref": "env"
+                        },
+                        "functionName": "chatGPTLineChatBotFunction"
+                      }
+                    ]
+                  },
+                  "DB_USER"
+                ]
+              ]
+            },
+            "DB_PASSWORD": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Sub": [
+                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
+                      {
+                        "appId": {
+                          "Ref": "secretsPathAmplifyAppId"
+                        },
+                        "env": {
+                          "Ref": "env"
+                        },
+                        "functionName": "chatGPTLineChatBotFunction"
+                      }
+                    ]
+                  },
+                  "DB_PASSWORD"
+                ]
+              ]
+            },
+            "DB_NAME": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Sub": [
+                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
+                      {
+                        "appId": {
+                          "Ref": "secretsPathAmplifyAppId"
+                        },
+                        "env": {
+                          "Ref": "env"
+                        },
+                        "functionName": "chatGPTLineChatBotFunction"
+                      }
+                    ]
+                  },
+                  "DB_NAME"
+                ]
+              ]
             }
           }
         },

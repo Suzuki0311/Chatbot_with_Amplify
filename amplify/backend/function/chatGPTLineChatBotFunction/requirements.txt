@@ -25,7 +25,7 @@ multidict==6.0.4
 mysql-connector-python==8.0.32
 openai==0.27.2
 proto-plus==1.22.2
-protobuf==3.20.3
+protobuf>=3.19.5,!=3.20.0,!=3.20.1,<5.0.0dev
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 python-dateutil==2.8.2

@@ -21,10 +21,11 @@ idna==3.4
 jmespath==1.0.1
 line-bot-sdk==2.4.2
 multidict==6.0.4
-# -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@56f3255f2d3ecf3db3f97b510718fc2f1272ef06#egg=my_package&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction
+# -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@ebf646109ee57a69a904e4653bffdc8c4c159903#egg=my_package&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction
+mysql-connector-python==8.0.32
 openai==0.27.2
 proto-plus==1.22.2
-protobuf==4.22.1
+protobuf==3.20.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 python-dateutil==2.8.2
@@ -33,6 +34,6 @@ rsa==4.9
 s3transfer==0.6.0
 six==1.16.0
 tqdm==4.65.0
-# -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@56f3255f2d3ecf3db3f97b510718fc2f1272ef06#egg=UNKNOWN&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction
+# -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@ebf646109ee57a69a904e4653bffdc8c4c159903#egg=UNKNOWN&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction
 urllib3==1.26.15
 yarl==1.8.2

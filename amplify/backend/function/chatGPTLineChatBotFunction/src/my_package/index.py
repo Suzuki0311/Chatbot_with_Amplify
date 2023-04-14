@@ -13,6 +13,8 @@ import io
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
+import mysql.connector
+from mysql.connector import Error
 
 def create_quick_reply_buttons(user_language):
     if user_language == 'Japanese':
@@ -150,6 +152,46 @@ def handler(event, context):
 
         # Extract necessary information from event_body
         prompt_text, line_user_id, reply_token, message_image_id, profile = extract_info_from_event_body(event_body)
+
+        # 環境変数からデータベース接続情報を取得
+        config = {
+            'host': const.DB_HOST,
+            'user': const.DB_USER,
+            'password': const.DB_PASSWORD,
+            'database': const.DB_NAME
+        }
+
+        # データベースに接続
+        connection = mysql.connector.connect(**config)
+
+        # カーソルを作成
+        cursor = connection.cursor()  
+
+        # ユーザーIDが存在するかどうかを確認するSQL文
+        query = "SELECT COUNT(*) FROM customer_table WHERE LineID = %s"
+
+        # SQL文を実行
+        cursor.execute(query, (line_user_id,))
+
+        # 結果を取得
+        result = cursor.fetchone()
+        print("result:",result)
+
+        # ユーザーIDが存在するかどうかを判断
+        if result[0] > 0:
+            print(f"ユーザーID {line_user_id} はデータベースに存在します。")
+        else:
+            print(f"ユーザーID {line_user_id} はデータベースに存在しません。")
+            insert_query = """
+            INSERT INTO customer_table (LineID, message_count)
+            VALUES (%s, %s)
+            """
+             # SQL文を実行
+            cursor.execute(query, (line_user_id,5))
+            
+        # カーソルと接続を閉じる
+        cursor.close()
+        connection.close()
 
         # Check if the event is a quick reply
         quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)

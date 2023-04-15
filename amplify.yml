@@ -1,21 +1,4 @@
 version: 1
-# frontend:
-#   phases:
-#     preBuild:
-#       commands:
-#         - cd chatbot_with_amplify
-#         - yarn install
-#     build:
-#       commands:
-#         - cd chatbot_with_amplify
-#         - yarn run build
-#   artifacts:
-#     baseDirectory: chatbot_with_amplify/build
-#     files:
-#       - '**/*'
-#   cache:
-#     paths:
-#       - chatbot_with_amplify/node_modules/**/*
 frontend:
   phases:
     build:
@@ -38,21 +21,21 @@ backend:
         - make && make install
         - cd ..
         - export PATH=$HOME/python3.8/bin:$PATH
-        - cd amplify/backend/function/chatGPTLineChatBotFunction
+        - cd amplify/backend/function/chatgptlinechatbotrequirementslayer/lib/python
         - python3 -m ensurepip --upgrade
         - python3 -m pip install --upgrade pip
         - pip3 install --upgrade virtualenv
         - pip3 install pipenv
-        # - pip3 install -r requirements.txt
-        - pip3 install -r requirements.txt -t src
+        - pip3 install -r requirements.txt -t .
         - echo "List installed packages:"
         - pip3 list
         - echo "Directory structure:"
-        - find src
-    build:
-      commands:
+        - find .
+        - cd ../../../chatGPTLineChatBotFunction
         - pipenv run python -m zipfile -c ../../../../function.zip .
         - cd ../../../../
+    build:
+      commands:
         - amplifyPush --simple
   artifacts:
     baseDirectory: chatbot_with_amplify/build

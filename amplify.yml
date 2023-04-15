@@ -21,6 +21,8 @@ backend:
         - make && make install
         - cd ..
         - export PATH=$HOME/python3.8/bin:$PATH
+        - pip3 install pipenv
+        - pip3 install virtualenv
         - cd amplify/backend/function/chatGPTLineChatBotFunction
         - python -m zipfile -c ../../../../function.zip .
         - cd ../../../../

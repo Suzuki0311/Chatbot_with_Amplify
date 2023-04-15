@@ -20,6 +20,7 @@ Chatbot_with_Amplify/*
 amplify/backend/function/chatGPTLineChatBotFunction/src/src.egg-info/*
 amplify/backend/function/chatGPTLineChatBotFunction/src/build/*
 amplify/backend/function/chatGPTLineChatBotFunction/src/event.json
+amplify/backend/function/chatgptlinechatbotrequirementslayer/lib/python/botocore/data/*/*/*.json
 .secret-*
 **.sample
 #amplify-do-not-edit-end

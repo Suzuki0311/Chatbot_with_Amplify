@@ -14,6 +14,9 @@ backend:
   phases:
     preBuild:
       commands:
+        - echo "Installing Docker..."
+        - curl -fsSL https://get.docker.com -o get-docker.sh
+        - sh get-docker.sh
         - curl https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz -o python-3.8.tgz
         - tar xzf python-3.8.tgz
         - cd Python-3.8.12

@@ -12,31 +12,14 @@ frontend:
       - '**/*'
 backend:
   phases:
-    preBuild:
-      commands:
-        - curl https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz -o python-3.8.tgz
-        - tar xzf python-3.8.tgz
-        - cd Python-3.8.12
-        - ./configure --prefix=$HOME/python3.8
-        - make && make install
-        - cd ..
-        - export PATH=$HOME/python3.8/bin:$PATH
-        - cd amplify/backend/function/chatgptlinechatbotrequirementslayer/lib/python
-        - python3 -m ensurepip --upgrade
-        - python3 -m pip install --upgrade pip
-        - pip3 install --upgrade virtualenv
-        - pip3 install pipenv
-        - pip3 install -r requirements.txt -t .
-        - echo "List installed packages:"
-        - pip3 list
-        - echo "Directory structure:"
-        - find .
-        - cd ../../../chatGPTLineChatBotFunction
-        - pipenv run python -m zipfile -c ../../../../function.zip .
-        - cd ../../../../
     build:
       commands:
         - amplifyPush --simple
+        - docker build -t pictolang-dev .
+        - docker tag pictolang-dev:latest 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/pictolang-dev:latest
+        - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com
+        - docker push 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/pictolang-dev:latest
+        - aws lambda update-function-code --function-name chatGPTLineChatBotFunction-dev --image-uri 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/pictolang-dev:latest --publish
   artifacts:
     baseDirectory: chatbot_with_amplify/build
     files:

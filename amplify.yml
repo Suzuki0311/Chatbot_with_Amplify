@@ -20,6 +20,8 @@ backend:
         - mv docker/* /usr/local/bin/
         - rmdir docker
         - rm docker.tgz
+        - nohup dockerd > /dev/null 2>&1 &
+        - sleep 5
         - echo "Pulling custom Docker image..."
         - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com
         - docker pull 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/costom_image

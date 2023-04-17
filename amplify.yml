@@ -14,17 +14,15 @@ backend:
   phases:
     preBuild:
       commands:
-        - echo "Pulling custom Docker image..."
-        - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com
-        - docker pull 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/costom_image
         - echo "Installing Docker..."
         - curl -L https://download.docker.com/linux/static/stable/x86_64/docker-20.10.7.tgz -o docker.tgz
         - tar xzf docker.tgz
         - mv docker/* /usr/local/bin/
         - rmdir docker
         - rm docker.tgz
-        - nohup dockerd > /dev/null 2>&1 &
-        - sleep 5
+        - echo "Pulling custom Docker image..."
+        - aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com
+        - docker pull 660988641828.dkr.ecr.ap-northeast-1.amazonaws.com/costom_image
         - curl https://www.python.org/ftp/python/3.8.12/Python-3.8.12.tgz -o python-3.8.tgz
         - tar xzf python-3.8.tgz
         - cd Python-3.8.12

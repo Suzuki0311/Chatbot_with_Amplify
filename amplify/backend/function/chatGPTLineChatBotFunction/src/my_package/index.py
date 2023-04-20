@@ -166,6 +166,7 @@ def handler(event, context):
         if db_accessor.check_line_user_id_exists(line_user_id) == "Yes":
             print("line_user_idはありました。line_user_id:",line_user_id)
             print("現在のメッセージ可能回数:",db_accessor.get_current_message_count(line_user_id))
+            db_accessor.decrement_message_count(line_user_id)
         else:
             print("line_user_idはありませんでした")
             db_accessor.create_or_check_line_user_id(line_user_id)

@@ -144,7 +144,9 @@ def create_or_check_line_user_id(line_user_id: str) -> str:
         }
     }
 
-            dynamodb.put_item(**put_params)
-            return f"New lineUserId {line_user_id} added to the table with a free plan and message_count of 30."
+    try:
+        dynamodb.put_item(**put_params)
+        return f"New lineUserId {line_user_id} added to the table with a free plan and message_count of 30."
     except Exception as e:
         raise e
+

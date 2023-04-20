@@ -11,13 +11,11 @@ type Messages @model {
 }
 
 type MessageCount
-  @model
-  @key(fields: ["lineUserId"]) {
-  lineUserId: ID!
+  @model {
+  id: ID!
   customerId: String!
   plan: String!
   first_purchase_date: AWSDateTime!
   updated_purchase_date: AWSDateTime!
   message_count: Int!
 }
-

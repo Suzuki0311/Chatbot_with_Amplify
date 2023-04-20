@@ -6,6 +6,7 @@ from . import line_api
 from . import line_request_body_parser
 from . import message_repository
 from . import language_codes
+from . import db_accessor
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, QuickReply, QuickReplyButton, MessageAction
 from . import const
@@ -161,6 +162,11 @@ def handler(event, context):
         # Get user's language
         user_language = language_codes.language_code_to_name[profile.language]
         print("user_language:",user_language)
+
+        if db_accessor.check_line_user_id_exists(line_user_id) == "Yes":
+            print("line_user_idはありました")
+        else:
+            print("line_user_idはありませんでした")
 
         # Process image if present
         if message_image_id is not None:

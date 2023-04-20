@@ -3,6 +3,7 @@ from datetime import datetime
 from . import const
 
 TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
+MESSAGE_COUNT_TABLE_NAME = f'MessageCount{const.DB_TABLE_NAME_POSTFIX}'
 QUERY_INDEX_NAME = 'byLineUserId'
 
 dynamodb = boto3.client('dynamodb')
@@ -61,3 +62,27 @@ def put_message(partition_key: str, uid: str, role: str, content: str, now: date
     # If an exception occurs, re-raise it
     except Exception as e:
         raise e
+
+def check_line_user_id_exists(line_user_id: str) -> str:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'IndexName': QUERY_INDEX_NAME,
+        'KeyConditionExpression': '#lineUserId = :lineUserId',
+        'ExpressionAttributeNames': {
+            '#lineUserId': 'lineUserId'
+        },
+        'ExpressionAttributeValues': {
+            ':lineUserId': {'S': line_user_id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.query(**query_params)
+        print("check_line_user_id_exists_query_result:",query_result)
+        if query_result['Items']:
+            return "Yes"
+        else:
+            return "No"
+    except Exception as e:
+        raise e
+

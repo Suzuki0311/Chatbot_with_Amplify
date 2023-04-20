@@ -166,7 +166,7 @@ def handler(event, context):
         if db_accessor.check_line_user_id_exists(line_user_id) == "Yes":
             print("line_user_idはありました")
         else:
-            print("line_user_idはありました")
+            print("line_user_idはありませんでした")
 
         # Process image if present
         if message_image_id is not None:

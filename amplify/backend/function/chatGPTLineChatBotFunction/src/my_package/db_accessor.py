@@ -89,18 +89,16 @@ def check_line_user_id_exists(line_user_id: str) -> str:
         raise e
 
 def decrement_message_count(line_user_id: str) -> None:
-    message_count = get_message_count(line_user_id)
-    if message_count is not None:
         update_params = {
-            'TableName': MESSAGE_COUNT_TABLE_NAME,
-            'Key': {
-                'lineUserId': {'S': line_user_id}
-            },
-            'UpdateExpression': 'SET message_count = :new_count',
-            'ExpressionAttributeValues': {
-                ':new_count': {'N': str(message_count - 1)}
-            }
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'lineUserId': {'S': line_user_id}
+        },
+        'UpdateExpression': 'SET message_count = :new_count',
+        'ExpressionAttributeValues': {
+            ':new_count': {'N': str(message_count - 1)}
         }
+    }
 
         try:
             dynamodb.update_item(**update_params)

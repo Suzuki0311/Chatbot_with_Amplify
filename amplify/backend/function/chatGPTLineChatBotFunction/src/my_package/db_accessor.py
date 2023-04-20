@@ -68,20 +68,15 @@ def put_message(partition_key: str, uid: str, role: str, content: str, now: date
 def check_line_user_id_exists(line_user_id: str) -> str:
     query_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'IndexName': QUERY_INDEX_NAME,
-        'KeyConditionExpression': '#lineUserId = :lineUserId',
-        'ExpressionAttributeNames': {
-            '#lineUserId': 'lineUserId'
-        },
-        'ExpressionAttributeValues': {
-            ':lineUserId': {'S': line_user_id}
+        'Key': {
+            'lineUserId': {'S': line_user_id}
         },
     }
 
     try:
-        query_result = dynamodb.query(**query_params)
-        print("check_line_user_id_exists_query_result:",query_result)
-        if query_result['Items']:
+        query_result = dynamodb.get_item(**query_params)
+        print("check_line_user_id_exists_query_result:", query_result)
+        if 'Item' in query_result:
             return "Yes"
         else:
             return "No"
@@ -109,20 +104,15 @@ def decrement_message_count(line_user_id: str, message_count: int) -> None:
 def get_current_message_count(line_user_id: str) -> int:
     query_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'IndexName': 'byLineUserId',
-        'KeyConditionExpression': '#lineUserId = :lineUserId',
-        'ExpressionAttributeNames': {
-            '#lineUserId': 'lineUserId'
-        },
-        'ExpressionAttributeValues': {
-            ':lineUserId': {'S': line_user_id}
+        'Key': {
+            'lineUserId': {'S': line_user_id}
         },
     }
 
     try:
-        query_result = dynamodb.query(**query_params)
-        if query_result['Items']:
-            message_count_item = query_result['Items'][0]
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            message_count_item = query_result['Item']
             message_count = int(message_count_item['message_count']['N'])
             return message_count
         else:

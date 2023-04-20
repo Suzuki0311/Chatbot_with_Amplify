@@ -11,8 +11,7 @@ type Messages @model {
 }
 
 type MessageCount @model {
-  id: ID!
-  lineUserId: String! @index(name: "byLineUserId")
+  lineUserId: ID!
   customerId: String!
   plan: String!
   first_purchase_date: AWSDateTime!

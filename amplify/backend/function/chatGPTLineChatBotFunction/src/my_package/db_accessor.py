@@ -125,7 +125,6 @@ def create_or_check_line_user_id(line_user_id: str) -> str:
     put_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Item': {
-            'id': {'S': str(uuid.uuid4())},
             'lineUserId': {'S': line_user_id},
             'customerId': {'S': ''},
             'plan': {'S': 'free'},
@@ -140,4 +139,5 @@ def create_or_check_line_user_id(line_user_id: str) -> str:
         return f"New lineUserId {line_user_id} added to the table with a free plan and message_count of 30."
     except Exception as e:
         raise e
+
 

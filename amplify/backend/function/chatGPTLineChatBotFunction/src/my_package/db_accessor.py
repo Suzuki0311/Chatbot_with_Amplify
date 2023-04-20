@@ -1,6 +1,8 @@
 import boto3
 from datetime import datetime
 from . import const
+import uuid
+
 
 TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
 MESSAGE_COUNT_TABLE_NAME = f'MessageCount{const.DB_TABLE_NAME_POSTFIX}'

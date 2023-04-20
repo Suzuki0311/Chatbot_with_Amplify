@@ -86,3 +86,65 @@ def check_line_user_id_exists(line_user_id: str) -> str:
     except Exception as e:
         raise e
 
+def decrement_message_count(line_user_id: str) -> None:
+    message_count = get_message_count(line_user_id)
+    if message_count is not None:
+        update_params = {
+            'TableName': MESSAGE_COUNT_TABLE_NAME,
+            'Key': {
+                'lineUserId': {'S': line_user_id}
+            },
+            'UpdateExpression': 'SET message_count = :new_count',
+            'ExpressionAttributeValues': {
+                ':new_count': {'N': str(message_count - 1)}
+            }
+        }
+
+        try:
+            dynamodb.update_item(**update_params)
+        except Exception as e:
+            raise e
+
+def get_current_message_count(line_user_id: str) -> int:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'IndexName': 'byLineUserId',
+        'KeyConditionExpression': '#lineUserId = :lineUserId',
+        'ExpressionAttributeNames': {
+            '#lineUserId': 'lineUserId'
+        },
+        'ExpressionAttributeValues': {
+            ':lineUserId': {'S': line_user_id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.query(**query_params)
+        if query_result['Items']:
+            message_count_item = query_result['Items'][0]
+            message_count = int(message_count_item['message_count']['N'])
+            return message_count
+        else:
+            return None
+    except Exception as e:
+        raise e
+
+def create_or_check_line_user_id(line_user_id: str) -> str:
+    now = datetime.now().isoformat()
+    put_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Item': {
+            'id': {'S': str(uuid.uuid4())},
+            'lineUserId': {'S': line_user_id},
+            'customerId': {'S': ''},
+            'plan': {'S': 'free'},
+            'first_purchase_date': {'S': now},
+            'updated_purchase_date': {'S': now},
+            'message_count': {'N': str(30)}
+        }
+    }
+
+            dynamodb.put_item(**put_params)
+            return f"New lineUserId {line_user_id} added to the table with a free plan and message_count of 30."
+    except Exception as e:
+        raise e

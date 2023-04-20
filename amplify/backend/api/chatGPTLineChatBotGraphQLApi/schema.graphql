@@ -10,7 +10,9 @@ type Messages @model {
   updatedAt: AWSDateTime!
 }
 
-type MessageCount @model {
+type MessageCount
+  @model
+  @key(fields: ["lineUserId"]) {
   lineUserId: ID!
   customerId: String!
   plan: String!
@@ -18,3 +20,4 @@ type MessageCount @model {
   updated_purchase_date: AWSDateTime!
   message_count: Int!
 }
+

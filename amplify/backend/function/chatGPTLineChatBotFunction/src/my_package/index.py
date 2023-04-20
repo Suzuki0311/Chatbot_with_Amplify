@@ -164,9 +164,11 @@ def handler(event, context):
         print("user_language:",user_language)
 
         if db_accessor.check_line_user_id_exists(line_user_id) == "Yes":
-            print("line_user_idはありました")
+            print("line_user_idはありました。line_user_id:",line_user_id)
+            print("現在のメッセージ可能回数:",db_accessor.get_current_message_count(line_user_id))
         else:
             print("line_user_idはありませんでした")
+            db_accessor.create_or_check_line_user_id(line_user_id)
 
         # Process image if present
         if message_image_id is not None:

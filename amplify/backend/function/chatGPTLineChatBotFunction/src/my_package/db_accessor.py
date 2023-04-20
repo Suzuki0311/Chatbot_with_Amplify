@@ -69,7 +69,7 @@ def check_line_user_id_exists(line_user_id: str) -> str:
     query_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Key': {
-            'lineUserId': {'S': line_user_id}
+            'id': {'S': line_user_id}
         },
     }
 
@@ -87,7 +87,7 @@ def decrement_message_count(line_user_id: str, message_count: int) -> None:
     update_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Key': {
-            'lineUserId': {'S': line_user_id}
+            'id': {'S': line_user_id}
         },
         'UpdateExpression': 'SET message_count = :new_count',
         'ExpressionAttributeValues': {
@@ -100,12 +100,11 @@ def decrement_message_count(line_user_id: str, message_count: int) -> None:
     except Exception as e:
         raise e
 
-
 def get_current_message_count(line_user_id: str) -> int:
     query_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Key': {
-            'lineUserId': {'S': line_user_id}
+            'id': {'S': line_user_id}
         },
     }
 
@@ -125,7 +124,7 @@ def create_or_check_line_user_id(line_user_id: str) -> str:
     put_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Item': {
-            'lineUserId': {'S': line_user_id},
+            'id': {'S': line_user_id},
             'customerId': {'S': ''},
             'plan': {'S': 'free'},
             'first_purchase_date': {'S': now},

@@ -88,8 +88,8 @@ def check_line_user_id_exists(line_user_id: str) -> str:
     except Exception as e:
         raise e
 
-def decrement_message_count(line_user_id: str) -> None:
-        update_params = {
+def decrement_message_count(line_user_id: str, message_count: int) -> None:
+    update_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Key': {
             'lineUserId': {'S': line_user_id}
@@ -100,10 +100,11 @@ def decrement_message_count(line_user_id: str) -> None:
         }
     }
 
-        try:
-            dynamodb.update_item(**update_params)
-        except Exception as e:
-            raise e
+    try:
+        dynamodb.update_item(**update_params)
+    except Exception as e:
+        raise e
+
 
 def get_current_message_count(line_user_id: str) -> int:
     query_params = {

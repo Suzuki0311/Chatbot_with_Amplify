@@ -1,9 +1,10 @@
 import json
 from linebot.models import FlexSendMessage, QuickReply
-import db_accessor
-import line_api
-import guard
-import message_repository
+from linebot import LineBotApi
+from . import db_accessor
+from . import line_api
+from . import guard
+from . import message_repository
 from line_request_body_parser import extract_info_from_event_body, get_quick_reply_text
 from language_codes import language_code_to_name
 from image_processing import process_image

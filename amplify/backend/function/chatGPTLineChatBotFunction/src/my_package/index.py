@@ -337,6 +337,7 @@ def handler(event, context):
             }
                 flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_contents)
                 # line_api.reply_message_for_line(reply_token, flex_message, None)
+                line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
                 line_bot_api.push_message(line_user_id, flex_message)
                 # line_api.reply_message_for_line(reply_token, flex_message, None)
 

@@ -209,22 +209,11 @@ def handler(event, context):
 
             # Reply the message using the LineBotApi instance with quick replies
             line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
+            message_count = db_accessor.get_current_message_count(line_user_id)
+            print("現在のメッセージ可能回数:",message_count)
+            db_accessor.decrement_message_count(line_user_id,message_count)
 
 
-
-        # # Extract necessary information from event_body
-        # prompt_text, line_user_id, reply_token, message_image_id, profile = extract_info_from_event_body(event_body)
-
-        # # Check if the event is a quick reply
-        # quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
-        # if quick_reply_text is not None:
-        #     prompt_text = quick_reply_text
-
-        # print("prompt_text:",prompt_text, "line_user_id:",line_user_id, "reply_token:",reply_token, "message_image_id:",message_image_id, "profile:",profile)
-
-        # # Get user's language
-        # user_language = language_codes.language_code_to_name[profile.language]
-        # print("user_language:",user_language)
 
         # if db_accessor.check_line_user_id_exists(line_user_id) == "Yes":
         #     print("line_user_idはありました。line_user_id:",line_user_id)
@@ -235,27 +224,6 @@ def handler(event, context):
         #     print("line_user_idはありませんでした")
         #     db_accessor.create_or_check_line_user_id(line_user_id)
 
-        # # Process image if present
-        # if message_image_id is not None:
-        #     prompt_text, text_language = process_image(message_image_id)
-        #     print("The prompt_text when image is present:",prompt_text, "text_language:",text_language)
-        # else:
-        #     text_language = None
-
-        # # Check if the event is a message type and is of text type
-        # if prompt_text is None or line_user_id is None or reply_token is None:
-        #     raise Exception('Elements of the event body are not found.')
-
-        # # Create the completed text by Chat-GPT 3.5 turbo
-        # completed_text = message_repository.create_completed_text(line_user_id, prompt_text, message_image_id, text_language, user_language)
-        # print("completed_text:",completed_text)
-
-        # # Create quick reply buttons
-        # quick_reply_buttons = create_quick_reply_buttons(user_language)
-        # quick_reply = QuickReply(items=quick_reply_buttons)
-
-        # # Reply the message using the LineBotApi instance with quick replies
-        # line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
 
     except Exception as e:
         # Log the error

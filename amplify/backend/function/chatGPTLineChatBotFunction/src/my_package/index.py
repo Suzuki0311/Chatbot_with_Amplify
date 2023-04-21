@@ -215,6 +215,128 @@ def handler(event, context):
             else:
                 reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
                 line_api.reply_message_for_line(reply_token, reply_message, None)
+                basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={userId}"
+                standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={userId}"
+                premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={userId}"
+
+                flex_message_contents = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "You've reached your message limit, please upgrade your plan",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "margin": "lg",
+                            "spacing": "xl",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "none",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "Basic Plan",
+                                            "size": "sm",
+                                            "wrap": True,
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "85 yen and 25 messages per month",
+                                            "size": "sm",
+                                            "wrap": True,
+                                            "margin": "none",
+                                        },
+                                        {
+                                            "type": "button",
+                                            "style": "primary",
+                                            "color": "#D7A9AA",  # Basic plan button color
+                                            "height": "sm",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Basic Plan",
+                                                "uri": basic_plan_url
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "none",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "Standard Plan",
+                                            "size": "sm",
+                                            "wrap": True
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "160 yen and 100 messages per month",
+                                            "size": "sm",
+                                            "wrap": True,
+                                            "margin": "none",
+                                        },
+                                        {
+                                            "type": "button",
+                                            "style": "primary",
+                                            "color": "#708090",  # Standard plan button color
+                                            "height": "sm",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Standard Plan",
+                                                "uri": standard_plan_url
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "spacing": "none",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": "Premium Plan",
+                                            "size": "sm",
+                                            "wrap": True
+                                        },
+                                        {
+                                            "type": "text",
+                                            "text": "750 yen and Unlimited messages",
+                                            "size": "sm",
+                                            "wrap": True,
+                                            "margin": "none",
+                                        },
+                                        {
+                                            "type": "button",
+                                            "style": "primary",
+                                            "color": "#D4AF37",  # Premium plan button color
+                                            "height": "sm",
+                                            "action": {
+                                                "type": "uri",
+                                                "label": "Premium Plan",
+                                                "uri": premium_plan_url
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+                flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_contents)
+                line_api.reply_message_for_line(reply_token, flex_message, None)
 
 
             

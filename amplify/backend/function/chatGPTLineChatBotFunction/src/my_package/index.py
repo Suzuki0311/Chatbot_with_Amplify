@@ -174,10 +174,10 @@ def handler(event, context):
             line_api.reply_message_for_line(reply_token, welcome_message, None)  # Consider removing QuickReply or using a different function for sending the message
         
         elif event_type == 'message':
-            message_count = db_accessor.get_current_message_count(line_user_id)
-            print("現在のメッセージ可能回数:",message_count)
             # Extract necessary information from event_body
             prompt_text, line_user_id, reply_token, message_image_id, profile = extract_info_from_event_body(event_body)
+            message_count = db_accessor.get_current_message_count(line_user_id)
+            print("現在のメッセージ可能回数:",message_count)
             if message_count !=0:
                 # Check if the event is a quick reply
                 quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)

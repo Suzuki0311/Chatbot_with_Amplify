@@ -140,3 +140,42 @@ def create_or_check_line_user_id(line_user_id: str) -> str:
         raise e
 
 
+def get_line_user_data(line_user_id: str) -> dict:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'id': {'S': line_user_id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            user_data = {
+                'plan': query_result['Item']['plan']['S'],
+                'message_count': int(query_result['Item']['message_count']['N'])
+            }
+            return user_data
+        else:
+            return None
+    except Exception as e:
+        raise e
+
+def insert_data(line_user_id: str) -> None:
+    now = datetime.now().isoformat()
+    put_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Item': {
+            'id': {'S': line_user_id},
+            'customerId': {'S': ''},
+            'plan': {'S': 'free'},
+            'first_purchase_date': {'S': now},
+            'updated_purchase_date': {'S': now},
+            'message_count': {'N': str(7)}
+        }
+    }
+
+    try:
+        dynamodb.put_item(**put_params)
+    except Exception as e:
+        raise e

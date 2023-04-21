@@ -8,7 +8,7 @@ from . import message_repository
 from . import language_codes
 from . import db_accessor
 from linebot import LineBotApi
-from linebot.models import TextSendMessage, QuickReply, QuickReplyButton, MessageAction
+from linebot.models import TextSendMessage, QuickReply, QuickReplyButton, MessageAction,FlexSendMessage
 from . import const
 import io
 from google.oauth2 import service_account

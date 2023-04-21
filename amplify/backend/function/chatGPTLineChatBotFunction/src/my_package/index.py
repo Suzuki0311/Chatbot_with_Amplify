@@ -7,6 +7,7 @@ from . import line_request_body_parser
 from . import message_repository
 from . import language_codes
 from . import db_accessor
+from . import event_handler
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, QuickReply, QuickReplyButton, MessageAction,FlexSendMessage
 from . import const
@@ -14,7 +15,6 @@ import io
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
-from event_handler import handle_follow_event, handle_message_event
 
 def create_quick_reply_buttons(user_language):
     if user_language == 'Japanese':
@@ -154,10 +154,10 @@ def handler(event, context):
         event_type = event_body['events'][0]['type']
 
         if event_type == 'follow':
-            handle_follow_event(event_body)
+            event_handler.handle_follow_event(event_body)
 
         elif event_type == 'message':
-            handle_message_event(event_body)
+            event_handler.handle_message_event(event_body)
 
     except Exception as e:
         # Log the error

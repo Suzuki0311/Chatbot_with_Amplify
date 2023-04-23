@@ -1,5 +1,5 @@
 import json
-from linebot.models import FlexSendMessage, QuickReply
+from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton
 from linebot import LineBotApi
 from . import db_accessor
 from . import line_api

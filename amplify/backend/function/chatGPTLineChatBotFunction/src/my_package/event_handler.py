@@ -3,14 +3,13 @@ from linebot.models import FlexSendMessage, QuickReply
 from linebot import LineBotApi
 from . import db_accessor
 from . import line_api
-from . import guard
 from . import message_repository
 from . import line_request_body_parser
 from . import language_codes
 from . import flex_message_contents
 import io
 from . import const
-from linebot import LineBotApi
+from linebot.exceptions import LineBotApiError
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
@@ -213,8 +212,8 @@ def handle_message_event(event_body):
         premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
 
         basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
-        standard_plan_component = flex_message_contents.basic_plan_component(standard_plan_url)
-        premium_plan_component = flex_message_contents.basic_plan_component(premium_plan_url)
+        standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
+        premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
 
         if plan == "free":
             flex_message_contents = {
@@ -341,4 +340,12 @@ def handle_message_event(event_body):
 
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-            line_bot_api.push_message(line_user_id, flex_message)
+            print("line_user_id:", line_user_id)
+            print("flex_message_contents:", flex_message_contents)
+            # line_bot_api.push_message(line_user_id, flex_message)
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.push_message(line_user_id, flex_message)
+            except LineBotApiError as e:
+                print("Error:", e)
+

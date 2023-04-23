@@ -212,9 +212,11 @@ def handle_message_event(event_body):
         standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
         premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
 
-        if plan == "free":
-            
+        basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
+        standard_plan_component = flex_message_contents.basic_plan_component(standard_plan_url)
+        premium_plan_component = flex_message_contents.basic_plan_component(premium_plan_url)
 
+        if plan == "free":
             flex_message_contents = {
             "type": "bubble",
             "body": {
@@ -227,9 +229,9 @@ def handle_message_event(event_body):
                         "weight": "bold",
                         "size": "xl"
                     },
-                    flex_message_contents.basic_plan_component(basic_plan_url),
-                    flex_message_contents.standard_plan_component(standard_plan_url),
-                    flex_message_contents.premium_plan_component(premium_plan_url)
+                    basic_plan_component,
+                    standard_plan_component,
+                    premium_plan_component
                     # {
                     #     "type": "box",
                     #     "layout": "vertical",

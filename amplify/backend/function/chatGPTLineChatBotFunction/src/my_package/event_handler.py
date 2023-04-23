@@ -14,7 +14,7 @@ from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
 
-def send_flex_message(plan, line_user_id):
+def send_flex_message(plan, line_user_id, quick_reply):
             basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
             standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
             premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
@@ -78,7 +78,7 @@ def send_flex_message(plan, line_user_id):
             }
 
 
-            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
 
@@ -248,18 +248,18 @@ def handle_message_event(event_body):
     if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
-        flex_message = send_flex_message(plan, line_user_id)
-        # Push the message to the user
-        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
+        flex_message = send_flex_message(plan, line_user_id, quick_reply)
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
         from linebot.exceptions import LineBotApiError
         try:
             text_message = TextSendMessage(text="下記リンクからアップグレードしてください。詳しい内容は添付のリンクを参照ください", quick_reply=quick_reply)
-            line_bot_api.reply_message(reply_token, text_message)
+            line_bot_api.reply_message(line_user_id, flex_message)
+            
         except LineBotApiError as e:
             print("Error:", e)
 
@@ -318,14 +318,18 @@ def handle_message_event(event_body):
             reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
             line_api.reply_message_for_line(reply_token, reply_message, None)
 
+            # Create quick reply buttons
+            quick_reply_buttons = create_quick_reply_buttons(user_language)
+            quick_reply = QuickReply(items=quick_reply_buttons)
+
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
-            flex_message = send_flex_message(plan, line_user_id)
-
+            flex_message = send_flex_message(plan, line_user_id, quick_reply)
+ 
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
             from linebot.exceptions import LineBotApiError
             try:
-                line_bot_api.push_message(line_user_id, flex_message)
+                line_bot_api.reply_message(line_user_id, flex_message)
             except LineBotApiError as e:
                 print("Error:", e)

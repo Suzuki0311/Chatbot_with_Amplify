@@ -47,16 +47,16 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="日本語に翻訳", text="上記を日本語に翻訳してください")),
             QuickReplyButton(action=MessageAction(label="英語に翻訳", text="上記を英語に翻訳してください")),
             QuickReplyButton(action=MessageAction(label="1週間の献立", text="1週間の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="東京へ旅行", text="2泊3日で東京旅行の計画を立ててください")),
+            QuickReplyButton(action=MessageAction(label="仕事疲れた", text="仕事疲れたので、私を元気付けてください")),
             QuickReplyButton(action=MessageAction(label="読書感想文", text="ハリーポッター賢者の石の読書感想文を描いてください")),
             QuickReplyButton(action=MessageAction(label="お金持ちになる", text="お金持ちになる方法を教えてください")),
             QuickReplyButton(action=MessageAction(label="上司へお礼メール", text="飲み会でお世話になった上司へのお礼メールを書いてください")),
             QuickReplyButton(action=MessageAction(label="日本の有名な観光名所", text="日本で有名な観光名所をいくつか教えてください")),
-            QuickReplyButton(action=MessageAction(label="詳しく", text="もっと詳しく教えてください")),
-            QuickReplyButton(action=MessageAction(label="英語学習", text="いくつかビジネスに必須な英単語とその　日本語訳をまとめたものを提示してください")),
-            QuickReplyButton(action=MessageAction(label="研究テーマ", text="私にいくつか質問して、大学の研究テーマを一緒に考えてください")),
+            QuickReplyButton(action=MessageAction(label="英語学習", text="いくつかビジネスに必須な英単語とその日本語訳をまとめたものを提示してください")),
             QuickReplyButton(action=MessageAction(label="彼氏・彼女をなぐさめる", text="喧嘩した恋人と仲直りするためのメールを書いてください")),
-            QuickReplyButton(action=MessageAction(label="仕事疲れた", text="仕事疲れたので、私を元気付けてください"))
+            QuickReplyButton(action=MessageAction(label="アップグレード", text="アップグレードしたいです")),
+            QuickReplyButton(action=MessageAction(label="お問い合わせ", text="お問い合わせ")),
+            QuickReplyButton(action=MessageAction(label="解約", text="解約したいです"))
     ]
     elif user_language == 'English':
         return [
@@ -78,13 +78,13 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Viajar a Tokyo", text="Planea para mí un viaje a Tokyo de 3 días y 2 noches")),
             QuickReplyButton(action=MessageAction(label="Reporte de lectura", text="Diseñar un informe de libro para la piedra filosofal de Harry Potter")),
             QuickReplyButton(action=MessageAction(label="Hacerse rico", text="Dime como hacerme rico")),
-            # QuickReplyButton(action=MessageAction(label="E-mail de agradecimento ao chefe", text="Escreva um e-mail de agradecimento ao meu chefe que cuidou de min na festa")),
-            # QuickReplyButton(action=MessageAction(label="Atração turística famosa do Japão", text="Diga-me algumas atrações turísticas famosas no Japão.")),
             QuickReplyButton(action=MessageAction(label="Detalle", text="Cuéntame más en detalle")),
             QuickReplyButton(action=MessageAction(label="Aprender ingles", text="Proporcione una lista de algunas palabras esenciales del inglés comercial y sus traducciones al Español.")),
             QuickReplyButton(action=MessageAction(label="Buscar tema", text="Por favor, hágame algunas preguntas y elaboren juntos un tema de investigación para la universidad.")),
-            # QuickReplyButton(action=MessageAction(label="Conforte seu namorado/namorada", text="Escreva um e-mail para fazer as pazes com seu amante que brigou")),
-            QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame."))
+            QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame.")),
+            QuickReplyButton(action=MessageAction(label="Actualizar", text="Quiero actualizar mi aplicación.")),
+            QuickReplyButton(action=MessageAction(label="contacto", text="contacto")),
+            QuickReplyButton(action=MessageAction(label="Cancelar", text="Quiero cancelar la aplicación"))
     ]
     elif user_language == 'French':
         return [
@@ -118,13 +118,13 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Viajar para Tokyo", text="Planeje para min uma viagem para Tokyo por 3 dias e 2 noites")),
             QuickReplyButton(action=MessageAction(label="Relatório de leitura", text="Desenhe um relatório de livro para a Pedra Filosofal de Harry Potter")),
             QuickReplyButton(action=MessageAction(label="Ficar rico", text="Me diga como ficar rico")),
-            # QuickReplyButton(action=MessageAction(label="E-mail de agradecimento ao chefe", text="Escreva um e-mail de agradecimento ao meu chefe que cuidou de min na festa")),
-            # QuickReplyButton(action=MessageAction(label="Atração turística famosa do Japão", text="Diga-me algumas atrações turísticas famosas no Japão.")),
             QuickReplyButton(action=MessageAction(label="Detalhe", text="Me conte mais em detalhes")),
             QuickReplyButton(action=MessageAction(label="Aprender inglês", text="Por favor, apresente uma lista de algumas palavras essenciais em inglês para negócios e suas traduções para o português")),
             QuickReplyButton(action=MessageAction(label="Tema de pesquisa", text="Por favor, faça-me algumas perguntas e crie um tópico de pesquisa para a universidade juntos.")),
-            # QuickReplyButton(action=MessageAction(label="Conforte seu namorado/namorada", text="Escreva um e-mail para fazer as pazes com seu amante que brigou")),
-            QuickReplyButton(action=MessageAction(label="Cansei do trabalho", text="Estou cansado do trabalho, então, por favor, me anime"))
+            QuickReplyButton(action=MessageAction(label="Cansei do trabalho", text="Estou cansado do trabalho, então, por favor, me anime")),
+            QuickReplyButton(action=MessageAction(label="Atualizar", text="Eu quero atualizar meu aplicativo")),
+            QuickReplyButton(action=MessageAction(label="Contato conosco", text="Contato conosco")),
+            QuickReplyButton(action=MessageAction(label="Cancelar", text="Quero cancelar o aplicativo"))
     ]
     elif user_language == 'Thai':
         return [
@@ -204,129 +204,133 @@ def handle_message_event(event_body):
         reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
         line_api.reply_message_for_line(reply_token, reply_message, None)
 
-        basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+        plan = db_accessor.get_user_plan(line_user_id)
+        print("plan:",plan)
 
-        flex_message_contents = {
-        "type": "bubble",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-                {
-                    "type": "text",
-                    "text": "You've reached your message limit, please upgrade your plan",
-                    "weight": "bold",
-                    "size": "xl"
-                },
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "margin": "lg",
-                    "spacing": "xl",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "none",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "Basic Plan",
-                                    "size": "sm",
-                                    "wrap": True,
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "85 yen and 25 messages per month",
-                                    "size": "sm",
-                                    "wrap": True,
-                                    "margin": "none",
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "primary",
-                                    "color": "#D7A9AA",  # Basic plan button color
-                                    "height": "sm",
-                                    "action": {
-                                        "type": "uri",
-                                        "label": "Basic Plan",
-                                        "uri": basic_plan_url
+        if plan == "free":
+            basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+
+            flex_message_contents = {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "You've reached your message limit, please upgrade your plan",
+                        "weight": "bold",
+                        "size": "xl"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "margin": "lg",
+                        "spacing": "xl",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "spacing": "none",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Basic Plan",
+                                        "size": "sm",
+                                        "wrap": True,
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "85 yen and 25 messages per month",
+                                        "size": "sm",
+                                        "wrap": True,
+                                        "margin": "none",
+                                    },
+                                    {
+                                        "type": "button",
+                                        "style": "primary",
+                                        "color": "#D7A9AA",  # Basic plan button color
+                                        "height": "sm",
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "Basic Plan",
+                                            "uri": basic_plan_url
+                                        }
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "none",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "Standard Plan",
-                                    "size": "sm",
-                                    "wrap": True
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "160 yen and 100 messages per month",
-                                    "size": "sm",
-                                    "wrap": True,
-                                    "margin": "none",
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "primary",
-                                    "color": "#708090",  # Standard plan button color
-                                    "height": "sm",
-                                    "action": {
-                                        "type": "uri",
-                                        "label": "Standard Plan",
-                                        "uri": standard_plan_url
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "spacing": "none",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Standard Plan",
+                                        "size": "sm",
+                                        "wrap": True
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "160 yen and 100 messages per month",
+                                        "size": "sm",
+                                        "wrap": True,
+                                        "margin": "none",
+                                    },
+                                    {
+                                        "type": "button",
+                                        "style": "primary",
+                                        "color": "#708090",  # Standard plan button color
+                                        "height": "sm",
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "Standard Plan",
+                                            "uri": standard_plan_url
+                                        }
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "none",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "Premium Plan",
-                                    "size": "sm",
-                                    "wrap": True
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "750 yen and Unlimited messages",
-                                    "size": "sm",
-                                    "wrap": True,
-                                    "margin": "none",
-                                },
-                                {
-                                    "type": "button",
-                                    "style": "primary",
-                                    "color": "#D4AF37",  # Premium plan button color
-                                    "height": "sm",
-                                    "action": {
-                                        "type": "uri",
-                                        "label": "Premium Plan",
-                                        "uri": premium_plan_url
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "spacing": "none",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "Premium Plan",
+                                        "size": "sm",
+                                        "wrap": True
+                                    },
+                                    {
+                                        "type": "text",
+                                        "text": "750 yen and Unlimited messages",
+                                        "size": "sm",
+                                        "wrap": True,
+                                        "margin": "none",
+                                    },
+                                    {
+                                        "type": "button",
+                                        "style": "primary",
+                                        "color": "#D4AF37",  # Premium plan button color
+                                        "height": "sm",
+                                        "action": {
+                                            "type": "uri",
+                                            "label": "Premium Plan",
+                                            "uri": premium_plan_url
+                                        }
                                     }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
         }
-    }
 
-        flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_contents)
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_contents)
 
-        # Push the message to the user
-        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-        line_bot_api.push_message(line_user_id, flex_message)
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            line_bot_api.push_message(line_user_id, flex_message)

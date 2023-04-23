@@ -179,3 +179,21 @@ def insert_data(line_user_id: str) -> None:
         dynamodb.put_item(**put_params)
     except Exception as e:
         raise e
+
+def get_user_plan(line_user_id: str) -> str:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'id': {'S': line_user_id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            user_plan = query_result['Item']['plan']['S']
+            return user_plan
+        else:
+            return None
+    except Exception as e:
+        raise e

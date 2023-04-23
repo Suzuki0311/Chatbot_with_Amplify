@@ -14,6 +14,74 @@ from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
 
+def send_flex_message(plan, line_user_id):
+            basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+
+            basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
+            standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
+            premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+            if plan == "free":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "You've reached your message limit, please upgrade your plan",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        basic_plan_component,
+                        standard_plan_component,
+                        premium_plan_component
+                    ]
+                }
+            }
+            elif plan == "basic":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "You've reached your message limit, please upgrade your plan",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        standard_plan_component,
+                        premium_plan_component
+                    ]
+                }
+            }
+            elif plan == "standard":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "You've reached your message limit, please upgrade your plan",
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        premium_plan_component
+                    ]
+                }
+            }
+
+
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
+            return flex_message
+
+
 def extract_info_from_event_body(event_body):
     prompt_text = line_request_body_parser.get_prompt_text(event_body)
     line_user_id = line_request_body_parser.get_line_user_id(event_body)
@@ -165,19 +233,21 @@ def handle_message_event(event_body):
     prompt_text, line_user_id, reply_token, message_image_id, profile = extract_info_from_event_body(event_body)
     message_count = db_accessor.get_current_message_count(line_user_id)
     print("現在のメッセージ可能回数:", message_count)
+    quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
     
+
+    if quick_reply_text is not None:
+        prompt_text = quick_reply_text
+
+    print("prompt_text:", prompt_text, "line_user_id:", line_user_id, "reply_token:", reply_token, "message_image_id:", message_image_id, "profile:", profile)
+
+    # Get user's language
+    user_language = language_codes.language_code_to_name[profile.language]
+    print("user_language:", user_language)
+
+    # if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
+
     if message_count != 0:
-        # Check if the event is a quick reply
-        quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
-        if quick_reply_text is not None:
-            prompt_text = quick_reply_text
-
-        print("prompt_text:", prompt_text, "line_user_id:", line_user_id, "reply_token:", reply_token, "message_image_id:", message_image_id, "profile:", profile)
-
-        # Get user's language
-        user_language = language_codes.language_code_to_name[profile.language]
-        print("user_language:", user_language)
-
         # Process image if present
         if message_image_id is not None:
             prompt_text, text_language = process_image(message_image_id)
@@ -206,146 +276,88 @@ def handle_message_event(event_body):
 
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
+        flex_message = send_flex_message(plan, line_user_id)
 
-        basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        from linebot.exceptions import LineBotApiError
+        try:
+            line_bot_api.push_message(line_user_id, flex_message)
+        except LineBotApiError as e:
+            print("Error:", e)
 
-        basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
-        standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
-        premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+        
+        # basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+        # standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+        # premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
 
-        if plan == "free":
-            flex_message_reply = {
-            "type": "bubble",
-            "body": {
-                "type": "box",
-                "layout": "vertical",
-                "contents": [
-                    {
-                        "type": "text",
-                        "text": "You've reached your message limit, please upgrade your plan",
-                        "weight": "bold",
-                        "size": "xl"
-                    },
-                    basic_plan_component,
-                    standard_plan_component,
-                    premium_plan_component
-                    # {
-                    #     "type": "box",
-                    #     "layout": "vertical",
-                    #     "margin": "lg",
-                    #     "spacing": "xl",
-                    #     "contents": [
-                    #         {
-                    #             "type": "box",
-                    #             "layout": "vertical",
-                    #             "spacing": "none",
-                    #             "contents": [
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "Basic Plan",
-                    #                     "size": "sm",
-                    #                     "wrap": True,
-                    #                 },
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "85 yen and 25 messages per month",
-                    #                     "size": "sm",
-                    #                     "wrap": True,
-                    #                     "margin": "none",
-                    #                 },
-                    #                 {
-                    #                     "type": "button",
-                    #                     "style": "primary",
-                    #                     "color": "#D7A9AA",  # Basic plan button color
-                    #                     "height": "sm",
-                    #                     "action": {
-                    #                         "type": "uri",
-                    #                         "label": "Basic Plan",
-                    #                         "uri": basic_plan_url
-                    #                     }
-                    #                 }
-                    #             ]
-                    #         },
-                    #         {
-                    #             "type": "box",
-                    #             "layout": "vertical",
-                    #             "spacing": "none",
-                    #             "contents": [
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "Standard Plan",
-                    #                     "size": "sm",
-                    #                     "wrap": True
-                    #                 },
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "160 yen and 100 messages per month",
-                    #                     "size": "sm",
-                    #                     "wrap": True,
-                    #                     "margin": "none",
-                    #                 },
-                    #                 {
-                    #                     "type": "button",
-                    #                     "style": "primary",
-                    #                     "color": "#708090",  # Standard plan button color
-                    #                     "height": "sm",
-                    #                     "action": {
-                    #                         "type": "uri",
-                    #                         "label": "Standard Plan",
-                    #                         "uri": standard_plan_url
-                    #                     }
-                    #                 }
-                    #             ]
-                    #         },
-                    #         {
-                    #             "type": "box",
-                    #             "layout": "vertical",
-                    #             "spacing": "none",
-                    #             "contents": [
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "Premium Plan",
-                    #                     "size": "sm",
-                    #                     "wrap": True
-                    #                 },
-                    #                 {
-                    #                     "type": "text",
-                    #                     "text": "750 yen and Unlimited messages",
-                    #                     "size": "sm",
-                    #                     "wrap": True,
-                    #                     "margin": "none",
-                    #                 },
-                    #                 {
-                    #                     "type": "button",
-                    #                     "style": "primary",
-                    #                     "color": "#D4AF37",  # Premium plan button color
-                    #                     "height": "sm",
-                    #                     "action": {
-                    #                         "type": "uri",
-                    #                         "label": "Premium Plan",
-                    #                         "uri": premium_plan_url
-                    #                     }
-                    #                 }
-                    #             ]
-                    #         }
-                    #     ]
-                    # }
-                ]
-            }
-        }
+        # basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
+        # standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
+        # premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
 
-            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
+        # if plan == "free":
+        #     flex_message_reply = {
+        #     "type": "bubble",
+        #     "body": {
+        #         "type": "box",
+        #         "layout": "vertical",
+        #         "contents": [
+        #             {
+        #                 "type": "text",
+        #                 "text": "You've reached your message limit, please upgrade your plan",
+        #                 "weight": "bold",
+        #                 "size": "xl"
+        #             },
+        #             basic_plan_component,
+        #             standard_plan_component,
+        #             premium_plan_component
+        #         ]
+        #     }
+        # }
+        # elif plan == "basic":
+        #     flex_message_reply = {
+        #     "type": "bubble",
+        #     "body": {
+        #         "type": "box",
+        #         "layout": "vertical",
+        #         "contents": [
+        #             {
+        #                 "type": "text",
+        #                 "text": "You've reached your message limit, please upgrade your plan",
+        #                 "weight": "bold",
+        #                 "size": "xl"
+        #             },
+        #             standard_plan_component,
+        #             premium_plan_component
+        #         ]
+        #     }
+        # }
+        # elif plan == "standard":
+        #     flex_message_reply = {
+        #     "type": "bubble",
+        #     "body": {
+        #         "type": "box",
+        #         "layout": "vertical",
+        #         "contents": [
+        #             {
+        #                 "type": "text",
+        #                 "text": "You've reached your message limit, please upgrade your plan",
+        #                 "weight": "bold",
+        #                 "size": "xl"
+        #             },
+        #             premium_plan_component
+        #         ]
+        #     }
+        # }
 
-            # Push the message to the user
-            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-            print("line_user_id:", line_user_id)
-            print("flex_message_contents:", flex_message)
-            # line_bot_api.push_message(line_user_id, flex_message)
-            from linebot.exceptions import LineBotApiError
-            try:
-                line_bot_api.push_message(line_user_id, flex_message)
-            except LineBotApiError as e:
-                print("Error:", e)
 
+        #     flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
+
+
+            # # Push the message to the user
+            # line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            # from linebot.exceptions import LineBotApiError
+            # try:
+            #     line_bot_api.push_message(line_user_id, flex_message)
+            # except LineBotApiError as e:
+            #     print("Error:", e)

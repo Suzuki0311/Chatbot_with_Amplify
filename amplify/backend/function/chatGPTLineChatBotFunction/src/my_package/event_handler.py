@@ -245,39 +245,10 @@ def handle_message_event(event_body):
     user_language = language_codes.language_code_to_name[profile.language]
     print("user_language:", user_language)
 
-    # if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
-
-    if message_count != 0:
-        # Process image if present
-        if message_image_id is not None:
-            prompt_text, text_language = process_image(message_image_id)
-            print("The prompt_text when image is present:", prompt_text, "text_language:", text_language)
-        else:
-            text_language = None
-
-        # Check if the event is a message type and is of text type
-        if prompt_text is None or line_user_id is None or reply_token is None:
-            raise Exception('Elements of the event body are not found.')
-
-        # Create the completed text by Chat-GPT 3.5 turbo
-        completed_text = message_repository.create_completed_text(line_user_id, prompt_text, message_image_id, text_language, user_language)
-        print("completed_text:", completed_text)
-
-        # Create quick reply buttons
-        quick_reply_buttons = create_quick_reply_buttons(user_language)
-        quick_reply = QuickReply(items=quick_reply_buttons)
-
-        # Reply the message using the LineBotApi instance with quick replies
-        line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
-        db_accessor.decrement_message_count(line_user_id, message_count)
-    else:
-        reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
-        line_api.reply_message_for_line(reply_token, reply_message, None)
-
+    if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
         flex_message = send_flex_message(plan, line_user_id)
-
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
         from linebot.exceptions import LineBotApiError
@@ -285,79 +256,46 @@ def handle_message_event(event_body):
             line_bot_api.push_message(line_user_id, flex_message)
         except LineBotApiError as e:
             print("Error:", e)
+    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" :
+        print("下記リンクから必要事項を記入して、送信してください")
+    elif prompt_text == "Quero cancelar o aplicativo" or prompt_text == "Quiero cancelar la aplicación" or prompt_text == "解約したいです" :
+        print("下記リンクから解約を行ってください")
+    else:
+        if message_count != 0:
+            # Process image if present
+            if message_image_id is not None:
+                prompt_text, text_language = process_image(message_image_id)
+                print("The prompt_text when image is present:", prompt_text, "text_language:", text_language)
+            else:
+                text_language = None
 
-        
-        # basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        # standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-        # premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            # Check if the event is a message type and is of text type
+            if prompt_text is None or line_user_id is None or reply_token is None:
+                raise Exception('Elements of the event body are not found.')
 
-        # basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
-        # standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
-        # premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+            # Create the completed text by Chat-GPT 3.5 turbo
+            completed_text = message_repository.create_completed_text(line_user_id, prompt_text, message_image_id, text_language, user_language)
+            print("completed_text:", completed_text)
 
-        # if plan == "free":
-        #     flex_message_reply = {
-        #     "type": "bubble",
-        #     "body": {
-        #         "type": "box",
-        #         "layout": "vertical",
-        #         "contents": [
-        #             {
-        #                 "type": "text",
-        #                 "text": "You've reached your message limit, please upgrade your plan",
-        #                 "weight": "bold",
-        #                 "size": "xl"
-        #             },
-        #             basic_plan_component,
-        #             standard_plan_component,
-        #             premium_plan_component
-        #         ]
-        #     }
-        # }
-        # elif plan == "basic":
-        #     flex_message_reply = {
-        #     "type": "bubble",
-        #     "body": {
-        #         "type": "box",
-        #         "layout": "vertical",
-        #         "contents": [
-        #             {
-        #                 "type": "text",
-        #                 "text": "You've reached your message limit, please upgrade your plan",
-        #                 "weight": "bold",
-        #                 "size": "xl"
-        #             },
-        #             standard_plan_component,
-        #             premium_plan_component
-        #         ]
-        #     }
-        # }
-        # elif plan == "standard":
-        #     flex_message_reply = {
-        #     "type": "bubble",
-        #     "body": {
-        #         "type": "box",
-        #         "layout": "vertical",
-        #         "contents": [
-        #             {
-        #                 "type": "text",
-        #                 "text": "You've reached your message limit, please upgrade your plan",
-        #                 "weight": "bold",
-        #                 "size": "xl"
-        #             },
-        #             premium_plan_component
-        #         ]
-        #     }
-        # }
+            # Create quick reply buttons
+            quick_reply_buttons = create_quick_reply_buttons(user_language)
+            quick_reply = QuickReply(items=quick_reply_buttons)
 
+            # Reply the message using the LineBotApi instance with quick replies
+            line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
+            db_accessor.decrement_message_count(line_user_id, message_count)
+        else:
+            reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
+            line_api.reply_message_for_line(reply_token, reply_message, None)
 
-        #     flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
+            plan = db_accessor.get_user_plan(line_user_id)
+            print("plan:",plan)
+            flex_message = send_flex_message(plan, line_user_id)
 
-
-            # # Push the message to the user
-            # line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-            # from linebot.exceptions import LineBotApiError
-            # try:
-            #     line_bot_api.push_message(line_user_id, flex_message)
-            # except LineBotApiError as e:
-            #     print("Error:", e)
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.push_message(line_user_id, flex_message)
+            except LineBotApiError as e:
+                print("Error:", e)

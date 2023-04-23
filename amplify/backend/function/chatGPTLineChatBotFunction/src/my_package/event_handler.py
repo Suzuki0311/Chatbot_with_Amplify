@@ -216,7 +216,7 @@ def handle_message_event(event_body):
         premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
 
         if plan == "free":
-            flex_message_contents = {
+            flex_message_reply = {
             "type": "bubble",
             "body": {
                 "type": "box",
@@ -336,12 +336,12 @@ def handle_message_event(event_body):
             }
         }
 
-            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_contents)
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply)
 
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
             print("line_user_id:", line_user_id)
-            print("flex_message_contents:", flex_message_contents)
+            print("flex_message_contents:", flex_message)
             # line_bot_api.push_message(line_user_id, flex_message)
             from linebot.exceptions import LineBotApiError
             try:

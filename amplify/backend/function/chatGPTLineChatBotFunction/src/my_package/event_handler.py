@@ -258,9 +258,10 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             text_message = TextSendMessage(text="下記リンクからアップグレードしてください。詳しい内容は添付のリンクを参照ください", quick_reply=quick_reply)
-            line_bot_api.reply_message(reply_token, text_message)
-            line_bot_api.reply_message(reply_token, flex_message)
+            # line_bot_api.reply_message(reply_token, text_message)
+            # line_bot_api.reply_message(reply_token, flex_message)
             # line_bot_api.push_message(line_user_id, flex_message)
+            line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
             print("Error:", e)
@@ -275,7 +276,8 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください", quick_reply=quick_reply)
-            line_bot_api.reply_message(reply_token, text_message)
+            # line_bot_api.reply_message(reply_token, text_message)
+            line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
 
@@ -289,7 +291,8 @@ def handle_message_event(event_body):
         try:
             text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
             # line_bot_api.reply_message(reply_token, text_message)
-            line_bot_api.reply_message(line_user_id, flex_message)
+            # line_bot_api.reply_message(line_user_id, flex_message)
+            line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
 

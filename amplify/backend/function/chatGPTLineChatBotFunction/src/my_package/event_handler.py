@@ -1,5 +1,5 @@
 import json
-from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction
+from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage
 from linebot import LineBotApi
 from . import db_accessor
 from . import line_api
@@ -251,15 +251,45 @@ def handle_message_event(event_body):
         flex_message = send_flex_message(plan, line_user_id)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
         from linebot.exceptions import LineBotApiError
         try:
-            line_bot_api.push_message(line_user_id, flex_message)
+            text_message = TextSendMessage(text="下記リンクからアップグレードしてください。詳しい内容は添付のリンクを参照ください", quick_reply=quick_reply)
+            line_bot_api.reply_message(reply_token, text_message)
         except LineBotApiError as e:
             print("Error:", e)
+
     elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" :
-        print("下記リンクから必要事項を記入して、送信してください")
+         # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
+        from linebot.exceptions import LineBotApiError
+        try:
+            text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください", quick_reply=quick_reply)
+            line_bot_api.reply_message(reply_token, text_message)
+        except LineBotApiError as e:
+            print("Error:", e)
+
     elif prompt_text == "Quero cancelar o aplicativo" or prompt_text == "Quiero cancelar la aplicación" or prompt_text == "解約したいです" :
-        print("下記リンクから解約を行ってください")
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+        from linebot.exceptions import LineBotApiError
+        try:
+            text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
+            line_bot_api.reply_message(reply_token, text_message)
+        except LineBotApiError as e:
+            print("Error:", e)
+
     else:
         if message_count != 0:
             # Process image if present

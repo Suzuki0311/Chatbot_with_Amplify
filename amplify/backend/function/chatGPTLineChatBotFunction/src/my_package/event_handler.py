@@ -276,8 +276,8 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください", quick_reply=quick_reply)
-            # line_bot_api.reply_message(reply_token, text_message)
-            line_bot_api.reply_message(reply_token, [text_message, flex_message])
+            line_bot_api.reply_message(reply_token, text_message)
+            # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
 
@@ -290,9 +290,9 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
-            # line_bot_api.reply_message(reply_token, text_message)
+            line_bot_api.reply_message(reply_token, text_message)
             # line_bot_api.reply_message(line_user_id, flex_message)
-            line_bot_api.reply_message(reply_token, [text_message, flex_message])
+            # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
 
@@ -321,8 +321,8 @@ def handle_message_event(event_body):
             line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
             db_accessor.decrement_message_count(line_user_id, message_count)
         else:
-            reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
-            line_api.reply_message_for_line(reply_token, reply_message, None)
+            # reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
+            # line_api.reply_message_for_line(reply_token, reply_message, None)
 
             # Create quick reply buttons
             quick_reply_buttons = create_quick_reply_buttons(user_language)
@@ -331,11 +331,12 @@ def handle_message_event(event_body):
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
             flex_message = send_flex_message(plan, line_user_id, quick_reply)
+            text_message = TextSendMessage(text="今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。", quick_reply=quick_reply)
  
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
             from linebot.exceptions import LineBotApiError
             try:
-                line_bot_api.reply_message(line_user_id, flex_message)
+                line_bot_api.reply_message(reply_token, [text_message, flex_message])
             except LineBotApiError as e:
                 print("Error:", e)

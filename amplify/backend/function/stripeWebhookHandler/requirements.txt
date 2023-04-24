@@ -1,2 +1,3 @@
 aws-lambda-powertools
 stripe==2.65.0
+boto3

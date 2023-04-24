@@ -83,6 +83,30 @@
           "resourceName": "chatGPTLineChatBotFunction"
         }
       ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_baseSecretPath": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_dbTableNamePostfix": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
     }
   }
 }

@@ -20,7 +20,11 @@
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
           "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
         },
-        "stripeWebhookHandler": {}
+        "stripeWebhookHandler": {
+          "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
+          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
+        }
       },
       "api": {
         "chatGPTLineChatBotRestApi": {},
@@ -45,6 +49,11 @@
         "chatGPTLineChatBotFunction": {
           "deploymentBucketName": "amplify-chatgptlinechatbot-prod-212431-deployment",
           "s3Key": "amplify-builds/chatGPTLineChatBotFunction-5549726a327934523041-build.zip",
+          "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
+          "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod"
+        },
+        "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
           "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod"

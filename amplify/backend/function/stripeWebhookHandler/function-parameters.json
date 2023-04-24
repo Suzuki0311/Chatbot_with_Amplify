@@ -1,3 +1,25 @@
 {
-  "lambdaLayers": []
+  "lambdaLayers": [],
+  "secretNames": [
+    "STRIPE_API_KEY",
+    "exit"
+  ],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "baseSecretPath",
+      "environmentVariableName": "BASE_SECRET_PATH"
+    },
+    {
+      "cloudFormationParameterName": "dbTableNamePostfix",
+      "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+    },
+    {
+      "cloudFormationParameterName": "baseSecretPath",
+      "environmentVariableName": "BASE_SECRET_PATH"
+    },
+    {
+      "cloudFormationParameterName": "dbTableNamePostfix",
+      "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+    }
+  ]
 }

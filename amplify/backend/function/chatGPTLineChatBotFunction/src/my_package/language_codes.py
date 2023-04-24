@@ -3,6 +3,8 @@ language_code_to_name = {
     'ja': 'Japanese',
     'zh': 'Chinese',
     'es': 'Spanish',
+    'es-419': 'Spanish',
+    'es-ES': 'Spanish',
     'fr': 'French',
     'zh': 'Chinese',
     'zh-CN': 'Chinese',

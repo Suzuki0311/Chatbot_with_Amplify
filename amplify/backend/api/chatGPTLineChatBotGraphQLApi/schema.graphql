@@ -10,9 +10,9 @@ type Messages @model {
   updatedAt: AWSDateTime!
 }
 
-type MessageCount @model {
+type MessageCount
+  @model {
   id: ID!
-  lineUserId: String! @index(name: "byLineUserId")
   customerId: String!
   plan: String!
   first_purchase_date: AWSDateTime!

@@ -1,21 +1,4 @@
 version: 1
-# frontend:
-#   phases:
-#     preBuild:
-#       commands:
-#         - cd chatbot_with_amplify
-#         - yarn install
-#     build:
-#       commands:
-#         - cd chatbot_with_amplify
-#         - yarn run build
-#   artifacts:
-#     baseDirectory: chatbot_with_amplify/build
-#     files:
-#       - '**/*'
-#   cache:
-#     paths:
-#       - chatbot_with_amplify/node_modules/**/*
 frontend:
   phases:
     build:
@@ -43,7 +26,8 @@ backend:
         - python3 -m pip install --upgrade pip
         - pip3 install --upgrade virtualenv
         - pip3 install pipenv
-        # - pip3 install -r requirements.txt テスト
+        - pip3 install -r requirements.txt -t src
+        - cd ../../function/stripeWebhookHandler
         - pip3 install -r requirements.txt -t src
         - echo "List installed packages:"
         - pip3 list
@@ -51,6 +35,9 @@ backend:
         - find src
     build:
       commands:
+        - cd ../../function/chatGPTLineChatBotFunction
+        - pipenv run python -m zipfile -c ../../../../function.zip .
+        - cd ../../function/stripeWebhookHandler
         - pipenv run python -m zipfile -c ../../../../function.zip .
         - cd ../../../../
         - amplifyPush --simple

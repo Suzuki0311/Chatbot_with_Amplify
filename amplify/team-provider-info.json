@@ -19,7 +19,8 @@
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
           "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
-        }
+        },
+        "stripeWebhookHandler": {}
       },
       "api": {
         "chatGPTLineChatBotRestApi": {},

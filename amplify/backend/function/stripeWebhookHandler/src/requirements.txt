@@ -1,0 +1,2 @@
+aws-lambda-powertools
+stripe==2.65.0

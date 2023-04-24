@@ -18,12 +18,18 @@
           "s3Key": "amplify-builds/chatGPTLineChatBotFunction-5549726a327934523041-build.zip",
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
-          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
+          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev",
+          "productUrlBasic": "https://buy.stripe.com/test_5kAeVR8hifbW6Ws7st",
+          "productUrlStandard": "https://buy.stripe.com/test_00gbJF556e7SfsYbIK",
+          "productUrlPremium": "https://buy.stripe.com/test_eVa00X4127Ju2Gc4gj"
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
-          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev"
+          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev",
+          "productIdBasic": "prod_Nlwr4AEbopsBeD",
+          "productIdStandard": "prod_NlwshDhz1tBK38",
+          "productIdPremium": "prod_NlwvdQSdMzxk82"
         }
       },
       "api": {

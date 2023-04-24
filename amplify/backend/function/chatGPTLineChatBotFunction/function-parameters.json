@@ -14,6 +14,18 @@
     {
       "cloudFormationParameterName": "dbTableNamePostfix",
       "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+    },
+    {
+      "cloudFormationParameterName": "productUrlBasic",
+      "environmentVariableName": "PRODUCT_URL_BASIC"
+    },
+    {
+      "cloudFormationParameterName": "productUrlStandard",
+      "environmentVariableName": "PRODUCT_URL_STANDARD"
+    },
+    {
+      "cloudFormationParameterName": "productUrlPremium",
+      "environmentVariableName": "PRODUCT_URL_PREMIUM"
     }
   ]
 }

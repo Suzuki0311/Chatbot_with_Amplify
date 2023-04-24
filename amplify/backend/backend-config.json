@@ -68,6 +68,30 @@
         }
       ]
     },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlStandard": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
     "AMPLIFY_function_chatGPTLineChatBotFunction_s3Key": {
       "usedBy": [
         {
@@ -93,6 +117,30 @@
       ]
     },
     "AMPLIFY_function_stripeWebhookHandler_dbTableNamePostfix": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdStandard": {
       "usedBy": [
         {
           "category": "function",

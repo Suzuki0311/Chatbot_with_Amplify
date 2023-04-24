@@ -24,6 +24,15 @@
     },
     "dbTableNamePostfix": {
       "Type": "String"
+    },
+    "productUrlBasic": {
+      "Type": "String"
+    },
+    "productUrlStandard": {
+      "Type": "String"
+    },
+    "productUrlPremium": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -172,6 +181,15 @@
             },
             "DB_TABLE_NAME_POSTFIX": {
               "Ref": "dbTableNamePostfix"
+            },
+            "PRODUCT_URL_BASIC": {
+              "Ref": "productUrlBasic"
+            },
+            "PRODUCT_URL_STANDARD": {
+              "Ref": "productUrlStandard"
+            },
+            "PRODUCT_URL_PREMIUM": {
+              "Ref": "productUrlPremium"
             }
           }
         },

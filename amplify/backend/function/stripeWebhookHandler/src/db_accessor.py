@@ -36,11 +36,11 @@ def update_customer_id_by_client_reference_id(client_reference_id, customer_id):
         raise
 
 def update_message_count_by_product_id(customer_id, line_user_id, product_id):
-    if product_id == 'prod_basic':
+    if product_id == const.PRODUCT_ID_BASIC:
         message_count = 100
-    elif product_id == 'prod_standard':
+    elif product_id == const.PRODUCT_ID_STANDARD:
         message_count = 300
-    elif product_id == 'prod_premium':
+    elif product_id == const.PRODUCT_ID_PREMIUM:
         message_count = -1  # 無制限
     else:
         raise ValueError("Invalid product_id")

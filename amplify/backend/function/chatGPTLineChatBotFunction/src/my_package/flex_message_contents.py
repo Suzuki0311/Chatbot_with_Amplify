@@ -12,7 +12,7 @@ def basic_plan_component(basic_plan_url):
             },
             {
                 "type": "text",
-                "text": "85 yen and 25 messages per month",
+                "text": "80 yen and 100 messages per month",
                 "size": "sm",
                 "wrap": True,
                 "margin": "none",
@@ -46,7 +46,7 @@ def standard_plan_component(standard_plan_url):
             },
             {
                 "type": "text",
-                "text": "160 yen and 100 messages per month",
+                "text": "230 yen and 300 messages per month",
                 "size": "sm",
                 "wrap": True,
                 "margin": "none",

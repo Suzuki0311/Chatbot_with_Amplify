@@ -1,6 +1,9 @@
+print("index.pyは起動している")
 import json
-from . import const
-from . import db_accessor
+# from . import const
+import const
+# from . import db_accessor
+import db_accessor
 import stripe
 
 stripe.api_key = const.STRIPE_API_KEY
@@ -41,6 +44,6 @@ def handler(event, context):
     if not items:  # リストが空の場合
         print("顧客IDがテーブルに存在しません。")
         db_accessor.update_customer_id_by_client_reference_id(line_user_id, customer_id)
-        
+
     db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
     print("正常にユーザーの回数がアップデートされました")

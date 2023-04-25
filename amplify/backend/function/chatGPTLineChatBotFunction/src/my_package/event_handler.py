@@ -15,13 +15,14 @@ from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
 
 def send_flex_message(plan, line_user_id, quick_reply):
-            basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-            standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-            premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
+            standard_plan_url = f"{const.PRODUCT_URL_STANDARD}?client_reference_id={line_user_id}"
+            premium_plan_url = f"{const.PRODUCT_URL_PREMIUM}?client_reference_id={line_user_id}"
 
             basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
             standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
             premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+
             if plan == "free":
                 flex_message_reply = {
                 "type": "bubble",
@@ -31,7 +32,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": "You've reached your message limit.",
                             "weight": "bold",
                             "size": "xl"
                         },

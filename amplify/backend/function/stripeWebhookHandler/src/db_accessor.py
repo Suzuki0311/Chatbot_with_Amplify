@@ -1,5 +1,6 @@
 import boto3
-from . import const
+# from . import const
+import const
 
 MESSAGE_COUNT_TABLE_NAME = f'MessageCount{const.DB_TABLE_NAME_POSTFIX}'
 dynamodb = boto3.client('dynamodb')

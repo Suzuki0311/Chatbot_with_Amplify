@@ -1,5 +1,6 @@
 import os
-from . import aws_systems_manager
+# from . import aws_systems_manager
+import aws_systems_manager
 
 BASE_SECRET_PATH = os.environ.get('BASE_SECRET_PATH')
 DB_TABLE_NAME_POSTFIX = os.environ.get('DB_TABLE_NAME_POSTFIX')

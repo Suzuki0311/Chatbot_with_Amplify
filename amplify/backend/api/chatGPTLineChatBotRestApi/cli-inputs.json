@@ -7,13 +7,6 @@
       "permissions": {
         "setting": "open"
       }
-    },
-    "/stripe-webhook": {
-      "name": "/stripe-webhook",
-      "lambdaFunction": "stripeWebhookHandler",
-      "permissions": {
-        "setting": "open"
-      }
     }
   }
 }

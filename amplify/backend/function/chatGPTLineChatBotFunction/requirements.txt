@@ -36,3 +36,4 @@ tqdm==4.65.0
 # -e git+https://github.com/Suzuki0311/Chatbot_with_Amplify.git@56f3255f2d3ecf3db3f97b510718fc2f1272ef06#egg=UNKNOWN&subdirectory=amplify/backend/function/chatGPTLineChatBotFunction
 urllib3==1.26.15
 yarl==1.8.2
+stripe==2.65.0

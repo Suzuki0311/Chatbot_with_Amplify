@@ -26,8 +26,14 @@ def get_product_id_from_checkout_session_completed(event_data):
 def handler(event, context):
   print('received event:')
   print(event)
+  
+  # Parse the 'body' key
+  body = json.loads(event['body'])
 
-  if event['type'] == 'checkout.session.completed':
+  # Get the 'type' key from the parsed body
+  event_type = body.get('type', '')
+
+  if event_type == 'checkout.session.completed':
     session = event['data']['object']
 
     # line_user_id = session['client_reference_id']

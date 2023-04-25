@@ -1,6 +1,18 @@
 [
   {
-    "Action": [],
-    "Resource": []
+    "Action": [
+      "ssm:GetParameters",
+      "ssm:GetParameter",
+      "dynamodb:PutItem",
+      "dynamodb:DeleteItem",
+      "dynamodb:GetItem",
+      "dynamodb:Scan",
+      "dynamodb:Query",
+      "dynamodb:UpdateItem"
+    ],
+    "Resource": [
+      "arn:aws:ssm:ap-northeast-1:660988641828:parameter/*",
+      "arn:aws:dynamodb:ap-northeast-1:660988641828:table/*"
+    ]
   }
 ]

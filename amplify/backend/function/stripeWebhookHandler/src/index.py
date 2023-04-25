@@ -24,7 +24,7 @@ def handler(event, context):
     # Get the 'type' key from the parsed body
     event_type = body.get('type', '')
 
-    if event_type == 'checkout.session.completed':
+    if event_type == 'checkout.session.completed': #初回購入時
         session = body['data']['object']
 
         line_user_id = session.get('client_reference_id')
@@ -43,3 +43,4 @@ def handler(event, context):
 
         db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
         print("正常にユーザーの回数がアップデートされました")
+    

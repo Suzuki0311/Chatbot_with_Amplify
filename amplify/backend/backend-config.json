@@ -25,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "chatGPTLineChatBotFunction"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
         }
       ],
       "providerPlugin": "awscloudformation",

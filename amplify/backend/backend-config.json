@@ -1,5 +1,19 @@
 {
   "api": {
+    "StripeWebhookAPI": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "chatGPTLineChatBotGraphQLApi": {
       "dependsOn": [],
       "output": {

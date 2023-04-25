@@ -1,8 +1,7 @@
 {
   "lambdaLayers": [],
   "secretNames": [
-    "STRIPE_API_KEY",
-    "exit"
+    "STRIPE_API_KEY"
   ],
   "environmentVariableList": [
     {

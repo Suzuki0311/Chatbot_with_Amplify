@@ -197,3 +197,21 @@ def get_user_plan(line_user_id: str) -> str:
             return None
     except Exception as e:
         raise e
+
+def get_customer_id_by_line_user_id(id: str) -> str:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'id': {'S': id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            customer_id = query_result['Item']['customerId']['S']
+            return customer_id
+        else:
+            return None
+    except Exception as e:
+        raise e

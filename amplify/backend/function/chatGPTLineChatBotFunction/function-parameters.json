@@ -26,6 +26,10 @@
     {
       "cloudFormationParameterName": "productUrlPremium",
       "environmentVariableName": "PRODUCT_URL_PREMIUM"
+    },
+    {
+      "cloudFormationParameterName": "baseSecretPathStripe",
+      "environmentVariableName": "BASE_SECRET_PATH_STRIPE"
     }
   ]
 }

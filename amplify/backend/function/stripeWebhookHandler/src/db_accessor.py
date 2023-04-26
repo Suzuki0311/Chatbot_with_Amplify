@@ -46,6 +46,7 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
     else:
         raise ValueError("Invalid product_id")
 
+    response = None
     if customer_id:
         response = dynamodb.query(
             TableName=MESSAGE_COUNT_TABLE_NAME,
@@ -53,12 +54,17 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
             KeyConditionExpression='customerId = :customer_id',
             ExpressionAttributeValues={':customer_id': {'S': customer_id}}
         )
-    else:
-        response = dynamodb.query(
-            TableName=MESSAGE_COUNT_TABLE_NAME,
-            KeyConditionExpression='id = :line_user_id',
-            ExpressionAttributeValues={':line_user_id': {'S': line_user_id}}
-        )
+
+    if not response or not response['Items']:
+        if line_user_id:
+            response = dynamodb.query(
+                TableName=MESSAGE_COUNT_TABLE_NAME,
+                KeyConditionExpression='id = :line_user_id',
+                ExpressionAttributeValues={':line_user_id': {'S': line_user_id}}
+            )
+
+    if not response or not response['Items']:
+        raise ValueError("No matching record found for customer_id and line_user_id")
 
     items = response['Items']
     if items:
@@ -72,3 +78,19 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
         dynamodb.update_item(**update_params)
     else:
         print("No matching record found.")
+
+def get_line_user_id_by_customer_id(customer_id):
+    response = dynamodb.query(
+        TableName=MESSAGE_COUNT_TABLE_NAME,
+        IndexName='customerId-index',
+        KeyConditionExpression='customerId = :customer_id',
+        ExpressionAttributeValues={':customer_id': {'S': customer_id}}
+    )
+    items = response['Items']
+
+    if items:
+        line_user_id = items[0]['id']['S']
+        return line_user_id
+    else:
+        print("No matching record found for customer_id.")
+        return None

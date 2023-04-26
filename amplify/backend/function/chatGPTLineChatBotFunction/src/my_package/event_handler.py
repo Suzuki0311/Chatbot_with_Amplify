@@ -330,14 +330,39 @@ def handle_message_event(event_body):
 
         subscription_id = get_subscription_id(customer_id)
 
+         # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
         if subscription_id:
             print(f"Subscription ID: {subscription_id}")
 
             # サブスクリプションをキャンセル
             canceled_subscription = cancel_subscription(subscription_id)
             print(f"Canceled subscription: {canceled_subscription['id']}")
+
+            text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
+            
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.reply_message(reply_token, text_message)
+            except LineBotApiError as e:
+                print("Error:", e)
         else:
             print("No active subscription found for this customer.")
+
+            text_message = TextSendMessage(text="あなたのプランを見つけることができませんでした。以下URLよりお問合せください。", quick_reply=quick_reply)
+
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.reply_message(reply_token, text_message)
+            except LineBotApiError as e:
+                print("Error:", e)
 
     else:
         if message_count != 0:

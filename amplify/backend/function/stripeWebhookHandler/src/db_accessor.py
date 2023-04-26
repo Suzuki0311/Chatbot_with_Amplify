@@ -73,14 +73,18 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
     if items:
         item = items[0]
         update_params = {
-            'TableName': MESSAGE_COUNT_TABLE_NAME,
-            'Key': {'id': item['id']},
-            'UpdateExpression': 'SET message_count = :message_count, plan = :plan',
-            'ExpressionAttributeValues': {
-                ':message_count': {'N': str(message_count)},
-                ':plan': {'S': plan}
-            }
-        }
+                            'TableName': MESSAGE_COUNT_TABLE_NAME,
+                            'Key': {'id': item['id']},
+                            'UpdateExpression': 'SET message_count = :message_count, #plan = :plan',
+                            'ExpressionAttributeValues': {
+                                ':message_count': {'N': str(message_count)},
+                                ':plan': {'S': plan}
+                            },
+                            'ExpressionAttributeNames': {
+                                '#plan': 'plan'
+                            }
+                        }
+
         dynamodb.update_item(**update_params)
     else:
         print("No matching record found.")
@@ -113,11 +117,13 @@ def update_plan_to_free_by_customer_id(customer_id):
         # ヒットしたレコードに対して、planをfreeに更新
         for item in response:
             dynamodb.update_item(
-                TableName=MESSAGE_COUNT_TABLE_NAME,
-                Key={'id': {'S': item['id']['S']}},
-                UpdateExpression='SET plan = :plan',
-                ExpressionAttributeValues={':plan': {'S': 'free'}}
-            )
+                    TableName=MESSAGE_COUNT_TABLE_NAME,
+                    Key={'id': {'S': item['id']['S']}},
+                    UpdateExpression='SET #plan = :plan',
+                    ExpressionAttributeValues={':plan': {'S': 'free'}},
+                    ExpressionAttributeNames={'#plan': 'plan'}
+                )
+
     except Exception as e:
         print(f"Error updating plan to free by customer ID: {e}")
         raise

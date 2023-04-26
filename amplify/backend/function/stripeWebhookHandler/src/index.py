@@ -52,10 +52,15 @@ def handler(event, context):
         except ValueError as e:
             print("Error updating message count:", e)
 
-    elif event_type == 'customer.subscription.updated':
+    elif event_type == 'customer.subscription.updated': #サブスクリプション更新時
         customer_id = body.get('data', {}).get('object', {}).get('customer')
+        print("customer.subscription.updatedイベントのcustomer_id:",customer_id)
+
         line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
+        print("customer.subscription.updatedイベントのline_user_id:",line_user_id)
+        
         product_id = get_product_id(event_type, body)
+        print("customer.subscription.updatedイベントのproduct_id:",product_id)
 
         # 商品IDと顧客IDを使用して、メッセージの送信可能回数を更新
         try:

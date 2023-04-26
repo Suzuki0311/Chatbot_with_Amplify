@@ -21,7 +21,8 @@
           "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev",
           "productUrlBasic": "https://buy.stripe.com/test_5kAeVR8hifbW6Ws7st",
           "productUrlStandard": "https://buy.stripe.com/test_00gbJF556e7SfsYbIK",
-          "productUrlPremium": "https://buy.stripe.com/test_eVa00X4127Ju2Gc4gj"
+          "productUrlPremium": "https://buy.stripe.com/test_eVa00X4127Ju2Gc4gj",
+          "baseSecretPathStripe": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_stripeWebhookHandler_"
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",

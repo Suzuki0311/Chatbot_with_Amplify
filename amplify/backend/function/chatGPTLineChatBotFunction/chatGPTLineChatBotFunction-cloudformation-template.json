@@ -33,6 +33,9 @@
     },
     "productUrlPremium": {
       "Type": "String"
+    },
+    "baseSecretPathStripe": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -190,6 +193,9 @@
             },
             "PRODUCT_URL_PREMIUM": {
               "Ref": "productUrlPremium"
+            },
+            "BASE_SECRET_PATH_STRIPE": {
+              "Ref": "baseSecretPathStripe"
             }
           }
         },

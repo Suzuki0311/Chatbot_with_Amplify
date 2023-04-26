@@ -13,6 +13,7 @@ from linebot.exceptions import LineBotApiError
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
+import stripe
 
 def send_flex_message(plan, line_user_id, quick_reply):
             basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
@@ -307,8 +308,37 @@ def handle_message_event(event_body):
         except LineBotApiError as e:
             print("Error:", e)
     elif prompt_text == "はい、私は本当に解約します。":
-        pass
-    
+
+        stripe.api_key = "<YOUR_STRIPE_API_KEY>"
+        
+        # 顧客IDからサブスクリプションIDを取得
+        def get_subscription_id(customer_id):
+            subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)
+            if subscriptions["data"]:
+                subscription_id = subscriptions["data"][0]["id"]
+                return subscription_id
+            else:
+                return None
+            
+        # サブスクリプションをキャンセル
+        def cancel_subscription(subscription_id):
+            canceled_subscription = stripe.Subscription.delete(subscription_id)
+            return canceled_subscription
+        
+        customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
+        print("サブスクリプションをキャンセル_customer_id:",customer_id)
+
+        subscription_id = get_subscription_id(customer_id)
+
+        if subscription_id:
+            print(f"Subscription ID: {subscription_id}")
+
+            # サブスクリプションをキャンセル
+            canceled_subscription = cancel_subscription(subscription_id)
+            print(f"Canceled subscription: {canceled_subscription['id']}")
+        else:
+            print("No active subscription found for this customer.")
+
     else:
         if message_count != 0:
             # Process image if present

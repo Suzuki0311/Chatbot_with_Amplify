@@ -1,5 +1,5 @@
 import json
-from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage
+from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage,TemplateSendMessage, ConfirmTemplate
 from linebot import LineBotApi
 from . import db_accessor
 from . import line_api
@@ -290,13 +290,25 @@ def handle_message_event(event_body):
         quick_reply = QuickReply(items=quick_reply_buttons)
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
-            line_bot_api.reply_message(reply_token, text_message)
+            actions = [
+                        MessageAction(label="はい", text="はい、私は本当に解約します。"),
+                        MessageAction(label="いいえ", text="いいえ"),
+                      ]
+            # Create a ConfirmTemplate
+            confirm_template = ConfirmTemplate(text="本当に解約しますか？", actions=actions)
+
+            # Create a TemplateSendMessage with the ConfirmTemplate
+            message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
+
+            # text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
+            line_bot_api.reply_message(reply_token, message)
             # line_bot_api.reply_message(line_user_id, flex_message)
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
-
+    elif prompt_text == "はい、私は本当に解約します。":
+        pass
+    
     else:
         if message_count != 0:
             # Process image if present

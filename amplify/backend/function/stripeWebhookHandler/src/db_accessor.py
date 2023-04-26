@@ -39,10 +39,13 @@ def update_customer_id_by_client_reference_id(client_reference_id, customer_id):
 def update_message_count_by_product_id(customer_id, line_user_id, product_id):
     if product_id == const.PRODUCT_ID_BASIC:
         message_count = 100
+        plan = "basic"
     elif product_id == const.PRODUCT_ID_STANDARD:
         message_count = 300
+        plan = "standard"
     elif product_id == const.PRODUCT_ID_PREMIUM:
         message_count = -1  # 無制限
+        plan = "premium"
     else:
         raise ValueError("Invalid product_id")
 
@@ -72,8 +75,11 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
         update_params = {
             'TableName': MESSAGE_COUNT_TABLE_NAME,
             'Key': {'id': item['id']},
-            'UpdateExpression': 'SET message_count = :message_count',
-            'ExpressionAttributeValues': {':message_count': {'N': str(message_count)}}
+            'UpdateExpression': 'SET message_count = :message_count, plan = :plan',
+            'ExpressionAttributeValues': {
+                ':message_count': {'N': str(message_count)},
+                ':plan': {'S': plan}
+            }
         }
         dynamodb.update_item(**update_params)
     else:

@@ -58,7 +58,7 @@ def handler(event, context):
 
         line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
         print("customer.subscription.updatedイベントのline_user_id:",line_user_id)
-        
+
         product_id = get_product_id(event_type, body)
         print("customer.subscription.updatedイベントのproduct_id:",product_id)
 
@@ -67,3 +67,14 @@ def handler(event, context):
             db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
         except ValueError as e:
             print("Error updating message count:", e)
+
+    elif event_type == 'customer.subscription.deleted': #解約時
+        customer_id = body.get('data', {}).get('object', {}).get('customer')
+        print("customer.subscription.deletedイベントのcustomer_id:", customer_id)
+
+        # 顧客IDを使ってプランをfreeに更新
+        try:
+            db_accessor.update_plan_to_free_by_customer_id(customer_id)
+            print("正常にユーザーのプランが'free'にアップデートされました")
+        except Exception as e:
+            print("Error updating plan to free:", e)

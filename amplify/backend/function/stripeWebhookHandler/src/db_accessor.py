@@ -94,3 +94,24 @@ def get_line_user_id_by_customer_id(customer_id):
     else:
         print("No matching record found for customer_id.")
         return None
+
+def update_plan_to_free_by_customer_id(customer_id):
+    try:
+        # customerIdを使ってレコードを検索
+        response = search_customer_in_table(customer_id)
+
+        if not response:
+            print(f"Customer ID {customer_id} not found.")
+            return
+
+        # ヒットしたレコードに対して、planをfreeに更新
+        for item in response:
+            dynamodb.update_item(
+                TableName=MESSAGE_COUNT_TABLE_NAME,
+                Key={'id': {'S': item['id']['S']}},
+                UpdateExpression='SET plan = :plan',
+                ExpressionAttributeValues={':plan': {'S': 'free'}}
+            )
+    except Exception as e:
+        print(f"Error updating plan to free by customer ID: {e}")
+        raise

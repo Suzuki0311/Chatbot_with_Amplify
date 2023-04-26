@@ -309,8 +309,8 @@ def handle_message_event(event_body):
             print("Error:", e)
     elif prompt_text == "はい、私は本当に解約します。":
 
-        stripe.api_key = "<YOUR_STRIPE_API_KEY>"
-        
+        stripe.api_key = const.STRIPE_API_KEY
+
         # 顧客IDからサブスクリプションIDを取得
         def get_subscription_id(customer_id):
             subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)

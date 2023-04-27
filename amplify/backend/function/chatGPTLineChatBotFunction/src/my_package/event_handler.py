@@ -83,6 +83,33 @@ def send_flex_message(plan, line_user_id, quick_reply):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
+def send_flex_message_upgrade(quick_reply):
+            basic_plan_component = flex_message_contents.basic_plan_component_upgrade()
+            standard_plan_component = flex_message_contents.standard_plan_component_upgrade()
+            premium_plan_component = flex_message_contents.premium_plan_component_upgrade()
+
+            flex_message_reply = {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "You've reached your message limit.",
+                                    "weight": "bold",
+                                    "size": "xl"
+                                },
+                                basic_plan_component,
+                                standard_plan_component,
+                                premium_plan_component
+                            ]
+                        }
+                    }
+            
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
+            return flex_message
+
 
 def extract_info_from_event_body(event_body):
     prompt_text = line_request_body_parser.get_prompt_text(event_body)
@@ -253,16 +280,14 @@ def handle_message_event(event_body):
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message(plan, line_user_id, quick_reply)
+        flex_message = send_flex_message_upgrade(quick_reply)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクからアップグレードしてください。詳しい内容は添付のリンクを参照ください", quick_reply=quick_reply)
-            # line_bot_api.reply_message(reply_token, text_message)
-            # line_bot_api.reply_message(reply_token, flex_message)
-            # line_bot_api.push_message(line_user_id, flex_message)
+
+            text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
@@ -342,7 +367,7 @@ def handle_message_event(event_body):
             print(f"Canceled subscription: {canceled_subscription['id']}")
 
             text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
-            
+
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 

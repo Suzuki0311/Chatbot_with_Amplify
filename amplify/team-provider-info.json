@@ -22,7 +22,10 @@
           "productUrlBasic": "https://buy.stripe.com/test_5kAeVR8hifbW6Ws7st",
           "productUrlStandard": "https://buy.stripe.com/test_00gbJF556e7SfsYbIK",
           "productUrlPremium": "https://buy.stripe.com/test_eVa00X4127Ju2Gc4gj",
-          "baseSecretPathStripe": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_stripeWebhookHandler_"
+          "baseSecretPathStripe": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_stripeWebhookHandler_",
+          "priceIdBasic": "price_1N0OxOCykX4OnFNSNuoRP2XH",
+          "priceIdStandard": "price_1N0OyeCykX4OnFNSCuwUHKID",
+          "priceIdPremium": "price_1N0P1WCykX4OnFNS2FmkCVAy"
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",

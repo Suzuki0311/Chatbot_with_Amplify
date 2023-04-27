@@ -36,6 +36,15 @@
     },
     "baseSecretPathStripe": {
       "Type": "String"
+    },
+    "priceIdBasic": {
+      "Type": "String"
+    },
+    "priceIdStandard": {
+      "Type": "String"
+    },
+    "priceIdPremium": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -196,6 +205,15 @@
             },
             "BASE_SECRET_PATH_STRIPE": {
               "Ref": "baseSecretPathStripe"
+            },
+            "PRICE_ID_BASIC": {
+              "Ref": "priceIdBasic"
+            },
+            "PRICE_ID_STANDARD": {
+              "Ref": "priceIdStandard"
+            },
+            "PRICE_ID_PREMIUM": {
+              "Ref": "priceIdPremium"
             }
           }
         },

@@ -236,6 +236,16 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
     ]
 
+
+ # 顧客IDからサブスクリプションIDを取得
+def get_subscription_id(customer_id):
+    subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)
+    if subscriptions["data"]:
+        subscription_id = subscriptions["data"][0]["id"]
+        return subscription_id
+    else:
+        return None
+
 def handle_follow_event(event_body):
     # Extract the user ID and reply token
     line_user_id = event_body['events'][0]['source']['userId']
@@ -263,7 +273,7 @@ def handle_message_event(event_body):
     message_count = db_accessor.get_current_message_count(line_user_id)
     print("現在のメッセージ可能回数:", message_count)
     quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
-    
+    stripe.api_key = const.STRIPE_API_KEY
 
     if quick_reply_text is not None:
         prompt_text = quick_reply_text
@@ -334,17 +344,6 @@ def handle_message_event(event_body):
             print("Error:", e)
     elif prompt_text == "はい、私は本当に解約します。":
 
-        stripe.api_key = const.STRIPE_API_KEY
-
-        # 顧客IDからサブスクリプションIDを取得
-        def get_subscription_id(customer_id):
-            subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)
-            if subscriptions["data"]:
-                subscription_id = subscriptions["data"][0]["id"]
-                return subscription_id
-            else:
-                return None
-            
         # サブスクリプションをキャンセル
         def cancel_subscription(subscription_id):
             canceled_subscription = stripe.Subscription.delete(subscription_id)
@@ -421,6 +420,45 @@ def handle_message_event(event_body):
 
         except LineBotApiError as e:
             print("Error:", e)
+    elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
+        customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
+        subscription_id = get_subscription_id(customer_id)
+        
+        if prompt_text == "はい。私はbasicを契約します。":
+            new_plan_id = const.PRICE_ID_BASIC
+        elif prompt_text == "はい。私はstandardを契約します。":
+            new_plan_id = const.PRICE_ID_STANDARD
+        elif prompt_text == "はい。私はpremiumを契約します。":
+            new_plan_id = const.PRICE_ID_PREMIUM
+
+        try:
+            # サブスクリプションを取得
+            subscription = stripe.Subscription.retrieve(subscription_id)
+            print("# サブスクリプションを取得_subscription:",subscription)
+
+            # 現在のサブスクリプションに紐づく最初のアイテムを取得
+            subscription_item_id = subscription["items"]["data"][0]["id"]
+            print("subscription_item_id:",subscription_item_id)
+
+            # サブスクリプションアイテムを新しいプランにアップグレード
+            stripe.SubscriptionItem.modify(
+                subscription_item_id,
+                price=new_plan_id,
+                proration_behavior="create_prorations",
+            )
+
+            # サブスクリプションの変更を確定
+            updated_subscription = stripe.Subscription.modify(
+                subscription_id,
+                items=[{"id": subscription_item_id, "price": new_plan_id}],
+            )
+            print("updated_subscription:",updated_subscription)
+
+            # return updated_subscription
+
+        except Exception as e:
+            print(f"Error upgrading subscription: {e}")
+            return None
 
     else:
         if message_count != 0:

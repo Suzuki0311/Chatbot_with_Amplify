@@ -90,6 +90,30 @@
         }
       ]
     },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdStandard": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
     "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlBasic": {
       "usedBy": [
         {

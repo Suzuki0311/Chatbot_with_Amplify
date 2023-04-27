@@ -388,6 +388,39 @@ def handle_message_event(event_body):
                 line_bot_api.reply_message(reply_token, text_message)
             except LineBotApiError as e:
                 print("Error:", e)
+    
+    elif prompt_text == "I want to subscribe to the Basic Plan" or prompt_text == "I want to subscribe to the Standard Plan" or prompt_text == "I want to subscribe to the Premium Plan":
+        if prompt_text == "I want to subscribe to the Basic Plan":
+            plan = "basic"
+            send_text = "月額80で月に100回メッセージを送ることができます。"
+        elif prompt_text == "I want to subscribe to the Standard Plan":
+            plan = "standard"
+            send_text = "月額230で月に300回メッセージを送ることができます。"
+        elif prompt_text == "I want to subscribe to the Premium Plan":
+            plan = "premium"
+            send_text = "月額750で無制限にメッセージを送ることができます。"
+
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+        from linebot.exceptions import LineBotApiError
+        try:
+            actions = [
+                        MessageAction(label="はい", text=f"はい。私は{plan}を契約します。"),
+                        MessageAction(label="いいえ", text="いいえ"),
+                      ]
+            # Create a ConfirmTemplate
+            confirm_template = ConfirmTemplate(text=f"{plan}は、{send_text}契約を確定させたい場合は、以下の「はい」をクリックしてください", actions=actions)
+
+            # Create a TemplateSendMessage with the ConfirmTemplate
+            message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
+
+            line_bot_api.reply_message(reply_token, message)
+
+        except LineBotApiError as e:
+            print("Error:", e)
 
     else:
         if message_count != 0:

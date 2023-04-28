@@ -38,6 +38,7 @@ def handler(event, context):
     event_type = body.get('type', '')
 
     if event_type == 'checkout.session.completed': #初回購入時にline_user_idとcustomer_idをDBに紐づけて登録
+        print("checkout.session.completedイベント発行")
         session = body['data']['object']
 
         line_user_id = session.get('client_reference_id')
@@ -83,6 +84,7 @@ def handler(event, context):
     #         print("Error updating message count:", e)
 
     elif event_type == 'invoice.payment_succeeded': #支払い完了時
+        print("invoice.payment_succeededイベント発行")
         def wait_for_line_user_id(customer_id, retries=5, delay=1):
             for _ in range(retries):
                 line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
@@ -121,6 +123,7 @@ def handler(event, context):
 
 
     elif event_type == 'customer.subscription.deleted': #解約時
+        print("customer.subscription.deletedイベント発行")
         customer_id = body.get('data', {}).get('object', {}).get('customer')
         print("customer.subscription.deletedイベントのcustomer_id:", customer_id)
 

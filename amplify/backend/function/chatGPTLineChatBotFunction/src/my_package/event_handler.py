@@ -423,7 +423,7 @@ def handle_message_event(event_body):
     elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
         customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
         subscription_id = get_subscription_id(customer_id)
-        
+
         if prompt_text == "はい。私はbasicを契約します。":
             new_plan_id = const.PRICE_ID_BASIC
         elif prompt_text == "はい。私はstandardを契約します。":
@@ -494,8 +494,12 @@ def handle_message_event(event_body):
 
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
-            flex_message = send_flex_message(plan, line_user_id, quick_reply)
-            text_message = TextSendMessage(text="今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。", quick_reply=quick_reply)
+            if plan == "free":
+                flex_message = send_flex_message(plan, line_user_id, quick_reply)
+            else:
+                flex_message = send_flex_message_upgrade(quick_reply)
+
+            text_message = TextSendMessage(text=f"今月に送信できるメッセージの回数の上限に達しました。あなたのプランは{plan}です。もっとメッセージを送りたい方は、下記のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
  
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)

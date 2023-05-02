@@ -455,6 +455,7 @@ def handle_message_event(event_body):
                 status="draft",
                 limit=1,
             ).data[0]
+            print("pending_invoice:", pending_invoice)
 
             # 生成されたインボイスを即時支払い
             stripe.Invoice.pay(pending_invoice.id)

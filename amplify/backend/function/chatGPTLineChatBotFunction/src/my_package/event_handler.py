@@ -444,7 +444,7 @@ def handle_message_event(event_body):
             updated_subscription = stripe.Subscription.modify(
                 subscription_id,
                 items=[{"id": subscription_item_id, "price": new_plan_id}],
-                proration_behavior="create_prorations",
+                proration_behavior="always_invoice",
             )
             print("updated_subscription:", updated_subscription)
 
@@ -452,7 +452,7 @@ def handle_message_event(event_body):
             pending_invoice = stripe.Invoice.list(
                 customer=subscription.customer,
                 subscription=subscription.id,
-                status="draft",
+                status="open",
                 limit=1,
             ).data[0]
             print("pending_invoice:", pending_invoice)

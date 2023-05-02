@@ -440,21 +440,24 @@ def handle_message_event(event_body):
             subscription_item_id = subscription["items"]["data"][0]["id"]
             print("subscription_item_id:",subscription_item_id)
 
-            # サブスクリプションアイテムを新しいプランにアップグレード
-            stripe.SubscriptionItem.modify(
-                subscription_item_id,
-                price=new_plan_id,
-                proration_behavior="create_prorations",
-            )
-
-            # サブスクリプションの変更を確定
+            # サブスクリプションの変更を確定し、プロレーション料金を適用
             updated_subscription = stripe.Subscription.modify(
                 subscription_id,
                 items=[{"id": subscription_item_id, "price": new_plan_id}],
+                proration_behavior="create_prorations",
             )
-            print("updated_subscription:",updated_subscription)
+            print("updated_subscription:", updated_subscription)
 
-            # return updated_subscription
+            # プロレーション料金が含まれる未払いのインボイスを取得
+            pending_invoice = stripe.Invoice.list(
+                customer=subscription.customer,
+                subscription=subscription.id,
+                status="draft",
+                limit=1,
+            ).data[0]
+
+            # 生成されたインボイスを即時支払い
+            stripe.Invoice.pay(pending_invoice.id)
 
         except Exception as e:
             print(f"Error upgrading subscription: {e}")

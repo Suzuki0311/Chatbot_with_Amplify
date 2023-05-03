@@ -427,7 +427,7 @@ def handle_message_event(event_body):
             for _ in range(retries):
                 pending_invoices = stripe.Invoice.list(
                     customer=customer_id,
-                    subscription=subscription_id,
+                    # subscription=subscription_id,
                     status="open",
                 )
                 for invoice in pending_invoices.data:

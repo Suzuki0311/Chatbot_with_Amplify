@@ -313,7 +313,10 @@ def handle_message_event(event_body):
 
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください", quick_reply=quick_reply)
+            text_message = TextSendMessage(
+                            text="下記リンクから必要事項を記入して、送信してください\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new",
+                            quick_reply=quick_reply
+                        )
             line_bot_api.reply_message(reply_token, text_message)
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:

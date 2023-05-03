@@ -14,6 +14,7 @@ from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
 import stripe
+import time
 
 def send_flex_message(plan, line_user_id, quick_reply):
             basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
@@ -421,6 +422,20 @@ def handle_message_event(event_body):
         except LineBotApiError as e:
             print("Error:", e)
     elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
+
+        def find_pending_invoice(customer_id, subscription_id, retries=3, delay=2):
+            for _ in range(retries):
+                pending_invoices = stripe.Invoice.list(
+                    customer=customer_id,
+                    subscription=subscription_id,
+                    status="open",
+                )
+                for invoice in pending_invoices.data:
+                    if invoice.subscription == subscription_id:
+                        return invoice
+                time.sleep(delay)
+            return None
+        
         customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
         subscription_id = get_subscription_id(customer_id)
 
@@ -449,16 +464,13 @@ def handle_message_event(event_body):
             print("updated_subscription:", updated_subscription)
 
             # プロレーション料金が含まれる未払いのインボイスを取得
-            pending_invoice = stripe.Invoice.list(
-                customer=subscription.customer,
-                subscription=subscription.id,
-                status="open",
-                limit=1,
-            ).data[0]
-            print("pending_invoice:", pending_invoice)
+            pending_invoice = find_pending_invoice(customer_id, subscription_id)
 
-            # 生成されたインボイスを即時支払い
-            stripe.Invoice.pay(pending_invoice.id)
+            if pending_invoice:
+                print("pending_invoice:", pending_invoice)
+                stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
+            else:
+                print("No pending invoice found after retries")
 
         except Exception as e:
             print(f"Error upgrading subscription: {e}")

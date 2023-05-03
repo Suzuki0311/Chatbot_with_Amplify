@@ -423,16 +423,28 @@ def handle_message_event(event_body):
             print("Error:", e)
     elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
 
-        def find_pending_invoice(customer_id, subscription_id, retries=3, delay=2):
+        # def find_pending_invoice(customer_id, subscription_id, retries=3, delay=2):
+        #     for _ in range(retries):
+        #         pending_invoices = stripe.Invoice.list(
+        #             customer=customer_id,
+        #             subscription=subscription_id,
+        #             status="open",
+        #         )
+        #         for invoice in pending_invoices.data:
+        #             if invoice.subscription == subscription_id:
+        #                 return invoice
+        #         time.sleep(delay)
+        #     return None
+        
+        def find_pending_invoice(customer_id, retries=3, delay=1):
             for _ in range(retries):
                 pending_invoices = stripe.Invoice.list(
                     customer=customer_id,
-                    # subscription=subscription_id,
                     status="open",
                 )
+                print("pending_invoices:",pending_invoices)
                 for invoice in pending_invoices.data:
-                    if invoice.subscription == subscription_id:
-                        return invoice
+                    return invoice
                 time.sleep(delay)
             return None
         
@@ -464,7 +476,8 @@ def handle_message_event(event_body):
             print("updated_subscription:", updated_subscription)
 
             # プロレーション料金が含まれる未払いのインボイスを取得
-            pending_invoice = find_pending_invoice(customer_id, subscription_id)
+            # pending_invoice = find_pending_invoice(customer_id, subscription_id)
+            pending_invoice = find_pending_invoice(customer_id)
 
             if pending_invoice:
                 print("pending_invoice:", pending_invoice)

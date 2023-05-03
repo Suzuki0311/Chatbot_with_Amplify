@@ -447,30 +447,42 @@ def handle_message_event(event_body):
             new_plan_id = const.PRICE_ID_PREMIUM
 
         try:
-            # サブスクリプションを取得
-            subscription = stripe.Subscription.retrieve(subscription_id)
-            print("# サブスクリプションを取得_subscription:",subscription)
+            # # サブスクリプションを取得
+            # subscription = stripe.Subscription.retrieve(subscription_id)
+            # print("# サブスクリプションを取得_subscription:",subscription)
 
-            # 現在のサブスクリプションに紐づく最初のアイテムを取得
-            subscription_item_id = subscription["items"]["data"][0]["id"]
-            print("subscription_item_id:",subscription_item_id)
+            # # 現在のサブスクリプションに紐づく最初のアイテムを取得
+            # subscription_item_id = subscription["items"]["data"][0]["id"]
+            # print("subscription_item_id:",subscription_item_id)
 
-            # サブスクリプションの変更を確定し、プロレーション料金を適用
-            updated_subscription = stripe.Subscription.modify(
-                subscription_id,
-                items=[{"id": subscription_item_id, "price": new_plan_id}],
-                proration_behavior="always_invoice",
+            # # サブスクリプションの変更を確定し、プロレーション料金を適用
+            # updated_subscription = stripe.Subscription.modify(
+            #     subscription_id,
+            #     items=[{"id": subscription_item_id, "price": new_plan_id}],
+            #     proration_behavior="always_invoice",
+            # )
+            # print("updated_subscription:", updated_subscription)
+
+            # # プロレーション料金が含まれる未払いのインボイスを取得
+            # pending_invoice = find_pending_invoice(customer_id, subscription_id)
+
+            # if pending_invoice:
+            #     print("pending_invoice:", pending_invoice)
+            #     stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
+            # else:
+            #     print("No pending invoice found after retries")
+
+            # 現在のサブスクリプションをキャンセル
+            canceled_subscription = stripe.Subscription.delete(subscription_id)
+            print("canceled_subscription:", canceled_subscription)
+
+            # 新しいサブスクリプションを作成（新しい商品IDを指定）
+            new_subscription = stripe.Subscription.create(
+                customer=customer_id,
+                items=[{"price": new_plan_id}],
+                expand=["latest_invoice.payment_intent"],
             )
-            print("updated_subscription:", updated_subscription)
-
-            # プロレーション料金が含まれる未払いのインボイスを取得
-            pending_invoice = find_pending_invoice(customer_id, subscription_id)
-
-            if pending_invoice:
-                print("pending_invoice:", pending_invoice)
-                stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
-            else:
-                print("No pending invoice found after retries")
+            print("new_subscription:", new_subscription)
 
         except Exception as e:
             print(f"Error upgrading subscription: {e}")

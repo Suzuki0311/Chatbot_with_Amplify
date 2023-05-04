@@ -167,7 +167,6 @@ def insert_data(line_user_id: str) -> None:
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Item': {
             'id': {'S': line_user_id},
-            'customerId': {'S': ''},
             'plan': {'S': 'free'},
             'first_purchase_date': {'S': now},
             'updated_purchase_date': {'S': now},

@@ -475,6 +475,7 @@ def handle_message_event(event_body):
                 subscription_id,
                 items=[{"id": subscription_item_id, "price": new_plan_id}],
                 proration_behavior="create_prorations",
+                billing_cycle_anchor="now",
             )
             print("updated_subscription:", updated_subscription)
 

@@ -480,13 +480,13 @@ def handle_message_event(event_body):
 
             # プロレーション料金が含まれる未払いのインボイスを取得
             # pending_invoice = find_pending_invoice(customer_id, subscription_id)
-            pending_invoice = find_pending_invoice(customer_id)
+            # pending_invoice = find_pending_invoice(customer_id)
 
-            if pending_invoice:
-                print("pending_invoice:", pending_invoice)
-                stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
-            else:
-                print("No pending invoice found after retries")
+            # if pending_invoice:
+            #     print("pending_invoice:", pending_invoice)
+            #     stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
+            # else:
+            #     print("No pending invoice found after retries")
 
             # # 現在のサブスクリプションをキャンセル
             # canceled_subscription = stripe.Subscription.delete(subscription_id)

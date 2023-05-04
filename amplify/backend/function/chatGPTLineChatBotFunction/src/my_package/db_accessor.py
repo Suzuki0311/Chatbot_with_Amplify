@@ -167,7 +167,6 @@ def insert_data(line_user_id: str) -> None:
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Item': {
             'id': {'S': line_user_id},
-            'customerId': {'S': ''},
             'plan': {'S': 'free'},
             'first_purchase_date': {'S': now},
             'updated_purchase_date': {'S': now},
@@ -193,6 +192,24 @@ def get_user_plan(line_user_id: str) -> str:
         if 'Item' in query_result:
             user_plan = query_result['Item']['plan']['S']
             return user_plan
+        else:
+            return None
+    except Exception as e:
+        raise e
+
+def get_customer_id_by_line_user_id(id: str) -> str:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'id': {'S': id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            customer_id = query_result['Item']['customerId']['S']
+            return customer_id
         else:
             return None
     except Exception as e:

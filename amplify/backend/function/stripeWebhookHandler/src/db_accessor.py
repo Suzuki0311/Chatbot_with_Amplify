@@ -1,199 +1,129 @@
 import boto3
-from datetime import datetime
-from . import const
-import uuid
+# from . import const
+import const
 
-
-TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
 MESSAGE_COUNT_TABLE_NAME = f'MessageCount{const.DB_TABLE_NAME_POSTFIX}'
-QUERY_INDEX_NAME = 'byLineUserId'
-
 dynamodb = boto3.client('dynamodb')
 
+def search_customer_in_table(customer_id):
+    response = dynamodb.query(
+        TableName=MESSAGE_COUNT_TABLE_NAME,
+        IndexName='customerId-index',
+        KeyConditionExpression='customerId = :customer_id',
+        ExpressionAttributeValues={':customer_id': {'S': customer_id}}
+    )
+    return response['Items']
 
-def query_by_line_user_id(line_user_id: str, limit: int) -> list:
-    # Create a dictionary of query parameters
-    query_params = {
-        'TableName': TABLE_NAME,
-        'IndexName': QUERY_INDEX_NAME,
-        # Use a named parameter for the key condition expression
-        'KeyConditionExpression': '#lineUserId = :lineUserId',
-        # Define an expression attribute name for the hash key
-        'ExpressionAttributeNames': {
-            '#lineUserId': 'lineUserId'
-        },
-        # Define an expression attribute value for the hash key
-        'ExpressionAttributeValues': {
-            ':lineUserId': {'S': line_user_id}
-        },
-        # Sort the results in descending order by sort key
-        'ScanIndexForward': False,
-        # Limit the number of results
-        'Limit': limit
-    }
-    print("query_params:",query_params)
-
+def update_customer_id_by_client_reference_id(client_reference_id, customer_id):
     try:
-        # Call the query method of the DynamoDB client with the query parameters
-        query_result = dynamodb.query(**query_params)
-        print("query_params:",query_params)
-        # Return the list of items from the query result
-        return query_result['Items']
+        response = dynamodb.get_item(
+            TableName=MESSAGE_COUNT_TABLE_NAME,
+            Key={'id': {'S': client_reference_id}}
+        )
+
+        if 'Item' not in response:
+            print(f"Client reference ID {client_reference_id} not found.")
+            return
+
+        item = response['Item']
+        dynamodb.update_item(
+            TableName=MESSAGE_COUNT_TABLE_NAME,
+            Key={'id': {'S': item['id']['S']}},
+            UpdateExpression='SET customerId = :customer_id',
+            ExpressionAttributeValues={':customer_id': {'S': customer_id}}
+        )
     except Exception as e:
-        # Raise any exception that occurs during the query operation
-        raise e
+        print(f"Error updating customer ID by client reference ID: {e}")
+        raise
 
+def update_message_count_by_product_id(customer_id, line_user_id, product_id):
+    if product_id == const.PRODUCT_ID_BASIC:
+        message_count = 100
+        plan = "basic"
+    elif product_id == const.PRODUCT_ID_STANDARD:
+        message_count = 300
+        plan = "standard"
+    elif product_id == const.PRODUCT_ID_PREMIUM:
+        message_count = -1  # 無制限
+        plan = "premium"
+    else:
+        raise ValueError("Invalid product_id")
 
-def put_message(partition_key: str, uid: str, role: str, content: str, now: datetime) -> None:
-    # Create a dictionary of options for put_item
-    options = {
-        'TableName': TABLE_NAME,
-        'Item': {
-            'id': {'S': partition_key},
-            'lineUserId': {'S': uid},
-            'role': {'S': role},
-            'content': {'S': content},
-            'createdAt': {'S': now.isoformat()},
-        },
-    }
-    print("options:",options)
-    # Try to put the item into the table using dynamodb client
-    try:
-        dynamodb.put_item(**options)
+    response = None
+    if customer_id:
+        response = dynamodb.query(
+            TableName=MESSAGE_COUNT_TABLE_NAME,
+            IndexName='customerId-index',
+            KeyConditionExpression='customerId = :customer_id',
+            ExpressionAttributeValues={':customer_id': {'S': customer_id}}
+        )
 
-    # If an exception occurs, re-raise it
-    except Exception as e:
-        raise e
+    if not response or not response['Items']:
+        if line_user_id:
+            response = dynamodb.query(
+                TableName=MESSAGE_COUNT_TABLE_NAME,
+                KeyConditionExpression='id = :line_user_id',
+                ExpressionAttributeValues={':line_user_id': {'S': line_user_id}}
+            )
 
-def check_line_user_id_exists(line_user_id: str) -> str:
-    query_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Key': {
-            'id': {'S': line_user_id}
-        },
-    }
+    if not response or not response['Items']:
+        raise ValueError("No matching record found for customer_id and line_user_id")
 
-    try:
-        query_result = dynamodb.get_item(**query_params)
-        print("check_line_user_id_exists_query_result:", query_result)
-        if 'Item' in query_result:
-            return "Yes"
-        else:
-            return "No"
-    except Exception as e:
-        raise e
+    items = response['Items']
+    if items:
+        item = items[0]
+        update_params = {
+                            'TableName': MESSAGE_COUNT_TABLE_NAME,
+                            'Key': {'id': item['id']},
+                            'UpdateExpression': 'SET message_count = :message_count, #plan = :plan',
+                            'ExpressionAttributeValues': {
+                                ':message_count': {'N': str(message_count)},
+                                ':plan': {'S': plan}
+                            },
+                            'ExpressionAttributeNames': {
+                                '#plan': 'plan'
+                            }
+                        }
 
-def decrement_message_count(line_user_id: str, message_count: int) -> None:
-    update_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Key': {
-            'id': {'S': line_user_id}
-        },
-        'UpdateExpression': 'SET message_count = :new_count',
-        'ExpressionAttributeValues': {
-            ':new_count': {'N': str(message_count - 1)}
-        }
-    }
-
-    try:
         dynamodb.update_item(**update_params)
-    except Exception as e:
-        raise e
+    else:
+        print("No matching record found.")
 
-def get_current_message_count(line_user_id: str) -> int:
-    query_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Key': {
-            'id': {'S': line_user_id}
-        },
-    }
+def get_line_user_id_by_customer_id(customer_id):
+    response = dynamodb.query(
+        TableName=MESSAGE_COUNT_TABLE_NAME,
+        IndexName='customerId-index',
+        KeyConditionExpression='customerId = :customer_id',
+        ExpressionAttributeValues={':customer_id': {'S': customer_id}}
+    )
+    items = response['Items']
 
+    if items:
+        line_user_id = items[0]['id']['S']
+        return line_user_id
+    else:
+        print("No matching record found for customer_id.")
+        return None
+
+def update_plan_to_free_by_customer_id(customer_id):
     try:
-        query_result = dynamodb.get_item(**query_params)
-        if 'Item' in query_result:
-            message_count_item = query_result['Item']
-            message_count = int(message_count_item['message_count']['N'])
-            return message_count
-        else:
-            return None
+        # customerIdを使ってレコードを検索
+        response = search_customer_in_table(customer_id)
+
+        if not response:
+            print(f"Customer ID {customer_id} not found.")
+            return
+
+        # ヒットしたレコードに対して、planをfreeに更新
+        for item in response:
+            dynamodb.update_item(
+                    TableName=MESSAGE_COUNT_TABLE_NAME,
+                    Key={'id': {'S': item['id']['S']}},
+                    UpdateExpression='SET #plan = :plan',
+                    ExpressionAttributeValues={':plan': {'S': 'free'}},
+                    ExpressionAttributeNames={'#plan': 'plan'}
+                )
+
     except Exception as e:
-        raise e
-
-def create_or_check_line_user_id(line_user_id: str) -> str:
-    now = datetime.now().isoformat()
-    put_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Item': {
-            'id': {'S': line_user_id},
-            'customerId': {'S': ''},
-            'plan': {'S': 'free'},
-            'first_purchase_date': {'S': now},
-            'updated_purchase_date': {'S': now},
-            'message_count': {'N': str(30)}
-        }
-    }
-
-    try:
-        dynamodb.put_item(**put_params)
-        return f"New lineUserId {line_user_id} added to the table with a free plan and message_count of 30."
-    except Exception as e:
-        raise e
-
-
-def get_line_user_data(line_user_id: str) -> dict:
-    query_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Key': {
-            'id': {'S': line_user_id}
-        },
-    }
-
-    try:
-        query_result = dynamodb.get_item(**query_params)
-        if 'Item' in query_result:
-            user_data = {
-                'plan': query_result['Item']['plan']['S'],
-                'message_count': int(query_result['Item']['message_count']['N'])
-            }
-            return user_data
-        else:
-            return None
-    except Exception as e:
-        raise e
-
-def insert_data(line_user_id: str) -> None:
-    now = datetime.now().isoformat()
-    put_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Item': {
-            'id': {'S': line_user_id},
-            'customerId': {'S': ''},
-            'plan': {'S': 'free'},
-            'first_purchase_date': {'S': now},
-            'updated_purchase_date': {'S': now},
-            'message_count': {'N': str(7)}
-        }
-    }
-
-    try:
-        dynamodb.put_item(**put_params)
-    except Exception as e:
-        raise e
-
-def get_user_plan(line_user_id: str) -> str:
-    query_params = {
-        'TableName': MESSAGE_COUNT_TABLE_NAME,
-        'Key': {
-            'id': {'S': line_user_id}
-        },
-    }
-
-    try:
-        query_result = dynamodb.get_item(**query_params)
-        if 'Item' in query_result:
-            user_plan = query_result['Item']['plan']['S']
-            return user_plan
-        else:
-            return None
-    except Exception as e:
-        raise e
+        print(f"Error updating plan to free by customer ID: {e}")
+        raise

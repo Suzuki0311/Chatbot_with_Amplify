@@ -24,6 +24,27 @@
     },
     "dbTableNamePostfix": {
       "Type": "String"
+    },
+    "productUrlBasic": {
+      "Type": "String"
+    },
+    "productUrlStandard": {
+      "Type": "String"
+    },
+    "productUrlPremium": {
+      "Type": "String"
+    },
+    "baseSecretPathStripe": {
+      "Type": "String"
+    },
+    "priceIdBasic": {
+      "Type": "String"
+    },
+    "priceIdStandard": {
+      "Type": "String"
+    },
+    "priceIdPremium": {
+      "Type": "String"
     }
   },
   "Conditions": {
@@ -172,6 +193,27 @@
             },
             "DB_TABLE_NAME_POSTFIX": {
               "Ref": "dbTableNamePostfix"
+            },
+            "PRODUCT_URL_BASIC": {
+              "Ref": "productUrlBasic"
+            },
+            "PRODUCT_URL_STANDARD": {
+              "Ref": "productUrlStandard"
+            },
+            "PRODUCT_URL_PREMIUM": {
+              "Ref": "productUrlPremium"
+            },
+            "BASE_SECRET_PATH_STRIPE": {
+              "Ref": "baseSecretPathStripe"
+            },
+            "PRICE_ID_BASIC": {
+              "Ref": "priceIdBasic"
+            },
+            "PRICE_ID_STANDARD": {
+              "Ref": "priceIdStandard"
+            },
+            "PRICE_ID_PREMIUM": {
+              "Ref": "priceIdPremium"
             }
           }
         },
@@ -183,7 +225,7 @@
         },
         "Runtime": "python3.8",
         "Layers": [],
-        "Timeout": 300
+        "Timeout": 360
       }
     },
     "LambdaExecutionRole": {

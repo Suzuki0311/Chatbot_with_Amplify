@@ -14,6 +14,34 @@
     {
       "cloudFormationParameterName": "dbTableNamePostfix",
       "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+    },
+    {
+      "cloudFormationParameterName": "productUrlBasic",
+      "environmentVariableName": "PRODUCT_URL_BASIC"
+    },
+    {
+      "cloudFormationParameterName": "productUrlStandard",
+      "environmentVariableName": "PRODUCT_URL_STANDARD"
+    },
+    {
+      "cloudFormationParameterName": "productUrlPremium",
+      "environmentVariableName": "PRODUCT_URL_PREMIUM"
+    },
+    {
+      "cloudFormationParameterName": "baseSecretPathStripe",
+      "environmentVariableName": "BASE_SECRET_PATH_STRIPE"
+    },
+    {
+      "cloudFormationParameterName": "priceIdBasic",
+      "environmentVariableName": "PRICE_ID_BASIC"
+    },
+    {
+      "cloudFormationParameterName": "priceIdStandard",
+      "environmentVariableName": "PRICE_ID_STANDARD"
+    },
+    {
+      "cloudFormationParameterName": "priceIdPremium",
+      "environmentVariableName": "PRICE_ID_PREMIUM"
     }
   ]
 }

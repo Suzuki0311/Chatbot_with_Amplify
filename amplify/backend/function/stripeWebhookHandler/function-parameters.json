@@ -1,8 +1,7 @@
 {
   "lambdaLayers": [],
   "secretNames": [
-    "STRIPE_API_KEY",
-    "exit"
+    "STRIPE_API_KEY"
   ],
   "environmentVariableList": [
     {
@@ -14,12 +13,16 @@
       "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
     },
     {
-      "cloudFormationParameterName": "baseSecretPath",
-      "environmentVariableName": "BASE_SECRET_PATH"
+      "cloudFormationParameterName": "productIdBasic",
+      "environmentVariableName": "PRODUCT_ID_BASIC"
     },
     {
-      "cloudFormationParameterName": "dbTableNamePostfix",
-      "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+      "cloudFormationParameterName": "productIdStandard",
+      "environmentVariableName": "PRODUCT_ID_STANDARD"
+    },
+    {
+      "cloudFormationParameterName": "productIdPremium",
+      "environmentVariableName": "PRODUCT_ID_PREMIUM"
     }
   ]
 }

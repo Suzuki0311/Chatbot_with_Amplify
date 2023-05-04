@@ -1,5 +1,5 @@
 import json
-from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage
+from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage,TemplateSendMessage, ConfirmTemplate
 from linebot import LineBotApi
 from . import db_accessor
 from . import line_api
@@ -13,15 +13,18 @@ from linebot.exceptions import LineBotApiError
 from google.oauth2 import service_account
 from google.cloud import vision_v1p3beta1 as vision
 from google.cloud import translate_v2
+import stripe
+import time
 
 def send_flex_message(plan, line_user_id, quick_reply):
-            basic_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-            standard_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
-            premium_plan_url = f"https://buy.stripe.com/test_3cscNJfJK9RCcgM8ww?client_reference_id={line_user_id}"
+            basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
+            standard_plan_url = f"{const.PRODUCT_URL_STANDARD}?client_reference_id={line_user_id}"
+            premium_plan_url = f"{const.PRODUCT_URL_PREMIUM}?client_reference_id={line_user_id}"
 
             basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
             standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
             premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+
             if plan == "free":
                 flex_message_reply = {
                 "type": "bubble",
@@ -31,7 +34,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": "You've reached your message limit.",
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -78,6 +81,33 @@ def send_flex_message(plan, line_user_id, quick_reply):
             }
 
 
+            flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
+            return flex_message
+
+def send_flex_message_upgrade(quick_reply):
+            basic_plan_component = flex_message_contents.basic_plan_component_upgrade()
+            standard_plan_component = flex_message_contents.standard_plan_component_upgrade()
+            premium_plan_component = flex_message_contents.premium_plan_component_upgrade()
+
+            flex_message_reply = {
+                        "type": "bubble",
+                        "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "You've reached your message limit.",
+                                    "weight": "bold",
+                                    "size": "xl"
+                                },
+                                basic_plan_component,
+                                standard_plan_component,
+                                premium_plan_component
+                            ]
+                        }
+                    }
+            
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
@@ -207,6 +237,16 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
     ]
 
+
+ # 顧客IDからサブスクリプションIDを取得
+def get_subscription_id(customer_id):
+    subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)
+    if subscriptions["data"]:
+        subscription_id = subscriptions["data"][0]["id"]
+        return subscription_id
+    else:
+        return None
+
 def handle_follow_event(event_body):
     # Extract the user ID and reply token
     line_user_id = event_body['events'][0]['source']['userId']
@@ -234,7 +274,7 @@ def handle_message_event(event_body):
     message_count = db_accessor.get_current_message_count(line_user_id)
     print("現在のメッセージ可能回数:", message_count)
     quick_reply_text = line_request_body_parser.get_quick_reply_text(event_body)
-    
+    stripe.api_key = const.STRIPE_API_KEY
 
     if quick_reply_text is not None:
         prompt_text = quick_reply_text
@@ -251,16 +291,14 @@ def handle_message_event(event_body):
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message(plan, line_user_id, quick_reply)
+        flex_message = send_flex_message_upgrade(quick_reply)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクからアップグレードしてください。詳しい内容は添付のリンクを参照ください", quick_reply=quick_reply)
-            # line_bot_api.reply_message(reply_token, text_message)
-            # line_bot_api.reply_message(reply_token, flex_message)
-            # line_bot_api.push_message(line_user_id, flex_message)
+
+            text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
@@ -275,7 +313,10 @@ def handle_message_event(event_body):
 
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください", quick_reply=quick_reply)
+            text_message = TextSendMessage(
+                            text="下記リンクから必要事項を記入して、送信してください\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new",
+                            quick_reply=quick_reply
+                        )
             line_bot_api.reply_message(reply_token, text_message)
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
@@ -289,12 +330,180 @@ def handle_message_event(event_body):
         quick_reply = QuickReply(items=quick_reply_buttons)
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
-            line_bot_api.reply_message(reply_token, text_message)
+            actions = [
+                        MessageAction(label="はい", text="はい、私は本当に解約します。"),
+                        MessageAction(label="いいえ", text="いいえ"),
+                      ]
+            # Create a ConfirmTemplate
+            confirm_template = ConfirmTemplate(text="本当に解約しますか？", actions=actions)
+
+            # Create a TemplateSendMessage with the ConfirmTemplate
+            message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
+
+            # text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
+            line_bot_api.reply_message(reply_token, message)
             # line_bot_api.reply_message(line_user_id, flex_message)
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
+    elif prompt_text == "はい、私は本当に解約します。":
+
+        # サブスクリプションをキャンセル
+        def cancel_subscription(subscription_id):
+            canceled_subscription = stripe.Subscription.delete(subscription_id)
+            return canceled_subscription
+        
+        customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
+        print("サブスクリプションをキャンセル_customer_id:",customer_id)
+
+        subscription_id = get_subscription_id(customer_id)
+
+         # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
+        if subscription_id:
+            print(f"Subscription ID: {subscription_id}")
+
+            # サブスクリプションをキャンセル
+            canceled_subscription = cancel_subscription(subscription_id)
+            print(f"Canceled subscription: {canceled_subscription['id']}")
+
+            text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
+
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.reply_message(reply_token, text_message)
+            except LineBotApiError as e:
+                print("Error:", e)
+        else:
+            print("No active subscription found for this customer.")
+
+            text_message = TextSendMessage(text="あなたのプランを見つけることができませんでした。以下URLよりお問合せください。", quick_reply=quick_reply)
+
+            # Push the message to the user
+            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            from linebot.exceptions import LineBotApiError
+            try:
+                line_bot_api.reply_message(reply_token, text_message)
+            except LineBotApiError as e:
+                print("Error:", e)
+    
+    elif prompt_text == "I want to subscribe to the Basic Plan" or prompt_text == "I want to subscribe to the Standard Plan" or prompt_text == "I want to subscribe to the Premium Plan":
+        if prompt_text == "I want to subscribe to the Basic Plan":
+            plan = "basic"
+            send_text = "月額80で月に100回メッセージを送ることができます。"
+        elif prompt_text == "I want to subscribe to the Standard Plan":
+            plan = "standard"
+            send_text = "月額230で月に300回メッセージを送ることができます。"
+        elif prompt_text == "I want to subscribe to the Premium Plan":
+            plan = "premium"
+            send_text = "月額750で無制限にメッセージを送ることができます。"
+
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+        from linebot.exceptions import LineBotApiError
+        try:
+            actions = [
+                        MessageAction(label="はい", text=f"はい。私は{plan}を契約します。"),
+                        MessageAction(label="いいえ", text="いいえ"),
+                      ]
+            # Create a ConfirmTemplate
+            confirm_template = ConfirmTemplate(text=f"{plan}は、{send_text}契約を確定させたい場合は、以下の「はい」をクリックしてください", actions=actions)
+
+            # Create a TemplateSendMessage with the ConfirmTemplate
+            message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
+
+            line_bot_api.reply_message(reply_token, message)
+
+        except LineBotApiError as e:
+            print("Error:", e)
+    elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
+
+        # def find_pending_invoice(customer_id, subscription_id, retries=3, delay=2):
+        #     for _ in range(retries):
+        #         pending_invoices = stripe.Invoice.list(
+        #             customer=customer_id,
+        #             subscription=subscription_id,
+        #             status="open",
+        #         )
+        #         for invoice in pending_invoices.data:
+        #             if invoice.subscription == subscription_id:
+        #                 return invoice
+        #         time.sleep(delay)
+        #     return None
+        
+        def find_pending_invoice(customer_id, retries=3, delay=1):
+            for _ in range(retries):
+                pending_invoices = stripe.Invoice.list(
+                    customer=customer_id,
+                    status="open",
+                )
+                print("pending_invoices:",pending_invoices)
+                for invoice in pending_invoices.data:
+                    return invoice
+                time.sleep(delay)
+            return None
+        
+        customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
+        subscription_id = get_subscription_id(customer_id)
+
+        if prompt_text == "はい。私はbasicを契約します。":
+            new_plan_id = const.PRICE_ID_BASIC
+        elif prompt_text == "はい。私はstandardを契約します。":
+            new_plan_id = const.PRICE_ID_STANDARD
+        elif prompt_text == "はい。私はpremiumを契約します。":
+            new_plan_id = const.PRICE_ID_PREMIUM
+
+        try:
+            # サブスクリプションを取得
+            subscription = stripe.Subscription.retrieve(subscription_id)
+            print("# サブスクリプションを取得_subscription:",subscription)
+
+            # 現在のサブスクリプションに紐づく最初のアイテムを取得
+            subscription_item_id = subscription["items"]["data"][0]["id"]
+            print("subscription_item_id:",subscription_item_id)
+
+            # サブスクリプションの変更を確定し、プロレーション料金を適用
+            updated_subscription = stripe.Subscription.modify(
+                subscription_id,
+                items=[{"id": subscription_item_id, "price": new_plan_id}],
+                proration_behavior="create_prorations",
+                billing_cycle_anchor="now",
+            )
+            print("updated_subscription:", updated_subscription)
+
+            # プロレーション料金が含まれる未払いのインボイスを取得
+            # pending_invoice = find_pending_invoice(customer_id, subscription_id)
+            pending_invoice = find_pending_invoice(customer_id)
+
+            if pending_invoice:
+                print("pending_invoice:", pending_invoice)
+                stripe.Invoice.pay(pending_invoice.id) # 生成されたインボイスを即時支払い
+            else:
+                print("No pending invoice found after retries")
+
+            # # 現在のサブスクリプションをキャンセル
+            # canceled_subscription = stripe.Subscription.delete(subscription_id)
+            # print("canceled_subscription:", canceled_subscription)
+
+            # # 新しいサブスクリプションを作成（新しい商品IDを指定）
+            # new_subscription = stripe.Subscription.create(
+            #     customer=customer_id,
+            #     items=[{"price": new_plan_id}],
+            #     expand=["latest_invoice.payment_intent"],
+            # )
+            # print("new_subscription:", new_subscription)
+
+        except Exception as e:
+            print(f"Error upgrading subscription: {e}")
+            return None
 
     else:
         if message_count != 0:
@@ -330,8 +539,12 @@ def handle_message_event(event_body):
 
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
-            flex_message = send_flex_message(plan, line_user_id, quick_reply)
-            text_message = TextSendMessage(text="今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。", quick_reply=quick_reply)
+            if plan == "free":
+                flex_message = send_flex_message(plan, line_user_id, quick_reply)
+            else:
+                flex_message = send_flex_message_upgrade(quick_reply)
+
+            text_message = TextSendMessage(text=f"今月に送信できるメッセージの回数の上限に達しました。あなたのプランは{plan}です。もっとメッセージを送りたい方は、下記のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
  
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)

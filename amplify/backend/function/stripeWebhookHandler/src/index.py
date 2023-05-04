@@ -22,6 +22,7 @@ def get_product_id(event_type, event_data):
     elif event_type == 'invoice.payment_succeeded':
         invoice_id = event_data['data']['object']['id']
         invoice = stripe.Invoice.retrieve(invoice_id)
+        print("invoice:",invoice)
         if invoice['lines']['data']:
             product_id = invoice['lines']['data'][0]['price']['product']
 

@@ -23,10 +23,13 @@ def get_product_id(event_type, event_data):
         invoice_id = event_data['data']['object']['id']
         invoice = stripe.Invoice.retrieve(invoice_id)
         print("invoice:",invoice)
-        if invoice['lines']['data']:
-            product_id = invoice['lines']['data'][0]['price']['product']
+        for line_item in invoice["lines"]["data"]:
+            if not line_item["proration"]:
+                product_id = line_item["price"]["product"]
+                break
 
     return product_id
+
 
 def handler(event, context):
     print('received event:')

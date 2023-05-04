@@ -13,7 +13,7 @@ type Messages @model {
 type MessageCount
   @model {
   id: ID!
-  customerId: String!
+  customerId: String
   plan: String!
   first_purchase_date: AWSDateTime!
   updated_purchase_date: AWSDateTime!

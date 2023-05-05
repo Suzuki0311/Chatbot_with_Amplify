@@ -251,6 +251,10 @@ def handle_follow_event(event_body):
     # Extract the user ID and reply token
     line_user_id = event_body['events'][0]['source']['userId']
     reply_token = event_body['events'][0]['replyToken']
+    line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+    profile = line_bot_api.get_profile(line_user_id)
+    # Get user's language
+    user_language = language_codes.language_code_to_name[profile.language]
 
     # Check if the user exists in DynamoDB
     user_exists = db_accessor.check_line_user_id_exists(line_user_id)
@@ -258,12 +262,18 @@ def handle_follow_event(event_body):
     # If the user doesn't exist in DynamoDB, insert their data
     if user_exists == "No":
         db_accessor.insert_data(line_user_id)
-        welcome_message = "友達登録ありがとうございます。PicToLangの使い方やお問い合わせの仕方について、下記リンクから参照ください。また現時点であなたは月に7回のメッセージを送ることができるFreeユーザーです。それ以上お使いになりたい方は、下のタブのアップデート欄からアップデートください。"
+        if user_language == 'Portuguese':
+            welcome_message = "Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+        else:
+            welcome_message = "友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
     else:
         user_data = db_accessor.get_line_user_data(line_user_id)
         plan = user_data['plan']
         message_count = user_data['message_count']
-        welcome_message = f"再び友達登録していただき、ありがとうございます。あなたは現在、{plan}ユーザーであり、今月は残り{message_count}回メッセージを送ることができます。引き続きどうぞよろしくお願いします。"
+        if user_language == 'Portuguese':
+            welcome_message = f"Obrigado por se juntar a nós novamente. Atualmente, você é um usuário do {plan} e tem {message_count} mensagens restantes este mês. Obrigado por seu apoio contínuo."
+        else:
+            welcome_message = f"再び友達登録していただき、ありがとうございます。あなたは現在、{plan}ユーザーであり、今月は残り{message_count}回メッセージを送ることができます。引き続きどうぞよろしくお願いします。"
 
     # Reply the welcome message using the LineBotApi instance
     line_api.reply_message_for_line(reply_token, welcome_message, None)  # Consider removing QuickReply or using a different function for sending the message
@@ -340,10 +350,7 @@ def handle_message_event(event_body):
             # Create a TemplateSendMessage with the ConfirmTemplate
             message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
 
-            # text_message = TextSendMessage(text="下記リンクから解約を行ってください", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, message)
-            # line_bot_api.reply_message(line_user_id, flex_message)
-            # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
     elif prompt_text == "はい、私は本当に解約します。":
@@ -426,19 +433,6 @@ def handle_message_event(event_body):
             print("Error:", e)
     elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
 
-        # def find_pending_invoice(customer_id, subscription_id, retries=3, delay=2):
-        #     for _ in range(retries):
-        #         pending_invoices = stripe.Invoice.list(
-        #             customer=customer_id,
-        #             subscription=subscription_id,
-        #             status="open",
-        #         )
-        #         for invoice in pending_invoices.data:
-        #             if invoice.subscription == subscription_id:
-        #                 return invoice
-        #         time.sleep(delay)
-        #     return None
-        
         def find_pending_invoice(customer_id, retries=3, delay=1):
             for _ in range(retries):
                 pending_invoices = stripe.Invoice.list(
@@ -489,18 +483,6 @@ def handle_message_event(event_body):
             else:
                 print("No pending invoice found after retries")
 
-            # # 現在のサブスクリプションをキャンセル
-            # canceled_subscription = stripe.Subscription.delete(subscription_id)
-            # print("canceled_subscription:", canceled_subscription)
-
-            # # 新しいサブスクリプションを作成（新しい商品IDを指定）
-            # new_subscription = stripe.Subscription.create(
-            #     customer=customer_id,
-            #     items=[{"price": new_plan_id}],
-            #     expand=["latest_invoice.payment_intent"],
-            # )
-            # print("new_subscription:", new_subscription)
-
         except Exception as e:
             print(f"Error upgrading subscription: {e}")
             return None
@@ -530,9 +512,6 @@ def handle_message_event(event_body):
             line_api.reply_message_for_line(reply_token, completed_text, quick_reply)
             db_accessor.decrement_message_count(line_user_id, message_count)
         else:
-            # reply_message = "今月に送信できるメッセージの回数の上限に達しました。もっとメッセージを送りたい方は、アップグレードをご検討ください。"
-            # line_api.reply_message_for_line(reply_token, reply_message, None)
-
             # Create quick reply buttons
             quick_reply_buttons = create_quick_reply_buttons(user_language)
             quick_reply = QuickReply(items=quick_reply_buttons)

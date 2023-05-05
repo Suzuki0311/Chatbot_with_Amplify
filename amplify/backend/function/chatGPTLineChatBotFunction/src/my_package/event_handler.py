@@ -16,14 +16,27 @@ from google.cloud import translate_v2
 import stripe
 import time
 
-def send_flex_message(plan, line_user_id, quick_reply):
+def send_flex_message(plan, line_user_id, quick_reply,user_language):
             basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
             standard_plan_url = f"{const.PRODUCT_URL_STANDARD}?client_reference_id={line_user_id}"
             premium_plan_url = f"{const.PRODUCT_URL_PREMIUM}?client_reference_id={line_user_id}"
 
-            basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
-            standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
-            premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+            basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url,user_language)
+            standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url,user_language)
+            premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url,user_language)
+
+            if user_language == 'Portuguese':
+                text_below = "A lista de planos está abaixo"
+            elif user_language == 'Spanish':
+                text_below = "La lista de planes está abajo"
+            elif user_language == 'Tagalog':
+                text_below = "Nasa ibaba ang listahan ng plano"
+            elif user_language == 'Vietnamese':
+                text_below = "Danh sách kế hoạch dưới đây"
+            elif user_language == 'Japanese':
+                text_below = "プラン一覧は以下です"
+            else:
+                text_below = "The plan list is below"
 
             if plan == "free":
                 flex_message_reply = {
@@ -34,7 +47,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit.",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -53,7 +66,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -71,7 +84,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -84,10 +97,23 @@ def send_flex_message(plan, line_user_id, quick_reply):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def send_flex_message_upgrade(quick_reply):
-            basic_plan_component = flex_message_contents.basic_plan_component_upgrade()
-            standard_plan_component = flex_message_contents.standard_plan_component_upgrade()
-            premium_plan_component = flex_message_contents.premium_plan_component_upgrade()
+def send_flex_message_upgrade(quick_reply,user_language):
+            basic_plan_component = flex_message_contents.basic_plan_component_upgrade(user_language)
+            standard_plan_component = flex_message_contents.standard_plan_component_upgrade(user_language)
+            premium_plan_component = flex_message_contents.premium_plan_component_upgrade(user_language)
+
+            if user_language == 'Portuguese':
+                text_below = "A lista de planos está abaixo"
+            elif user_language == 'Spanish':
+                text_below = "La lista de planes está abajo"
+            elif user_language == 'Tagalog':
+                text_below = "Nasa ibaba ang listahan ng plano"
+            elif user_language == 'Vietnamese':
+                text_below = "Danh sách kế hoạch dưới đây"
+            elif user_language == 'Japanese':
+                text_below = "プラン一覧は以下です"
+            else:
+                text_below = "The plan list is below"
 
             flex_message_reply = {
                         "type": "bubble",
@@ -97,7 +123,7 @@ def send_flex_message_upgrade(quick_reply):
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "You've reached your message limit.",
+                                    "text": text_below,
                                     "weight": "bold",
                                     "size": "xl"
                                 },
@@ -156,18 +182,13 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="お問い合わせ", text="お問い合わせ")),
             QuickReplyButton(action=MessageAction(label="解約", text="解約したいです"))
     ]
-    elif user_language == 'English':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Chinese':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+
+    # elif user_language == 'Chinese':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
     elif user_language == 'Spanish':
         return  [
             QuickReplyButton(action=MessageAction(label="Traducción Española", text="Traduce lo anterior al Español.")),
@@ -178,36 +199,36 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Hacerse rico", text="Dime como hacerme rico")),
             QuickReplyButton(action=MessageAction(label="Detalle", text="Cuéntame más en detalle")),
             QuickReplyButton(action=MessageAction(label="Aprender ingles", text="Proporcione una lista de algunas palabras esenciales del inglés comercial y sus traducciones al Español.")),
-            QuickReplyButton(action=MessageAction(label="Buscar tema", text="Por favor, hágame algunas preguntas y elaboren juntos un tema de investigación para la universidad.")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Dime el estado.")),
             QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame.")),
             QuickReplyButton(action=MessageAction(label="Actualizar", text="Quiero actualizar mi aplicación.")),
             QuickReplyButton(action=MessageAction(label="contacto", text="contacto")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quiero cancelar la aplicación"))
     ]
-    elif user_language == 'French':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'German':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Italian':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Korean':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+    # elif user_language == 'French':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'German':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'Italian':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'Korean':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
     elif user_language == 'Portuguese':
         return  [
             QuickReplyButton(action=MessageAction(label="Traduzir portugues", text="Traduza o acima para o portugues")),
@@ -218,24 +239,71 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Ficar rico", text="Me diga como ficar rico")),
             QuickReplyButton(action=MessageAction(label="Detalhe", text="Me conte mais em detalhes")),
             QuickReplyButton(action=MessageAction(label="Aprender inglês", text="Por favor, apresente uma lista de algumas palavras essenciais em inglês para negócios e suas traduções para o português")),
-            QuickReplyButton(action=MessageAction(label="Tema de pesquisa", text="Por favor, faça-me algumas perguntas e crie um tópico de pesquisa para a universidade juntos.")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Diga-me o estado.")),
             QuickReplyButton(action=MessageAction(label="Cansei do trabalho", text="Estou cansado do trabalho, então, por favor, me anime")),
             QuickReplyButton(action=MessageAction(label="Atualizar", text="Eu quero atualizar meu aplicativo")),
             QuickReplyButton(action=MessageAction(label="Contato conosco", text="Contato conosco")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quero cancelar o aplicativo"))
     ]
-    elif user_language == 'Thai':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+    # elif user_language == 'Thai':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+
     elif user_language == 'Vietnamese':
         return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+            QuickReplyButton(action=MessageAction(label="Dịch sang Tiếng Việt", text="Dịch phía trên sang tiếng Việt")),
+            QuickReplyButton(action=MessageAction(label="Dịch sang Tiếng Anh", text="Dịch phía trên sang tiếng Anh")),
+            QuickReplyButton(action=MessageAction(label="Thực đơn 1 tuần", text="Đề xuất thực đơn cho tuần này")),
+            QuickReplyButton(action=MessageAction(label="Đi Tokyo", text="Lên kế hoạch đi Tokyo 3 ngày 2 đêm")),
+            QuickReplyButton(action=MessageAction(label="Báo cáo sách", text="Viết báo cáo sách Harry Potter và Hòn Đá Phù Thủy")),
+            QuickReplyButton(action=MessageAction(label="Giàu có", text="Hãy nói cách trở nên giàu có")),
+            QuickReplyButton(action=MessageAction(label="Chi tiết", text="Kể thêm chi tiết")),
+            QuickReplyButton(action=MessageAction(label="Học Tiếng Anh", text="Giới thiệu danh sách các từ tiếng Anh cần thiết cho kinh doanh và bản dịch tiếng Việt")),
+            QuickReplyButton(action=MessageAction(label="Trạng thái", text="Cho tôi biết trạng thái")),
+            QuickReplyButton(action=MessageAction(label="Mệt mỏi", text="Tôi mệt mỏi vì công việc, hãy làm tôi vui")),
+            QuickReplyButton(action=MessageAction(label="Cập nhật", text="Tôi muốn cập nhật ứng dụng")),
+            QuickReplyButton(action=MessageAction(label="Liên hệ", text="Liên hệ với chúng tôi")),
+            QuickReplyButton(action=MessageAction(label="Hủy bỏ", text="Tôi muốn hủy ứng dụng"))
     ]
+
+    elif user_language == 'Tagalog':
+        return [
+            QuickReplyButton(action=MessageAction(label="Isalin sa Tagalog", text="Isalin ang itaas sa Tagalog")),
+            QuickReplyButton(action=MessageAction(label="Isalin sa Ingles", text="Isalin ang itaas sa Ingles")),
+            QuickReplyButton(action=MessageAction(label="Menu ng 1 linggo", text="Magmungkahi ng menu para sa linggo")),
+            QuickReplyButton(action=MessageAction(label="Biyaheng Tokyo", text="Magplano ng 3 araw at 2 gabi sa Tokyo")),
+            QuickReplyButton(action=MessageAction(label="Ulat ng pagbabasa", text="Gumawa ng aklat na ulat para sa Harry Potter at Philosopher's Stone")),
+            QuickReplyButton(action=MessageAction(label="Yaman", text="Sabihin kung paano yumaman")),
+            QuickReplyButton(action=MessageAction(label="Detalye", text="Kwento ng mas detalyado")),
+            QuickReplyButton(action=MessageAction(label="Aralin Ingles", text="Pakilala ng listahan ng ilang mahalagang salita sa Ingles para sa negosyo at ang pagsasalin nito sa Tagalog")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Sabihin ang kasalukuyang estado")),
+            QuickReplyButton(action=MessageAction(label="Pagod sa trabaho", text="Pagod ako sa trabaho, pakipasaya ako")),
+            QuickReplyButton(action=MessageAction(label="I-update", text="Gusto kong i-update ang aking app")),
+            QuickReplyButton(action=MessageAction(label="Makipag-ugnay", text="Makipag-ugnay sa amin")),
+            QuickReplyButton(action=MessageAction(label="Kanselahin", text="Gusto kong kanselahin ang app"))
+    ]
+    else:
+        return [
+        QuickReplyButton(action=MessageAction(label="Translate English", text="Translate the above to English")),
+        QuickReplyButton(action=MessageAction(label="Translate other", text="Translate the above to another language")),
+        QuickReplyButton(action=MessageAction(label="1-week menu", text="Suggest a menu for the week")),
+        QuickReplyButton(action=MessageAction(label="Tokyo trip", text="Plan a 3-day, 2-night trip to Tokyo")),
+        QuickReplyButton(action=MessageAction(label="Reading report", text="Write a book report for Harry Potter and the Philosopher's Stone")),
+        QuickReplyButton(action=MessageAction(label="Get rich", text="Tell me how to get rich")),
+        QuickReplyButton(action=MessageAction(label="Details", text="Tell me more in detail")),
+        QuickReplyButton(action=MessageAction(label="Learn English", text="Please introduce a list of some essential English words for business and their translations")),
+        QuickReplyButton(action=MessageAction(label="Status", text="Tell me the status.")),
+        QuickReplyButton(action=MessageAction(label="Tired from work", text="I am tired from work, so please cheer me up")),
+        QuickReplyButton(action=MessageAction(label="Upgrade", text="I want to upgrade my app")),
+        QuickReplyButton(action=MessageAction(label="Contact us", text="Contact us")),
+        QuickReplyButton(action=MessageAction(label="Cancel", text="I want to cancel the app"))
+    ]
+
+
+
 
 
  # 顧客IDからサブスクリプションIDを取得
@@ -259,21 +327,52 @@ def handle_follow_event(event_body):
     # Check if the user exists in DynamoDB
     user_exists = db_accessor.check_line_user_id_exists(line_user_id)
 
+    # YouTubeのURL
+    youtubeurl = 'https://youtu.be/C3AIG2jTjxE'
+
+    # ポータルサイトのURL
+    portalsite = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
+
+    # お問い合わせフォームのURL
+    queryformurl = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
+
+
     # If the user doesn't exist in DynamoDB, insert their data
     if user_exists == "No":
         db_accessor.insert_data(line_user_id)
         if user_language == 'Portuguese':
-            welcome_message = "Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+            welcome_message = f"Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \n{youtubeurl}\n{portalsite}\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+        elif user_language == 'Spanish':
+            welcome_message = f"Gracias por registrarte como amigo. PicToLang responde a sus preguntas diarias. Además, al enviar fotos de documentos escritos en otros idiomas, traducirán y resumirán a un alto nivel. \nPara un uso detallado, ingrese el enlace de Youtube o el sitio del portal. \n{youtubeurl}\n{portalsite}\nSi tiene alguna pregunta, comuníquese con nosotros a través del siguiente enlace. , el operador responderá, así que disfrute. \n{queryformurl}\n\nActualmente eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si desea usar más que eso, renueve su plan en la pestaña Actualizar."
+        elif user_language == 'English':
+            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+        elif user_language == 'Tagalog':
+            welcome_message = f"Salamat sa pagrehistro bilang isang kaibigan. Sinasagot ng PicToLang ang iyong mga pang-araw-araw na tanong. Gayundin, kapag nagpapadala ng mga larawan ng mga dokumentong nakasulat sa ibang mga wika, sila ay magsasalin at magbubuod sa mataas na antas. \nPara sa detalyadong paggamit, pakipasok ang Youtube link o portal site. \n{youtubeurl}\n{portalsite}\nKung mayroon kang anumang mga tanong, mangyaring makipag-ugnayan sa amin gamit ang link sa ibaba. , tutugon ang operator, kaya mangyaring magsaya. \n{queryformurl}\n\nKasalukuyan kang isang libreng user at maaaring magpadala ng 7 mensahe bawat buwan. Kung gusto mong gumamit ng higit pa riyan, i-renew ang iyong plano sa tab na Mag-upgrade."
+        elif user_language == 'Vietnamese':
+            welcome_message = f"Cảm ơn bạn đã đăng ký như một người bạn. PicToLang trả lời các câu hỏi hàng ngày của bạn. Ngoài ra, khi gửi ảnh tài liệu viết bằng ngôn ngữ khác, họ sẽ dịch và tóm tắt ở mức độ cao. \nĐể biết cách sử dụng chi tiết, vui lòng nhập liên kết Youtube hoặc trang web cổng thông tin. \n{youtubeurl}\n{portalsite}\nNếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi bằng liên kết bên dưới. , nhà điều hành sẽ trả lời , vì vậy hãy tận hưởng. \n{queryformurl}\n\nBạn hiện là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn thế, hãy gia hạn gói của bạn trên tab Nâng cấp."
+        elif user_language == 'Japanese':
+            welcome_message = f"友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\n{youtubeurl}\n{portalsite}\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\n{queryformurl}\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
         else:
-            welcome_message = "友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
+            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+
     else:
         user_data = db_accessor.get_line_user_data(line_user_id)
         plan = user_data['plan']
         message_count = user_data['message_count']
         if user_language == 'Portuguese':
-            welcome_message = f"Obrigado por se juntar a nós novamente. Atualmente, você é um usuário do {plan} e tem {message_count} mensagens restantes este mês. Obrigado por seu apoio contínuo."
+            welcome_message = f"Obrigado por se juntar a nós novamente.\nAtualmente, você é um usuário do {plan} e tem {message_count} mensagens restantes este mês.\nObrigado por seu apoio contínuo."
+        elif user_language == 'Spanish':
+            welcome_message = f"Gracias por volver a unirte a nosotros.\nActualmente eres usuario de {plan} y te quedan {message_count} mensajes este mes.\nGracias por tu continuo apoyo."
+        elif user_language == 'English':
+            welcome_message = f"Thank you for joining us again.\nYou are currently a {plan} user and have {message_count} messages left this month.\nThank you for your continued support."
+        elif user_language == 'Tagalog':
+            welcome_message = f"Salamat sa muling pagsali sa amin.\nKasalukuyan kang user ng {plan} at may natitirang {message_count} na mensahe ngayong buwan.\nSalamat sa iyong patuloy na suporta."
+        elif user_language == 'Vietnamese':
+            welcome_message = f"Cảm ơn bạn đã tham gia cùng chúng tôi một lần nữa.\nBạn hiện là người dùng {plan} và còn {message_count} tin nhắn trong tháng này.\nCảm ơn bạn đã tiếp tục hỗ trợ."
+        elif user_language == 'Japanese':
+            welcome_message = f"再び友達登録いただきありがとうございます。\nあなたは現在 {plan} ユーザーで、今月は {message_count} 回のメッセージを送信可能です。\n今後ともよろしくお願いいたします。"
         else:
-            welcome_message = f"再び友達登録していただき、ありがとうございます。あなたは現在、{plan}ユーザーであり、今月は残り{message_count}回メッセージを送ることができます。引き続きどうぞよろしくお願いします。"
+            welcome_message = f"Thank you for joining us again.\nYou are currently a {plan} user and have {message_count} messages left this month.\nThank you for your continued support."
 
     # Reply the welcome message using the LineBotApi instance
     line_api.reply_message_for_line(reply_token, welcome_message, None)  # Consider removing QuickReply or using a different function for sending the message
@@ -295,20 +394,32 @@ def handle_message_event(event_body):
     user_language = language_codes.language_code_to_name[profile.language]
     print("user_language:", user_language)
 
-    if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
+    if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" or prompt_text == "Tôi muốn cập nhật ứng dụng"or prompt_text == "Gusto kong i-update ang aking app"or prompt_text == "I want to upgrade my app":
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message_upgrade(quick_reply)
+        flex_message = send_flex_message_upgrade(quick_reply,user_language)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
         from linebot.exceptions import LineBotApiError
         try:
-
-            text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text=f"Seu plano é {plan}. Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text=f"Su plan es {plan}. Seleccione el plan que desea actualizar o degradar usando el botón a continuación.", quick_reply=quick_reply)
+            elif user_language == 'English':
+                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text=f"Ang iyong plano ay {plan}. Pakipili ang planong gusto mong i-upgrade o i-downgrade gamit ang button sa ibaba.", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text=f"Kế hoạch của bạn là {plan}. Vui lòng chọn gói bạn muốn nâng cấp hoặc hạ cấp từ nút bên dưới.", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
@@ -519,9 +630,9 @@ def handle_message_event(event_body):
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
             if plan == "free":
-                flex_message = send_flex_message(plan, line_user_id, quick_reply)
+                flex_message = send_flex_message(plan, line_user_id, quick_reply,user_language)
             else:
-                flex_message = send_flex_message_upgrade(quick_reply)
+                flex_message = send_flex_message_upgrade(quick_reply,user_language)
 
             text_message = TextSendMessage(text=f"今月に送信できるメッセージの回数の上限に達しました。あなたのプランは{plan}です。もっとメッセージを送りたい方は、下記のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
  

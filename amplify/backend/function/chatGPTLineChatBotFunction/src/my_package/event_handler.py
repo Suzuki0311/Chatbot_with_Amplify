@@ -16,14 +16,27 @@ from google.cloud import translate_v2
 import stripe
 import time
 
-def send_flex_message(plan, line_user_id, quick_reply):
+def send_flex_message(plan, line_user_id, quick_reply,user_language):
             basic_plan_url = f"{const.PRODUCT_URL_BASIC}?client_reference_id={line_user_id}"
             standard_plan_url = f"{const.PRODUCT_URL_STANDARD}?client_reference_id={line_user_id}"
             premium_plan_url = f"{const.PRODUCT_URL_PREMIUM}?client_reference_id={line_user_id}"
 
-            basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url)
-            standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url)
-            premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url)
+            basic_plan_component = flex_message_contents.basic_plan_component(basic_plan_url,user_language)
+            standard_plan_component = flex_message_contents.standard_plan_component(standard_plan_url,user_language)
+            premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url,user_language)
+
+            if user_language == 'Portuguese':
+                text_below = "A lista de planos está abaixo"
+            elif user_language == 'Spanish':
+                text_below = "La lista de planes está abajo"
+            elif user_language == 'Tagalog':
+                text_below = "Nasa ibaba ang listahan ng plano"
+            elif user_language == 'Vietnamese':
+                text_below = "Danh sách kế hoạch dưới đây"
+            elif user_language == 'Japanese':
+                text_below = "プラン一覧は以下です"
+            else:
+                text_below = "The plan list is below"
 
             if plan == "free":
                 flex_message_reply = {
@@ -34,7 +47,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit.",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -53,7 +66,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -71,7 +84,7 @@ def send_flex_message(plan, line_user_id, quick_reply):
                     "contents": [
                         {
                             "type": "text",
-                            "text": "You've reached your message limit, please upgrade your plan",
+                            "text": text_below,
                             "weight": "bold",
                             "size": "xl"
                         },
@@ -84,10 +97,23 @@ def send_flex_message(plan, line_user_id, quick_reply):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def send_flex_message_upgrade(quick_reply):
-            basic_plan_component = flex_message_contents.basic_plan_component_upgrade()
-            standard_plan_component = flex_message_contents.standard_plan_component_upgrade()
-            premium_plan_component = flex_message_contents.premium_plan_component_upgrade()
+def send_flex_message_upgrade(quick_reply,user_language):
+            basic_plan_component = flex_message_contents.basic_plan_component_upgrade(user_language)
+            standard_plan_component = flex_message_contents.standard_plan_component_upgrade(user_language)
+            premium_plan_component = flex_message_contents.premium_plan_component_upgrade(user_language)
+
+            if user_language == 'Portuguese':
+                text_below = "A lista de planos está abaixo"
+            elif user_language == 'Spanish':
+                text_below = "La lista de planes está abajo"
+            elif user_language == 'Tagalog':
+                text_below = "Nasa ibaba ang listahan ng plano"
+            elif user_language == 'Vietnamese':
+                text_below = "Danh sách kế hoạch dưới đây"
+            elif user_language == 'Japanese':
+                text_below = "プラン一覧は以下です"
+            else:
+                text_below = "The plan list is below"
 
             flex_message_reply = {
                         "type": "bubble",
@@ -97,7 +123,7 @@ def send_flex_message_upgrade(quick_reply):
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "You've reached your message limit.",
+                                    "text": text_below,
                                     "weight": "bold",
                                     "size": "xl"
                                 },
@@ -368,20 +394,32 @@ def handle_message_event(event_body):
     user_language = language_codes.language_code_to_name[profile.language]
     print("user_language:", user_language)
 
-    if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" :
+    if prompt_text == "Quiero actualizar mi aplicación." or prompt_text == "Eu quero atualizar meu aplicativo" or prompt_text == "アップグレードしたいです" or prompt_text == "Tôi muốn cập nhật ứng dụng"or prompt_text == "Gusto kong i-update ang aking app"or prompt_text == "I want to upgrade my app":
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message_upgrade(quick_reply)
+        flex_message = send_flex_message_upgrade(quick_reply,user_language)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
         from linebot.exceptions import LineBotApiError
         try:
-
-            text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text=f"Seu plano é {plan}. Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text=f"Su plan es {plan}. Seleccione el plan que desea actualizar o degradar usando el botón a continuación.", quick_reply=quick_reply)
+            elif user_language == 'English':
+                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text=f"Ang iyong plano ay {plan}. Pakipili ang planong gusto mong i-upgrade o i-downgrade gamit ang button sa ibaba.", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text=f"Kế hoạch của bạn là {plan}. Vui lòng chọn gói bạn muốn nâng cấp hoặc hạ cấp từ nút bên dưới.", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
@@ -592,9 +630,9 @@ def handle_message_event(event_body):
             plan = db_accessor.get_user_plan(line_user_id)
             print("plan:",plan)
             if plan == "free":
-                flex_message = send_flex_message(plan, line_user_id, quick_reply)
+                flex_message = send_flex_message(plan, line_user_id, quick_reply,user_language)
             else:
-                flex_message = send_flex_message_upgrade(quick_reply)
+                flex_message = send_flex_message_upgrade(quick_reply,user_language)
 
             text_message = TextSendMessage(text=f"今月に送信できるメッセージの回数の上限に達しました。あなたのプランは{plan}です。もっとメッセージを送りたい方は、下記のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
  

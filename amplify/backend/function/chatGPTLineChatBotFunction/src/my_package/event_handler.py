@@ -156,18 +156,13 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="お問い合わせ", text="お問い合わせ")),
             QuickReplyButton(action=MessageAction(label="解約", text="解約したいです"))
     ]
-    elif user_language == 'English':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Chinese':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+
+    # elif user_language == 'Chinese':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
     elif user_language == 'Spanish':
         return  [
             QuickReplyButton(action=MessageAction(label="Traducción Española", text="Traduce lo anterior al Español.")),
@@ -178,36 +173,36 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Hacerse rico", text="Dime como hacerme rico")),
             QuickReplyButton(action=MessageAction(label="Detalle", text="Cuéntame más en detalle")),
             QuickReplyButton(action=MessageAction(label="Aprender ingles", text="Proporcione una lista de algunas palabras esenciales del inglés comercial y sus traducciones al Español.")),
-            QuickReplyButton(action=MessageAction(label="Buscar tema", text="Por favor, hágame algunas preguntas y elaboren juntos un tema de investigación para la universidad.")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Dime el estado.")),
             QuickReplyButton(action=MessageAction(label="Cansado del trabajo", text="Estoy cansado del trabajo, así que anímame.")),
             QuickReplyButton(action=MessageAction(label="Actualizar", text="Quiero actualizar mi aplicación.")),
             QuickReplyButton(action=MessageAction(label="contacto", text="contacto")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quiero cancelar la aplicación"))
     ]
-    elif user_language == 'French':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'German':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Italian':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
-    elif user_language == 'Korean':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+    # elif user_language == 'French':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'German':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'Italian':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+    # elif user_language == 'Korean':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
     elif user_language == 'Portuguese':
         return  [
             QuickReplyButton(action=MessageAction(label="Traduzir portugues", text="Traduza o acima para o portugues")),
@@ -218,24 +213,71 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Ficar rico", text="Me diga como ficar rico")),
             QuickReplyButton(action=MessageAction(label="Detalhe", text="Me conte mais em detalhes")),
             QuickReplyButton(action=MessageAction(label="Aprender inglês", text="Por favor, apresente uma lista de algumas palavras essenciais em inglês para negócios e suas traduções para o português")),
-            QuickReplyButton(action=MessageAction(label="Tema de pesquisa", text="Por favor, faça-me algumas perguntas e crie um tópico de pesquisa para a universidade juntos.")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Diga-me o estado.")),
             QuickReplyButton(action=MessageAction(label="Cansei do trabalho", text="Estou cansado do trabalho, então, por favor, me anime")),
             QuickReplyButton(action=MessageAction(label="Atualizar", text="Eu quero atualizar meu aplicativo")),
             QuickReplyButton(action=MessageAction(label="Contato conosco", text="Contato conosco")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quero cancelar o aplicativo"))
     ]
-    elif user_language == 'Thai':
-        return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    ]
+    # elif user_language == 'Thai':
+    #     return [
+    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
+    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
+    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+    # ]
+
     elif user_language == 'Vietnamese':
         return [
-            QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-            QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-            QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
+            QuickReplyButton(action=MessageAction(label="Dịch sang Tiếng Việt", text="Dịch phía trên sang tiếng Việt")),
+            QuickReplyButton(action=MessageAction(label="Dịch sang Tiếng Anh", text="Dịch phía trên sang tiếng Anh")),
+            QuickReplyButton(action=MessageAction(label="Thực đơn 1 tuần", text="Đề xuất thực đơn cho tuần này")),
+            QuickReplyButton(action=MessageAction(label="Đi Tokyo", text="Lên kế hoạch đi Tokyo 3 ngày 2 đêm")),
+            QuickReplyButton(action=MessageAction(label="Báo cáo sách", text="Viết báo cáo sách Harry Potter và Hòn Đá Phù Thủy")),
+            QuickReplyButton(action=MessageAction(label="Giàu có", text="Hãy nói cách trở nên giàu có")),
+            QuickReplyButton(action=MessageAction(label="Chi tiết", text="Kể thêm chi tiết")),
+            QuickReplyButton(action=MessageAction(label="Học Tiếng Anh", text="Giới thiệu danh sách các từ tiếng Anh cần thiết cho kinh doanh và bản dịch tiếng Việt")),
+            QuickReplyButton(action=MessageAction(label="Trạng thái", text="Cho tôi biết trạng thái")),
+            QuickReplyButton(action=MessageAction(label="Mệt mỏi", text="Tôi mệt mỏi vì công việc, hãy làm tôi vui")),
+            QuickReplyButton(action=MessageAction(label="Cập nhật", text="Tôi muốn cập nhật ứng dụng")),
+            QuickReplyButton(action=MessageAction(label="Liên hệ", text="Liên hệ với chúng tôi")),
+            QuickReplyButton(action=MessageAction(label="Hủy bỏ", text="Tôi muốn hủy ứng dụng"))
     ]
+
+    elif user_language == 'Tagalog':
+        return [
+            QuickReplyButton(action=MessageAction(label="Isalin sa Tagalog", text="Isalin ang itaas sa Tagalog")),
+            QuickReplyButton(action=MessageAction(label="Isalin sa Ingles", text="Isalin ang itaas sa Ingles")),
+            QuickReplyButton(action=MessageAction(label="Menu ng 1 linggo", text="Magmungkahi ng menu para sa linggo")),
+            QuickReplyButton(action=MessageAction(label="Biyaheng Tokyo", text="Magplano ng 3 araw at 2 gabi sa Tokyo")),
+            QuickReplyButton(action=MessageAction(label="Ulat ng pagbabasa", text="Gumawa ng aklat na ulat para sa Harry Potter at Philosopher's Stone")),
+            QuickReplyButton(action=MessageAction(label="Yaman", text="Sabihin kung paano yumaman")),
+            QuickReplyButton(action=MessageAction(label="Detalye", text="Kwento ng mas detalyado")),
+            QuickReplyButton(action=MessageAction(label="Aralin Ingles", text="Pakilala ng listahan ng ilang mahalagang salita sa Ingles para sa negosyo at ang pagsasalin nito sa Tagalog")),
+            QuickReplyButton(action=MessageAction(label="Estado", text="Sabihin ang kasalukuyang estado")),
+            QuickReplyButton(action=MessageAction(label="Pagod sa trabaho", text="Pagod ako sa trabaho, pakipasaya ako")),
+            QuickReplyButton(action=MessageAction(label="I-update", text="Gusto kong i-update ang aking app")),
+            QuickReplyButton(action=MessageAction(label="Makipag-ugnay", text="Makipag-ugnay sa amin")),
+            QuickReplyButton(action=MessageAction(label="Kanselahin", text="Gusto kong kanselahin ang app"))
+    ]
+    else:
+        return [
+        QuickReplyButton(action=MessageAction(label="Translate English", text="Translate the above to English")),
+        QuickReplyButton(action=MessageAction(label="Translate other", text="Translate the above to another language")),
+        QuickReplyButton(action=MessageAction(label="1-week menu", text="Suggest a menu for the week")),
+        QuickReplyButton(action=MessageAction(label="Tokyo trip", text="Plan a 3-day, 2-night trip to Tokyo")),
+        QuickReplyButton(action=MessageAction(label="Reading report", text="Write a book report for Harry Potter and the Philosopher's Stone")),
+        QuickReplyButton(action=MessageAction(label="Get rich", text="Tell me how to get rich")),
+        QuickReplyButton(action=MessageAction(label="Details", text="Tell me more in detail")),
+        QuickReplyButton(action=MessageAction(label="Learn English", text="Please introduce a list of some essential English words for business and their translations")),
+        QuickReplyButton(action=MessageAction(label="Status", text="Tell me the status.")),
+        QuickReplyButton(action=MessageAction(label="Tired from work", text="I am tired from work, so please cheer me up")),
+        QuickReplyButton(action=MessageAction(label="Upgrade", text="I want to upgrade my app")),
+        QuickReplyButton(action=MessageAction(label="Contact us", text="Contact us")),
+        QuickReplyButton(action=MessageAction(label="Cancel", text="I want to cancel the app"))
+    ]
+
+
+
 
 
  # 顧客IDからサブスクリプションIDを取得

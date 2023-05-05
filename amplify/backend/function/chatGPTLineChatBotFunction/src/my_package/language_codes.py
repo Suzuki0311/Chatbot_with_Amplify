@@ -21,6 +21,7 @@ language_code_to_name = {
     'pt-PT': 'Portuguese',
     'pt-BR': 'Portuguese',
     'th': 'Thai',
-    'vi': 'Vietnamese'
+    'vi': 'Vietnamese',
+    'tl': 'Tagalog'
     # 他の言語コードと名前を追加
 }

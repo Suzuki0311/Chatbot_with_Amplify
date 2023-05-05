@@ -259,21 +259,52 @@ def handle_follow_event(event_body):
     # Check if the user exists in DynamoDB
     user_exists = db_accessor.check_line_user_id_exists(line_user_id)
 
+    # YouTubeのURL
+    youtubeurl = 'https://youtu.be/C3AIG2jTjxE'
+
+    # ポータルサイトのURL
+    portalsite = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
+
+    # お問い合わせフォームのURL
+    queryformurl = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
+
+
     # If the user doesn't exist in DynamoDB, insert their data
     if user_exists == "No":
         db_accessor.insert_data(line_user_id)
         if user_language == 'Portuguese':
-            welcome_message = "Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+            welcome_message = f"Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \n{youtubeurl}\n{portalsite}\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+        elif user_language == 'Spanish':
+            welcome_message = f"Gracias por registrarte como amigo. PicToLang responde a sus preguntas diarias. Además, al enviar fotos de documentos escritos en otros idiomas, traducirán y resumirán a un alto nivel. \nPara un uso detallado, ingrese el enlace de Youtube o el sitio del portal. \n{youtubeurl}\n{portalsite}\nSi tiene alguna pregunta, comuníquese con nosotros a través del siguiente enlace. , el operador responderá, así que disfrute. \n{queryformurl}\n\nActualmente eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si desea usar más que eso, renueve su plan en la pestaña Actualizar."
+        elif user_language == 'English':
+            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+        elif user_language == 'Tagalog':
+            welcome_message = f"Salamat sa pagrehistro bilang isang kaibigan. Sinasagot ng PicToLang ang iyong mga pang-araw-araw na tanong. Gayundin, kapag nagpapadala ng mga larawan ng mga dokumentong nakasulat sa ibang mga wika, sila ay magsasalin at magbubuod sa mataas na antas. \nPara sa detalyadong paggamit, pakipasok ang Youtube link o portal site. \n{youtubeurl}\n{portalsite}\nKung mayroon kang anumang mga tanong, mangyaring makipag-ugnayan sa amin gamit ang link sa ibaba. , tutugon ang operator, kaya mangyaring magsaya. \n{queryformurl}\n\nKasalukuyan kang isang libreng user at maaaring magpadala ng 7 mensahe bawat buwan. Kung gusto mong gumamit ng higit pa riyan, i-renew ang iyong plano sa tab na Mag-upgrade."
+        elif user_language == 'Vietnamese':
+            welcome_message = f"Cảm ơn bạn đã đăng ký như một người bạn. PicToLang trả lời các câu hỏi hàng ngày của bạn. Ngoài ra, khi gửi ảnh tài liệu viết bằng ngôn ngữ khác, họ sẽ dịch và tóm tắt ở mức độ cao. \nĐể biết cách sử dụng chi tiết, vui lòng nhập liên kết Youtube hoặc trang web cổng thông tin. \n{youtubeurl}\n{portalsite}\nNếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi bằng liên kết bên dưới. , nhà điều hành sẽ trả lời , vì vậy hãy tận hưởng. \n{queryformurl}\n\nBạn hiện là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn thế, hãy gia hạn gói của bạn trên tab Nâng cấp."
+        elif user_language == 'Japanese':
+            welcome_message = f"友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\n{youtubeurl}\n{portalsite}\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\n{queryformurl}\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
         else:
-            welcome_message = "友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\nhttps://youtu.be/C3AIG2jTjxE\nhttps://pictolang-help.freshdesk.com/pt-BR/support/home\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
+            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+
     else:
         user_data = db_accessor.get_line_user_data(line_user_id)
         plan = user_data['plan']
         message_count = user_data['message_count']
         if user_language == 'Portuguese':
-            welcome_message = f"Obrigado por se juntar a nós novamente. Atualmente, você é um usuário do {plan} e tem {message_count} mensagens restantes este mês. Obrigado por seu apoio contínuo."
+            welcome_message = f"Obrigado por se juntar a nós novamente.\nAtualmente, você é um usuário do {plan} e tem {message_count} mensagens restantes este mês.\nObrigado por seu apoio contínuo."
+        elif user_language == 'Spanish':
+            welcome_message = f"Gracias por volver a unirte a nosotros.\nActualmente eres usuario de {plan} y te quedan {message_count} mensajes este mes.\nGracias por tu continuo apoyo."
+        elif user_language == 'English':
+            welcome_message = f"Thank you for joining us again.\nYou are currently a {plan} user and have {message_count} messages left this month.\nThank you for your continued support."
+        elif user_language == 'Tagalog':
+            welcome_message = f"Salamat sa muling pagsali sa amin.\nKasalukuyan kang user ng {plan} at may natitirang {message_count} na mensahe ngayong buwan.\nSalamat sa iyong patuloy na suporta."
+        elif user_language == 'Vietnamese':
+            welcome_message = f"Cảm ơn bạn đã tham gia cùng chúng tôi một lần nữa.\nBạn hiện là người dùng {plan} và còn {message_count} tin nhắn trong tháng này.\nCảm ơn bạn đã tiếp tục hỗ trợ."
+        elif user_language == 'Japanese':
+            welcome_message = f"再び友達登録いただきありがとうございます。\nあなたは現在 {plan} ユーザーで、今月は {message_count} 回のメッセージを送信可能です。\n今後ともよろしくお願いいたします。"
         else:
-            welcome_message = f"再び友達登録していただき、ありがとうございます。あなたは現在、{plan}ユーザーであり、今月は残り{message_count}回メッセージを送ることができます。引き続きどうぞよろしくお願いします。"
+            welcome_message = f"Thank you for joining us again.\nYou are currently a {plan} user and have {message_count} messages left this month.\nThank you for your continued support."
 
     # Reply the welcome message using the LineBotApi instance
     line_api.reply_message_for_line(reply_token, welcome_message, None)  # Consider removing QuickReply or using a different function for sending the message

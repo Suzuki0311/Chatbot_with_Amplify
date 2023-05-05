@@ -510,16 +510,102 @@ def handle_message_event(event_body):
             except LineBotApiError as e:
                 print("Error:", e)
     
-    elif prompt_text == "I want to subscribe to the Basic Plan" or prompt_text == "I want to subscribe to the Standard Plan" or prompt_text == "I want to subscribe to the Premium Plan":
-        if prompt_text == "I want to subscribe to the Basic Plan":
-            plan = "basic"
-            send_text = "月額80で月に100回メッセージを送ることができます。"
-        elif prompt_text == "I want to subscribe to the Standard Plan":
-            plan = "standard"
-            send_text = "月額230で月に300回メッセージを送ることができます。"
-        elif prompt_text == "I want to subscribe to the Premium Plan":
-            plan = "premium"
-            send_text = "月額750で無制限にメッセージを送ることができます。"
+    elif prompt_text == "Quero assinar o basic plan" or prompt_text == "Quero assinar o standard plan" or prompt_text == "Quero assinar o premium plan" or prompt_text == "Quiero suscribirme al basic plan" or prompt_text == "Quiero suscribirme al standard plan" or prompt_text == "Quiero suscribirme al premium plan" or prompt_text == "Gusto kong mag-subscribe sa basic plan" or prompt_text == "Gusto kong mag-subscribe sa standard plan" or prompt_text == "Gusto kong mag-subscribe sa premium plan" or prompt_text == "Tôi muốn đăng ký basic plan" or prompt_text == "Tôi muốn đăng ký standard plan" or prompt_text == "Tôi muốn đăng ký premium plan" or prompt_text == "basic planを契約したいです。" or prompt_text == "standard planを契約したいです。" or prompt_text == "premium planを契約したいです。" or prompt_text == "I want to subscribe to the basic plan" or prompt_text == "I want to subscribe to the standard plan" or prompt_text == "I want to subscribe to the premium plan":
+        if prompt_text == "Quero assinar o basic plan"  or prompt_text == "Quero assinar o standard plan" or prompt_text == "Quero assinar o premium plan":
+            if prompt_text == "Quero assinar o basic plan":
+                plan = "basic"
+                send_text = "Você pode enviar 100 mensagens por mês por 80 yen por mês."
+            elif prompt_text == "Quero assinar o standard plan":
+                plan = "standard"
+                send_text = "Você pode enviar 300 mensagens por mês por 230 yen por mês."
+            elif prompt_text == "Quero assinar o premium plan":
+                plan = "premium"
+                send_text = "Você pode enviar mensagens ilimitadas por 750yen por mês."
+            label_yes = "Sim"
+            label_no = "Não"
+            text_yes = f"sim. Eu assino o {plan}."
+            text_no = "Não"
+            confirm_template_text = f'Em {plan} plan, {send_text} Se desejar finalizar o contrato, clique em "Sim" abaixo'
+
+        elif prompt_text == "Quiero suscribirme al basic plan" or prompt_text == "Quiero suscribirme al standard plan" or prompt_text == "Quiero suscribirme al premium plan":
+            if prompt_text == "Quiero suscribirme al basic plan":
+                plan = "basic"
+                send_text = "Puede enviar 100 mensajes por mes por 80 yen por mes."
+            elif prompt_text == "Quiero suscribirme al standard plan":
+                plan = "standard"
+                send_text = "Puede enviar 300 mensajes por mes por 230 yen por mes."
+            elif prompt_text == "Quiero suscribirme al premium plan":
+                plan = "premium"
+                send_text = "Puedes enviar mensajes ilimitados por 750 yen al mes."
+            label_yes = "Sí"
+            label_no = "No"
+            text_yes = f"Sí. Me suscribo al {plan}."
+            text_no = "No"
+            confirm_template_text = f'En {plan} plan, {send_text} Si desea finalizar el contrato, haga clic en "Sí" a continuación'
+
+        elif prompt_text == "Gusto kong mag-subscribe sa basic plan" or prompt_text == "Gusto kong mag-subscribe sa standard plan" or prompt_text == "Gusto kong mag-subscribe sa premium plan":
+            if prompt_text == "Gusto kong mag-subscribe sa basic plan":
+                plan = "basic"
+                send_text = "Maaari kang magpadala ng 100 mensahe bawat buwan sa halagang 80 yen bawat buwan."
+            elif prompt_text == "Gusto kong mag-subscribe sa standard plan":
+                plan = "standard"
+                send_text = "Maaari kang magpadala ng 300 mensahe bawat buwan sa halagang 230 yen bawat buwan."
+            elif prompt_text == "Gusto kong mag-subscribe sa premium plan":
+                plan = "premium"
+                send_text = "Maaari kang magpadala ng walang limitasyong mga mensahe sa halagang 750yen bawat buwan."
+            label_yes = "Oo"
+            label_no = "Hindi"
+            text_yes = f"Oo. Nag-subscribe ako sa {plan}."
+            text_no = "Hindi"
+            confirm_template_text = f'Sa {plan} plan, {send_text} Kung gusto mong tapusin ang kontrata, i-click ang "Oo" sa ibaba'
+        
+        elif prompt_text == "Tôi muốn đăng ký basic plan" or prompt_text == "Tôi muốn đăng ký standard plan" or prompt_text == "Tôi muốn đăng ký premium plan":
+            if prompt_text == "Tôi muốn đăng ký basic plan":
+                plan = "basic"
+                send_text = "Bạn có thể gửi 100 tin nhắn mỗi tháng với 80 yên mỗi tháng."
+            elif prompt_text == "Tôi muốn đăng ký standard plan":
+                plan = "standard"
+                send_text = "Bạn có thể gửi 300 tin nhắn mỗi tháng với 230 yên mỗi tháng."
+            elif prompt_text == "Tôi muốn đăng ký premium plan":
+                plan = "premium"
+                send_text = "Bạn có thể gửi tin nhắn không giới hạn với 750 yên mỗi tháng."
+            label_yes = "Đúng"
+            label_no = "Không"
+            text_yes = f"Đúng. Tôi đăng ký {plan}."
+            text_no = "Không"
+            confirm_template_text = f'Trong gói {plan}, {send_text} Nếu bạn muốn kết thúc hợp đồng, hãy nhấp vào "Có" bên dưới'
+        
+        elif prompt_text == "basic planを契約したいです。" or prompt_text == "standard planを契約したいです。" or prompt_text == "premium planを契約したいです。":
+            if prompt_text == "basic planを契約したいです。":
+                plan = "basic"
+                send_text = "月額80円で月100通までメッセージを送信可能です。"
+            elif prompt_text == "standard planを契約したいです。":
+                plan = "standard"
+                send_text = "月額230円で月300通までメッセージを送信可能です。"
+            elif prompt_text == "premium planを契約したいです。":
+                plan = "premium"
+                send_text = "月額750円でメッセージを無制限に送信可能です。"
+            label_yes = "はい"
+            label_no = "いいえ"
+            text_yes = f"はい。私は{plan}を契約します。"
+            text_no = "いいえ"
+            confirm_template_text = f'{plan} planでは、{send_text} 契約を完了させるには、下の [はい] をクリックしてください'
+        
+        elif prompt_text == "I want to subscribe to the basic plan" or prompt_text == "I want to subscribe to the standard plan" or prompt_text == "I want to subscribe to the premium plan":
+            if prompt_text == "I want to subscribe to the basic plan":
+                plan = "basic"
+                send_text = "You can send 100 messages per month for 80 yen per month."
+            elif prompt_text == "I want to subscribe to the standard plan":
+                plan = "standard"
+                send_text = "You can send 300 messages per month for 230 yen per month."
+            elif prompt_text == "I want to subscribe to the premium plan":
+                plan = "premium"
+                send_text = "You can send unlimited messages for 750 yen per month."
+            label_yes = "Yes"
+            label_no = "No"
+            text_yes = f"Yes. I subscribe to the {plan}."
+            text_no = "No"
+            confirm_template_text = f'In {plan} plan, {send_text} If you want to end the contract, click "Yes" below'
 
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
@@ -529,11 +615,11 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             actions = [
-                        MessageAction(label="はい", text=f"はい。私は{plan}を契約します。"),
-                        MessageAction(label="いいえ", text="いいえ"),
+                        MessageAction(label=label_yes, text=text_yes),
+                        MessageAction(label=label_no, text=text_no),
                       ]
             # Create a ConfirmTemplate
-            confirm_template = ConfirmTemplate(text=f"{plan}は、{send_text}契約を確定させたい場合は、以下の「はい」をクリックしてください", actions=actions)
+            confirm_template = ConfirmTemplate(text=confirm_template_text, actions=actions)
 
             # Create a TemplateSendMessage with the ConfirmTemplate
             message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
@@ -542,7 +628,8 @@ def handle_message_event(event_body):
 
         except LineBotApiError as e:
             print("Error:", e)
-    elif prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。":
+
+    elif prompt_text == "sim. Eu assino o basic." or prompt_text == "sim. Eu assino o standard." or prompt_text == "sim. Eu assino o premium." or prompt_text == "Sí. Me suscribo al basic." or prompt_text == "Sí. Me suscribo al standard." or prompt_text == "Sí. Me suscribo al premium." or prompt_text == "Oo. Nag-subscribe ako sa basic." or prompt_text == "Oo. Nag-subscribe ako sa standard." or prompt_text == "Oo. Nag-subscribe ako sa premium." or prompt_text == "Đúng. Tôi đăng ký basic." or prompt_text == "Đúng. Tôi đăng ký standard." or prompt_text == "Đúng. Tôi đăng ký premium." or prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。" or prompt_text == "Yes. I subscribe to the basic." or prompt_text == "Yes. I subscribe to the standard." or prompt_text == "Yes. I subscribe to the premium.":
 
         def find_pending_invoice(customer_id, retries=3, delay=1):
             for _ in range(retries):
@@ -559,11 +646,11 @@ def handle_message_event(event_body):
         customer_id = db_accessor.get_customer_id_by_line_user_id(line_user_id)
         subscription_id = get_subscription_id(customer_id)
 
-        if prompt_text == "はい。私はbasicを契約します。":
+        if prompt_text == "はい。私はbasicを契約します。" or prompt_text == "sim. Eu assino o basic." or prompt_text == "Sí. Me suscribo al basic." or prompt_text == "Oo. Nag-subscribe ako sa basic." or prompt_text == "Đúng. Tôi đăng ký basic." or prompt_text == "Yes. I subscribe to the basic.":
             new_plan_id = const.PRICE_ID_BASIC
-        elif prompt_text == "はい。私はstandardを契約します。":
+        elif prompt_text == "はい。私はstandardを契約します。" or prompt_text == "sim. Eu assino o standard." or prompt_text == "Sí. Me suscribo al standard." or prompt_text == "Oo. Nag-subscribe ako sa standard." or prompt_text == "Đúng. Tôi đăng ký standard." or prompt_text == "Yes. I subscribe to the standard.":
             new_plan_id = const.PRICE_ID_STANDARD
-        elif prompt_text == "はい。私はpremiumを契約します。":
+        elif prompt_text == "はい。私はpremiumを契約します。" or prompt_text == "sim. Eu assino o premium." or prompt_text == "Sí. Me suscribo al premium." or prompt_text == "Oo. Nag-subscribe ako sa premium." or prompt_text == "Đúng. Tôi đăng ký premium." or prompt_text == "Yes. I subscribe to the premium.":
             new_plan_id = const.PRICE_ID_PREMIUM
 
         try:
@@ -634,7 +721,18 @@ def handle_message_event(event_body):
             else:
                 flex_message = send_flex_message_upgrade(quick_reply,user_language)
 
-            text_message = TextSendMessage(text=f"今月に送信できるメッセージの回数の上限に達しました。あなたのプランは{plan}です。もっとメッセージを送りたい方は、下記のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text=f"Acabou o seu número máximo de mensagens que pode enviar este mês. Seu plano é {plan}. Se você deseja enviar mais mensagens, selecione o plano que deseja atualizar no botão abaixo.", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text=f"Ha finalizado el número máximo de mensajes que puede enviar este mes. Su plan es {plan}. Si desea enviar más mensajes, seleccione el plan que desea actualizar desde el botón a continuación.", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text=f"Ang iyong maximum na bilang ng mga mensahe na maaari mong ipadala sa buwang ito ay natapos na. Ang iyong plano ay {plan}. Kung gusto mong magpadala ng higit pang mga mensahe, piliin ang planong gusto mong i-upgrade mula sa button sa ibaba.", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text=f"Số lượng tin nhắn tối đa bạn có thể gửi trong tháng này đã hết. Kế hoạch của bạn là {plan}. Nếu bạn muốn gửi nhiều tin nhắn hơn, hãy chọn gói bạn muốn nâng cấp từ nút bên dưới.", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text=f"今月送信可能なメッセージ回数が終了しました。あなたのプランは {plan} です。さらにメッセージを送信したい場合は、下のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
+            else :
+                text_message = TextSendMessage(text=f"Your maximum number of messages you can send this month has ended. Your plan is {plan}. If you want to send more messages, select the plan you want to upgrade from the button below.", quick_reply=quick_reply)
  
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)

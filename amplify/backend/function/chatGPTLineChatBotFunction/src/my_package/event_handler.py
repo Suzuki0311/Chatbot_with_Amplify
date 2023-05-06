@@ -37,54 +37,35 @@ def send_flex_message(plan, line_user_id, quick_reply,user_language):
                 text_below = "プラン一覧は以下です"
             else:
                 text_below = "The plan list is below"
-
+            
             flex_message_reply = {
-                "type": "bubble",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": text_below,
-                            "weight": "bold",
-                            "size": "xl"
-                        },
-                        standard_plan_component,
-                        premium_plan_component
-                    ]
-                }
-            }
+                            "type": "bubble",
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": text_below,
+                                        "weight": "bold",
+                                        "size": "xl"
+                                    },
+                                    basic_plan_component,
+                                    {
+                                        "type": "spacer",
+                                        "size": "md"
+                                    },
+                                    standard_plan_component,
+                                    {
+                                        "type": "spacer",
+                                        "size": "md"
+                                    },
+                                    premium_plan_component
+                                ]
+                            }
+                        }
 
-            # if plan == "free":
-            #     flex_message_reply = {
-            #                 "type": "bubble",
-            #                 "body": {
-            #                     "type": "box",
-            #                     "layout": "vertical",
-            #                     "contents": [
-            #                         {
-            #                             "type": "text",
-            #                             "text": text_below,
-            #                             "weight": "bold",
-            #                             "size": "xl"
-            #                         },
-            #                         basic_plan_component,
-            #                         {
-            #                             "type": "spacer",
-            #                             "size": "md"
-            #                         },
-            #                         standard_plan_component,
-            #                         {
-            #                             "type": "spacer",
-            #                             "size": "md"
-            #                         },
-            #                         premium_plan_component
-            #                     ]
-            #                 }
-            #             }
-            # elif plan == "basic":
-            #     flex_message_reply = {
+            # flex_message_reply = {
             #     "type": "bubble",
             #     "body": {
             #         "type": "box",
@@ -96,30 +77,13 @@ def send_flex_message(plan, line_user_id, quick_reply,user_language):
             #                 "weight": "bold",
             #                 "size": "xl"
             #             },
+            #             basic_plan_component,
             #             standard_plan_component,
             #             premium_plan_component
             #         ]
             #     }
             # }
-            # elif plan == "standard":
-            #     flex_message_reply = {
-            #     "type": "bubble",
-            #     "body": {
-            #         "type": "box",
-            #         "layout": "vertical",
-            #         "contents": [
-            #             {
-            #                 "type": "text",
-            #                 "text": text_below,
-            #                 "weight": "bold",
-            #                 "size": "xl"
-            #             },
-            #             premium_plan_component
-            #         ]
-            #     }
-            # }
-
-
+            
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 

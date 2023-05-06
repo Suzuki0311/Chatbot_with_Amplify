@@ -161,7 +161,7 @@ def get_line_user_data(line_user_id: str) -> dict:
     except Exception as e:
         raise e
 
-def insert_data(line_user_id: str) -> None:
+def insert_data(line_user_id: str, user_language: str) -> None:
     now = datetime.now().isoformat()
     put_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
@@ -170,7 +170,8 @@ def insert_data(line_user_id: str) -> None:
             'plan': {'S': 'free'},
             'first_purchase_date': {'S': now},
             'updated_purchase_date': {'S': now},
-            'message_count': {'N': str(7)}
+            'message_count': {'N': str(7)},
+            'user_language': {'S': user_language}
         }
     }
 

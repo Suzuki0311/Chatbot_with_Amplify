@@ -370,7 +370,7 @@ def handle_follow_event(event_body):
 
     # If the user doesn't exist in DynamoDB, insert their data
     if user_exists == "No":
-        db_accessor.insert_data(line_user_id)
+        db_accessor.insert_data(line_user_id, user_language)
         if user_language == 'Portuguese':
             welcome_message = f"Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \n{youtubeurl}\n{portalsite}\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
         elif user_language == 'Spanish':

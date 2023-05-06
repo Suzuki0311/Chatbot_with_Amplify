@@ -40,23 +40,31 @@ def send_flex_message(plan, line_user_id, quick_reply,user_language):
 
             if plan == "free":
                 flex_message_reply = {
-                "type": "bubble",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": text_below,
-                            "weight": "bold",
-                            "size": "xl"
-                        },
-                        basic_plan_component,
-                        standard_plan_component,
-                        premium_plan_component
-                    ]
-                }
-            }
+                            "type": "bubble",
+                            "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": text_below,
+                                        "weight": "bold",
+                                        "size": "xl"
+                                    },
+                                    basic_plan_component,
+                                    {
+                                        "type": "spacer",
+                                        "size": "md"
+                                    },
+                                    standard_plan_component,
+                                    {
+                                        "type": "spacer",
+                                        "size": "md"
+                                    },
+                                    premium_plan_component
+                                ]
+                            }
+                        }
             elif plan == "basic":
                 flex_message_reply = {
                 "type": "bubble",
@@ -97,7 +105,7 @@ def send_flex_message(plan, line_user_id, quick_reply,user_language):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def send_flex_message_upgrade(quick_reply,user_language):
+def send_flex_message_upgrade(plan,quick_reply,user_language):
             basic_plan_component = flex_message_contents.basic_plan_component_upgrade(user_language)
             standard_plan_component = flex_message_contents.standard_plan_component_upgrade(user_language)
             premium_plan_component = flex_message_contents.premium_plan_component_upgrade(user_language)
@@ -115,24 +123,65 @@ def send_flex_message_upgrade(quick_reply,user_language):
             else:
                 text_below = "The plan list is below"
 
-            flex_message_reply = {
-                        "type": "bubble",
-                        "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": text_below,
-                                    "weight": "bold",
-                                    "size": "xl"
-                                },
-                                basic_plan_component,
-                                standard_plan_component,
-                                premium_plan_component
-                            ]
-                        }
-                    }
+            if plan == "basic":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": text_below,
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        # basic_plan_component,
+                        standard_plan_component,
+                        premium_plan_component
+                    ]
+                }
+            }
+                
+            elif plan == "standard":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": text_below,
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        basic_plan_component,
+                        # standard_plan_component,
+                        premium_plan_component
+                    ]
+                }
+            }
+            
+            elif plan == "premium":
+                flex_message_reply = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": text_below,
+                            "weight": "bold",
+                            "size": "xl"
+                        },
+                        basic_plan_component,
+                        standard_plan_component,
+                        # premium_plan_component
+                    ]
+                }
+            }
             
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
@@ -400,7 +449,7 @@ def handle_message_event(event_body):
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message_upgrade(quick_reply,user_language)
+        flex_message = send_flex_message_upgrade(plan,quick_reply,user_language)
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
@@ -425,7 +474,7 @@ def handle_message_event(event_body):
         except LineBotApiError as e:
             print("Error:", e)
 
-    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" :
+    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" or prompt_text == "Liên hệ với chúng tôi" or prompt_text == "Makipag-ugnay sa amin" or prompt_text == "Contact us":
          # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
         # Create quick reply buttons
@@ -434,16 +483,27 @@ def handle_message_event(event_body):
 
         from linebot.exceptions import LineBotApiError
         try:
-            text_message = TextSendMessage(
-                            text="下記リンクから必要事項を記入して、送信してください\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new",
-                            quick_reply=quick_reply
-                        )
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text="Por favor, preencha as informações necessárias no link abaixo e envie-o.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text="Complete la información necesaria del siguiente enlace y envíela.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'English':
+                text_message = TextSendMessage(text="Please fill in the necessary information from the link below and send it.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text="Mangyaring punan ang kinakailangang impormasyon mula sa link sa ibaba at ipadala ito.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text="Vui lòng điền các thông tin cần thiết từ liên kết bên dưới và gửi.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text="下記リンクから必要事項を記入して、送信してください\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text=f"Please fill in the necessary information from the link below and send it.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+
             line_bot_api.reply_message(reply_token, text_message)
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
 
-    elif prompt_text == "Quero cancelar o aplicativo" or prompt_text == "Quiero cancelar la aplicación" or prompt_text == "解約したいです" :
+    elif prompt_text == "Quero cancelar o aplicativo" or prompt_text == "Quiero cancelar la aplicación" or prompt_text == "解約したいです" or prompt_text == "Tôi muốn hủy ứng dụng" or prompt_text == "Gusto kong kanselahin ang app" or prompt_text == "I want to cancel the app":
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
         # Create quick reply buttons
@@ -451,12 +511,48 @@ def handle_message_event(event_body):
         quick_reply = QuickReply(items=quick_reply_buttons)
         from linebot.exceptions import LineBotApiError
         try:
-            actions = [
-                        MessageAction(label="はい", text="はい、私は本当に解約します。"),
-                        MessageAction(label="いいえ", text="いいえ"),
+            if user_language == 'Portuguese':
+                actions = [
+                        MessageAction(label="Sim", text="sim vou cancelar"),
+                        MessageAction(label="Não", text="Não, continuarei com meu contrato atual"),
                       ]
-            # Create a ConfirmTemplate
-            confirm_template = ConfirmTemplate(text="本当に解約しますか？", actions=actions)
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="Você tem certeza que deseja cancelar?", actions=actions)
+            elif user_language == 'Spanish':
+                actions = [
+                        MessageAction(label="Sí", text="si voy a cancelar"),
+                        MessageAction(label="No", text="No, continuaré con mi contrato actual."),
+                      ]
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="¿Estas seguro que quieres cancelar?", actions=actions)
+            elif user_language == 'Tagalog':
+                actions = [
+                        MessageAction(label="Oo", text="oo kakanselahin ko"),
+                        MessageAction(label="Hindi", text="Hindi, ipagpapatuloy ko ang aking kasalukuyang kontrata"),
+                      ]
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="Sigurado ka bang gusto mong kanselahin?", actions=actions)
+            elif user_language == 'Vietnamese':
+                actions = [
+                        MessageAction(label="Đúng", text="vâng tôi sẽ hủy"),
+                        MessageAction(label="Không", text="Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình"),
+                      ]
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="Bạn có chắc là muốn hủy bỏ?", actions=actions)
+            elif user_language == 'Japanese':
+                actions = [
+                        MessageAction(label="はい", text="はい、私は本当に解約します。"),
+                        MessageAction(label="いいえ", text="いいえ、引き続き今の契約を続けます。"),
+                      ]
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="本当に解約しますか？", actions=actions)
+            else:
+                actions = [
+                        MessageAction(label="Yes", text="yes I will cancel"),
+                        MessageAction(label="No", text="No, I will continue my current contract"),
+                      ]
+                # Create a ConfirmTemplate
+                confirm_template = ConfirmTemplate(text="Are you sure you want to cancel?", actions=actions)
 
             # Create a TemplateSendMessage with the ConfirmTemplate
             message = TemplateSendMessage(alt_text="this is a confirm template", template=confirm_template)
@@ -464,7 +560,8 @@ def handle_message_event(event_body):
             line_bot_api.reply_message(reply_token, message)
         except LineBotApiError as e:
             print("Error:", e)
-    elif prompt_text == "はい、私は本当に解約します。":
+
+    elif prompt_text == "はい、私は本当に解約します。" or prompt_text == "sim vou cancelar" or prompt_text == "si voy a cancelar" or prompt_text == "oo kakanselahin ko" or prompt_text == "vâng tôi sẽ hủy" or prompt_text == "yes I will cancel":
 
         # サブスクリプションをキャンセル
         def cancel_subscription(subscription_id):
@@ -487,7 +584,18 @@ def handle_message_event(event_body):
             canceled_subscription = cancel_subscription(subscription_id)
             print(f"Canceled subscription: {canceled_subscription['id']}")
 
-            text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text="O cancelamento está completo. Verifique seu e-mail para obter detalhes.", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text="La cancelación está completa. Revisa tu e-mail para más detalles.", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text="Kumpleto na ang pagkansela. Tingnan ang iyong email para sa mga detalye.", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text="Việc hủy bỏ đã hoàn tất. Kiểm tra email của bạn để biết chi tiết.", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text="Cancellation is complete. Check your email for details.", quick_reply=quick_reply)
 
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
@@ -500,7 +608,18 @@ def handle_message_event(event_body):
         else:
             print("No active subscription found for this customer.")
 
-            text_message = TextSendMessage(text="あなたのプランを見つけることができませんでした。以下URLよりお問合せください。", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text="Não foi possível encontrar seu plano. Entre em contato conosco a partir do URL abaixo.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text="No se pudo encontrar su plan. Póngase en contacto con nosotros desde la siguiente URL.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text="Hindi mahanap ang iyong plano. Mangyaring makipag-ugnay sa amin mula sa URL sa ibaba.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text="Không thể tìm thấy kế hoạch của bạn. Vui lòng liên hệ với chúng tôi từ URL bên dưới.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text="あなたのプランを見つけることができませんでした。以下URLよりお問合せください。\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text="Could not find your plan. Please contact us from the URL below.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
 
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
@@ -524,7 +643,7 @@ def handle_message_event(event_body):
             label_yes = "Sim"
             label_no = "Não"
             text_yes = f"sim. Eu assino o {plan}."
-            text_no = "Não"
+            text_no = "Não, continuarei com meu contrato atual"
             confirm_template_text = f'Em {plan} plan, {send_text} Se desejar finalizar o contrato, clique em "Sim" abaixo'
 
         elif prompt_text == "Quiero suscribirme al basic plan" or prompt_text == "Quiero suscribirme al standard plan" or prompt_text == "Quiero suscribirme al premium plan":
@@ -540,7 +659,7 @@ def handle_message_event(event_body):
             label_yes = "Sí"
             label_no = "No"
             text_yes = f"Sí. Me suscribo al {plan}."
-            text_no = "No"
+            text_no = "No, continuaré con mi contrato actual."
             confirm_template_text = f'En {plan} plan, {send_text} Si desea finalizar el contrato, haga clic en "Sí" a continuación'
 
         elif prompt_text == "Gusto kong mag-subscribe sa basic plan" or prompt_text == "Gusto kong mag-subscribe sa standard plan" or prompt_text == "Gusto kong mag-subscribe sa premium plan":
@@ -556,7 +675,7 @@ def handle_message_event(event_body):
             label_yes = "Oo"
             label_no = "Hindi"
             text_yes = f"Oo. Nag-subscribe ako sa {plan}."
-            text_no = "Hindi"
+            text_no = "Hindi, ipagpapatuloy ko ang aking kasalukuyang kontrata"
             confirm_template_text = f'Sa {plan} plan, {send_text} Kung gusto mong tapusin ang kontrata, i-click ang "Oo" sa ibaba'
         
         elif prompt_text == "Tôi muốn đăng ký basic plan" or prompt_text == "Tôi muốn đăng ký standard plan" or prompt_text == "Tôi muốn đăng ký premium plan":
@@ -572,7 +691,7 @@ def handle_message_event(event_body):
             label_yes = "Đúng"
             label_no = "Không"
             text_yes = f"Đúng. Tôi đăng ký {plan}."
-            text_no = "Không"
+            text_no = "Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình"
             confirm_template_text = f'Trong gói {plan}, {send_text} Nếu bạn muốn kết thúc hợp đồng, hãy nhấp vào "Có" bên dưới'
         
         elif prompt_text == "basic planを契約したいです。" or prompt_text == "standard planを契約したいです。" or prompt_text == "premium planを契約したいです。":
@@ -588,7 +707,7 @@ def handle_message_event(event_body):
             label_yes = "はい"
             label_no = "いいえ"
             text_yes = f"はい。私は{plan}を契約します。"
-            text_no = "いいえ"
+            text_no = "いいえ、引き続き今の契約を続けます。"
             confirm_template_text = f'{plan} planでは、{send_text} 契約を完了させるには、下の [はい] をクリックしてください'
         
         elif prompt_text == "I want to subscribe to the basic plan" or prompt_text == "I want to subscribe to the standard plan" or prompt_text == "I want to subscribe to the premium plan":
@@ -604,7 +723,7 @@ def handle_message_event(event_body):
             label_yes = "Yes"
             label_no = "No"
             text_yes = f"Yes. I subscribe to the {plan}."
-            text_no = "No"
+            text_no = "No, I will continue my current contract"
             confirm_template_text = f'In {plan} plan, {send_text} If you want to end the contract, click "Yes" below'
 
         # Push the message to the user
@@ -629,7 +748,7 @@ def handle_message_event(event_body):
         except LineBotApiError as e:
             print("Error:", e)
 
-    elif prompt_text == "sim. Eu assino o basic." or prompt_text == "sim. Eu assino o standard." or prompt_text == "sim. Eu assino o premium." or prompt_text == "Sí. Me suscribo al basic." or prompt_text == "Sí. Me suscribo al standard." or prompt_text == "Sí. Me suscribo al premium." or prompt_text == "Oo. Nag-subscribe ako sa basic." or prompt_text == "Oo. Nag-subscribe ako sa standard." or prompt_text == "Oo. Nag-subscribe ako sa premium." or prompt_text == "Đúng. Tôi đăng ký basic." or prompt_text == "Đúng. Tôi đăng ký standard." or prompt_text == "Đúng. Tôi đăng ký premium." or prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。" or prompt_text == "Yes. I subscribe to the basic." or prompt_text == "Yes. I subscribe to the standard." or prompt_text == "Yes. I subscribe to the premium.":
+    elif prompt_text == "sim. Eu assino o basic." or prompt_text == "sim. Eu assino o standard." or prompt_text == "Hindi, ipagpapatuloy ko ang aking kasalukuyang kontrata" or prompt_text == "Sí. Me suscribo al basic." or prompt_text == "Sí. Me suscribo al standard." or prompt_text == "Sí. Me suscribo al premium." or prompt_text == "Oo. Nag-subscribe ako sa basic." or prompt_text == "Oo. Nag-subscribe ako sa standard." or prompt_text == "Oo. Nag-subscribe ako sa premium." or prompt_text == "Đúng. Tôi đăng ký basic." or prompt_text == "Đúng. Tôi đăng ký standard." or prompt_text == "Đúng. Tôi đăng ký premium." or prompt_text == "はい。私はbasicを契約します。" or prompt_text == "はい。私はstandardを契約します。"or prompt_text == "はい。私はpremiumを契約します。" or prompt_text == "Yes. I subscribe to the basic." or prompt_text == "Yes. I subscribe to the standard." or prompt_text == "Yes. I subscribe to the premium.":
 
         def find_pending_invoice(customer_id, retries=3, delay=1):
             for _ in range(retries):
@@ -684,6 +803,35 @@ def handle_message_event(event_body):
         except Exception as e:
             print(f"Error upgrading subscription: {e}")
             return None
+    elif prompt_text == "Não, continuarei com meu contrato atual" or prompt_text == "No, continuaré con mi contrato actual." or prompt_text == "Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình" or prompt_text == "Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình" or prompt_text == "いいえ、引き続き今の契約を続けます。"or prompt_text == "No, I will continue my current contract":
+         # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
+        from linebot.exceptions import LineBotApiError
+        try:
+
+            if user_language == 'Portuguese':
+                text_message = TextSendMessage(text=f"Eu entendi. Continue a usar o PicToLang com seu contrato atual.", quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                text_message = TextSendMessage(text=f"Continúe usando PicToLang con su contrato actual.", quick_reply=quick_reply)
+            elif user_language == 'English':
+                text_message = TextSendMessage(text=f"I've got it. Please continue to use PicToLang with your current contract.", quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                text_message = TextSendMessage(text=f"Nakuha ko na. Mangyaring patuloy na gamitin ang PicToLang sa iyong kasalukuyang kontrata.", quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                text_message = TextSendMessage(text=f"Tôi hiểu rồi. Vui lòng tiếp tục sử dụng PicToLang với hợp đồng hiện tại của bạn.", quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                text_message = TextSendMessage(text=f"承知しました。引き続き今の契約でPicToLangをご活用ください。", quick_reply=quick_reply)
+            else:
+                text_message = TextSendMessage(text=f"I've got it. Please continue to use PicToLang with your current contract.", quick_reply=quick_reply)
+
+            line_bot_api.reply_message(reply_token, text_message)
+            # line_bot_api.reply_message(reply_token, [text_message, flex_message])
+        except LineBotApiError as e:
+            print("Error:", e)
 
     else:
         if message_count != 0:
@@ -719,7 +867,7 @@ def handle_message_event(event_body):
             if plan == "free":
                 flex_message = send_flex_message(plan, line_user_id, quick_reply,user_language)
             else:
-                flex_message = send_flex_message_upgrade(quick_reply,user_language)
+                flex_message = send_flex_message_upgrade(plan,quick_reply,user_language)
 
             if user_language == 'Portuguese':
                 text_message = TextSendMessage(text=f"Acabou o seu número máximo de mensagens que pode enviar este mês. Seu plano é {plan}. Se você deseja enviar mais mensagens, selecione o plano que deseja atualizar no botão abaixo.", quick_reply=quick_reply)

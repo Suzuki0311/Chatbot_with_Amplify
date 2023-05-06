@@ -39,7 +39,8 @@ def basic_plan_component(basic_plan_url,user_language):
                     "type": "uri",
                     "label": "basic plan",
                     "uri": basic_plan_url
-                }
+                },
+                "margin": "md"
             }
         ]
     }
@@ -85,7 +86,8 @@ def standard_plan_component(standard_plan_url,user_language):
                     "type": "uri",
                     "label": "standard plan",
                     "uri": standard_plan_url
-                }
+                },
+                "margin": "md"
             }
         ]
     }
@@ -131,7 +133,8 @@ def premium_plan_component(premium_plan_url,user_language):
                     "type": "uri",
                     "label": "premium plan",
                     "uri": premium_plan_url
-                }
+                },
+                "margin": "md"
             }
         ]
     }
@@ -183,7 +186,8 @@ def basic_plan_component_upgrade(user_language):
                     "type": "message",
                     "label": "basic plan",
                     "text": text_send
-                }
+                },
+                "margin": "md"
             }
         ]
     }
@@ -234,7 +238,8 @@ def standard_plan_component_upgrade(user_language):
                 "type": "message",
                 "label": "standard plan",
                 "text": text_send
-            }
+            },
+            "margin": "md"
         }
     ]
 }
@@ -285,7 +290,8 @@ def premium_plan_component_upgrade(user_language):
                 "type": "message",
                 "label": "premium plan",
                 "text": text_send
-            }
+            },
+            "margin": "md"
         }
     ]
 }

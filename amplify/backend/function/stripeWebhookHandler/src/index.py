@@ -160,8 +160,25 @@ def handler(event, context):
                 'statusCode': 400,
                 'body': json.dumps({'message': 'Error updating plan to free'})
             }
+    elif event_type == 'invoice.payment_failed': # 支払い失敗時
+        print("invoice.payment_failedイベント発行")
+        customer_id = body['data']['object']['customer']
+        print("invoice.payment_failedイベントのcustomer_id:", customer_id)
+
+        line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
+        if line_user_id is None:
+            print("Error: line_user_id not found for customer_id:", customer_id)
+        else:
+            message = TextSendMessage(text="お支払いに失敗しました。お手数ですが、お支払い情報をご確認ください。")
+            line_bot_api.push_message(line_user_id, message)
+
+        return {
+            'statusCode': 200,
+            'body': json.dumps({'message': 'Successfully processed invoice.payment_failed event'})
+        }
     else:
         return {
             'statusCode': 200,
             'body': json.dumps({'message': f'Event type {event_type} not handled'})
         }
+    

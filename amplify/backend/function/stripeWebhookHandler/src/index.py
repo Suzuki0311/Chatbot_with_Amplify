@@ -142,6 +142,7 @@ def handler(event, context):
         print("customer.subscription.deletedイベント発行")
         customer_id = body.get('data', {}).get('object', {}).get('customer')
         print("customer.subscription.deletedイベントのcustomer_id:", customer_id)
+        line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
 
         # 顧客IDを使ってプランをfreeに更新
         try:

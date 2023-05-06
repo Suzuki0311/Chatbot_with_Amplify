@@ -66,6 +66,14 @@
         }
       ]
     },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_baseSecretPathStripe": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
     "AMPLIFY_function_chatGPTLineChatBotFunction_dbTableNamePostfix": {
       "usedBy": [
         {
@@ -75,6 +83,54 @@
       ]
     },
     "AMPLIFY_function_chatGPTLineChatBotFunction_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_priceIdStandard": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "chatGPTLineChatBotFunction"
+        }
+      ]
+    },
+    "AMPLIFY_function_chatGPTLineChatBotFunction_productUrlStandard": {
       "usedBy": [
         {
           "category": "function",
@@ -115,6 +171,30 @@
       ]
     },
     "AMPLIFY_function_stripeWebhookHandler_dbTableNamePostfix": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdBasic": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdPremium": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "stripeWebhookHandler"
+        }
+      ]
+    },
+    "AMPLIFY_function_stripeWebhookHandler_productIdStandard": {
       "usedBy": [
         {
           "category": "function",

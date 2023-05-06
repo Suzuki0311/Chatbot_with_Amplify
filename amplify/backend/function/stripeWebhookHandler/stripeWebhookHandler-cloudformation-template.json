@@ -31,10 +31,10 @@
     "baseSecretChatgptlinechatbotfunctionPath": {
       "Type": "String"
     },
-    "baseSecretPath": {
+    "dbTableNamePostfix": {
       "Type": "String"
     },
-    "dbTableNamePostfix": {
+    "baseSecretPath": {
       "Type": "String"
     }
   },
@@ -147,11 +147,11 @@
             "BASE_SECRET_CHATGPTLINECHATBOTFUNCTION_PATH": {
               "Ref": "baseSecretChatgptlinechatbotfunctionPath"
             },
-            "BASE_SECRET_PATH": {
-              "Ref": "baseSecretPath"
-            },
             "DB_TABLE_NAME_POSTFIX": {
               "Ref": "dbTableNamePostfix"
+            },
+            "BASE_SECRET_PATH": {
+              "Ref": "baseSecretPath"
             }
           }
         },

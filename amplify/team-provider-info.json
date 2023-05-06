@@ -29,12 +29,12 @@
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
-          "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
-          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev",
           "productIdBasic": "prod_Nlwr4AEbopsBeD",
           "productIdStandard": "prod_NlwshDhz1tBK38",
           "productIdPremium": "prod_NlwvdQSdMzxk82",
-          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_"
+          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_chatGPTLineChatBotFunction_",
+          "dbTableNamePostfix": "-ow5fgfziy5hg7csktqkcx7xxiu-dev",
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/dev/AMPLIFY_stripeWebhookHandler_"
         }
       },
       "api": {
@@ -66,9 +66,9 @@
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
-          "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
+          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
           "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod",
-          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_"
+          "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_stripeWebhookHandler_"
         }
       },
       "api": {

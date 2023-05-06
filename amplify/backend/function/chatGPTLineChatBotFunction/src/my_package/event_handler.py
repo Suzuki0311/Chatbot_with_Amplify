@@ -333,10 +333,6 @@ def create_quick_reply_buttons(user_language):
         QuickReplyButton(action=MessageAction(label="Cancel", text="I want to cancel the app"))
     ]
 
-
-
-
-
  # 顧客IDからサブスクリプションIDを取得
 def get_subscription_id(customer_id):
     subscriptions = stripe.Subscription.list(customer=customer_id, limit=1)
@@ -431,7 +427,11 @@ def handle_message_event(event_body):
         # Create quick reply buttons
         quick_reply_buttons = create_quick_reply_buttons(user_language)
         quick_reply = QuickReply(items=quick_reply_buttons)
-        flex_message = send_flex_message_upgrade(plan,quick_reply,user_language)
+        if plan == "free":
+            flex_message = send_flex_message(plan, line_user_id, quick_reply,user_language)
+        else:
+            flex_message = send_flex_message_upgrade(plan,quick_reply,user_language)
+
         # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 

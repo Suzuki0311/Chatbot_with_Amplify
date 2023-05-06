@@ -566,27 +566,27 @@ def handle_message_event(event_body):
             canceled_subscription = cancel_subscription(subscription_id)
             print(f"Canceled subscription: {canceled_subscription['id']}")
 
-            if user_language == 'Portuguese':
-                text_message = TextSendMessage(text="O cancelamento está completo. Verifique seu e-mail para obter detalhes.", quick_reply=quick_reply)
-            elif user_language == 'Spanish':
-                text_message = TextSendMessage(text="La cancelación está completa. Revisa tu e-mail para más detalles.", quick_reply=quick_reply)
-            elif user_language == 'Tagalog':
-                text_message = TextSendMessage(text="Kumpleto na ang pagkansela. Tingnan ang iyong email para sa mga detalye.", quick_reply=quick_reply)
-            elif user_language == 'Vietnamese':
-                text_message = TextSendMessage(text="Việc hủy bỏ đã hoàn tất. Kiểm tra email của bạn để biết chi tiết.", quick_reply=quick_reply)
-            elif user_language == 'Japanese':
-                text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
-            else:
-                text_message = TextSendMessage(text="Cancellation is complete. Check your email for details.", quick_reply=quick_reply)
+            # if user_language == 'Portuguese':
+            #     text_message = TextSendMessage(text="O cancelamento está completo. Verifique seu e-mail para obter detalhes.", quick_reply=quick_reply)
+            # elif user_language == 'Spanish':
+            #     text_message = TextSendMessage(text="La cancelación está completa. Revisa tu e-mail para más detalles.", quick_reply=quick_reply)
+            # elif user_language == 'Tagalog':
+            #     text_message = TextSendMessage(text="Kumpleto na ang pagkansela. Tingnan ang iyong email para sa mga detalye.", quick_reply=quick_reply)
+            # elif user_language == 'Vietnamese':
+            #     text_message = TextSendMessage(text="Việc hủy bỏ đã hoàn tất. Kiểm tra email của bạn để biết chi tiết.", quick_reply=quick_reply)
+            # elif user_language == 'Japanese':
+            #     text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
+            # else:
+            #     text_message = TextSendMessage(text="Cancellation is complete. Check your email for details.", quick_reply=quick_reply)
 
-            # Push the message to the user
-            line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+            # # Push the message to the user
+            # line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
 
-            from linebot.exceptions import LineBotApiError
-            try:
-                line_bot_api.reply_message(reply_token, text_message)
-            except LineBotApiError as e:
-                print("Error:", e)
+            # from linebot.exceptions import LineBotApiError
+            # try:
+            #     line_bot_api.reply_message(reply_token, text_message)
+            # except LineBotApiError as e:
+            #     print("Error:", e)
         else:
             print("No active subscription found for this customer.")
 

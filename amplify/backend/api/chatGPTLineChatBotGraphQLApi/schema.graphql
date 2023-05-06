@@ -14,8 +14,13 @@ type MessageCount
   @model {
   id: ID!
   customerId: String
+  user_language: String
   plan: String!
   first_purchase_date: AWSDateTime!
   updated_purchase_date: AWSDateTime!
   message_count: Int!
+  image_translate_count: Int
+  flag_payment: Int
+  flag_op1: Int
+  flag_op2: Int
 }

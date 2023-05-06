@@ -5,8 +5,18 @@ import db_accessor
 import stripe
 from botocore.exceptions import ClientError
 import time
+from linebot import LineBotApi, WebhookHandler
+from linebot.models import TextSendMessage
 
 stripe.api_key = const.STRIPE_API_KEY
+
+# LINE Botのアクセストークンとシークレットを設定
+LINE_CHANNEL_ACCESS_TOKEN = const.LINE_CHANNEL_ACCESS_TOKEN
+LINE_CHANNEL_SECRET = const.LINE_CHANNEL_SECRET
+
+# LINE Bot APIの初期化
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
 def get_product_id(event_type, event_data):
     product_id = None
@@ -116,6 +126,8 @@ def handler(event, context):
         # 商品IDと顧客IDを使用して、メッセージの送信可能回数を更新
         try:
             db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
+            message = TextSendMessage(text="契約が更新されました。ステータスはステータスタブから確認できます。引き続きPicToLangをご活用ください。")
+            line_bot_api.push_message(line_user_id, message)
         
         except ValueError as e:
             print("Error updating message count:", e)
@@ -135,6 +147,8 @@ def handler(event, context):
         try:
             db_accessor.update_plan_to_free_by_customer_id(customer_id)
             print("正常にユーザーのプランが'free'にアップデートされました")
+            message = TextSendMessage(text="契約が解約されました。あなたはfreeユーザーにになりました。詳しい内容はメールからご確認ください。")
+            line_bot_api.push_message(line_user_id, message)
             return {
                 'statusCode': 200,
                 'body': json.dumps({'message': 'Successfully processed customer.subscription.deleted event'})

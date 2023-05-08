@@ -502,19 +502,19 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             if user_language == 'Portuguese':
-                text_message = TextSendMessage(text=f"Seu plano é {plan}. Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Seu plano é {plan} plan. Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.", quick_reply=quick_reply)
             elif user_language == 'Spanish':
-                text_message = TextSendMessage(text=f"Su plan es {plan}. Seleccione el plan que desea actualizar o degradar usando el botón a continuación.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Su plan es {plan} plan. Seleccione el plan que desea actualizar o degradar usando el botón a continuación.", quick_reply=quick_reply)
             elif user_language == 'English':
-                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Your plan is {plan} plan. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
             elif user_language == 'Tagalog':
-                text_message = TextSendMessage(text=f"Ang iyong plano ay {plan}. Pakipili ang planong gusto mong i-upgrade o i-downgrade gamit ang button sa ibaba.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Ang iyong plano ay {plan} plan. Pakipili ang planong gusto mong i-upgrade o i-downgrade gamit ang button sa ibaba.", quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
-                text_message = TextSendMessage(text=f"Kế hoạch của bạn là {plan}. Vui lòng chọn gói bạn muốn nâng cấp hoặc hạ cấp từ nút bên dưới.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Kế hoạch của bạn là {plan} plan. Vui lòng chọn gói bạn muốn nâng cấp hoặc hạ cấp từ nút bên dưới.", quick_reply=quick_reply)
             elif user_language == 'Japanese':
-                text_message = TextSendMessage(text=f"あなたのプランは{plan}です。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"あなたのプランは{plan} planです。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
             else:
-                text_message = TextSendMessage(text=f"Your plan is {plan}. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f"Your plan is {plan} plan. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:

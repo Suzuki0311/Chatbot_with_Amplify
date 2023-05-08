@@ -36,7 +36,7 @@ def update_customer_id_by_client_reference_id(client_reference_id, customer_id):
         print(f"Error updating customer ID by client reference ID: {e}")
         raise
 
-def update_message_count_by_product_id(customer_id, line_user_id, product_id):
+def update_message_count_by_product_id(customer_id, line_user_id, product_id, next_update_date):
     if product_id == const.PRODUCT_ID_BASIC:
         message_count = 100
         plan = "basic"
@@ -75,10 +75,11 @@ def update_message_count_by_product_id(customer_id, line_user_id, product_id):
         update_params = {
                             'TableName': MESSAGE_COUNT_TABLE_NAME,
                             'Key': {'id': item['id']},
-                            'UpdateExpression': 'SET message_count = :message_count, #plan = :plan',
+                            'UpdateExpression': 'SET message_count = :message_count, #plan = :plan, next_update_date = :next_update_date',
                             'ExpressionAttributeValues': {
                                 ':message_count': {'N': str(message_count)},
-                                ':plan': {'S': plan}
+                                ':plan': {'S': plan},
+                                ':next_update_date': {'S': next_update_date}
                             },
                             'ExpressionAttributeNames': {
                                 '#plan': 'plan'

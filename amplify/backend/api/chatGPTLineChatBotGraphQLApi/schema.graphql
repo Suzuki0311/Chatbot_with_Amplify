@@ -18,6 +18,7 @@ type MessageCount
   plan: String!
   first_purchase_date: AWSDateTime!
   updated_purchase_date: AWSDateTime!
+  next_update_date: AWSDateTime! 
   message_count: Int!
   image_translate_count: Int
   flag_payment: Int

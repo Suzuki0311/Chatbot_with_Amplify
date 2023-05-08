@@ -141,7 +141,38 @@ def send_flex_message_upgrade(plan,quick_reply,user_language):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply):
+def create_status_flex_message(plan, remaining_messages, next_update_date, user_language, quick_reply):
+    if user_language == 'Portuguese':
+        text_title = "Detalhes do plano"
+        text_plan = "Plano:"
+        text_Remaining_Messages = "Mensagens Restantes:"
+        text_next_upadate_date = "Próxima data de atualização:"
+    elif user_language == 'Spanish':
+        text_title = "detalles del plan"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Mensajes restantes:"
+        text_next_upadate_date = "Fecha de próxima actualización:"
+    elif user_language == 'Tagalog':
+        text_title = "mga detalye ng plano"
+        text_plan = "Plano:"
+        text_Remaining_Messages = "Mga Natitirang Mensahe:"
+        text_next_upadate_date = "Susunod na Petsa ng Pag-update:"
+    elif user_language == 'Vietnamese':
+        text_title = "kế hoạch chi tiết"
+        text_plan = "kế hoạch:"
+        text_Remaining_Messages = "Tin nhắn còn lại:"
+        text_next_upadate_date = "Ngày cập nhật tiếp theo:"
+    elif user_language == 'Japanese':
+        text_title = "Plan Details"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Remaining Messages:"
+        text_next_upadate_date = "Next Update Date:"
+    else:
+        text_title = "Plan Details"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Remaining Messages:"
+        text_next_upadate_date = "Next Update Date:"
+
     flex_message_reply = {
         "type": "bubble",
         "body": {
@@ -150,7 +181,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
             "contents": [
                 {
                     "type": "text",
-                    "text": "Plan Details",
+                    "text": text_title,
                     "weight": "bold",
                     "size": "xl",
                     "margin": "md"
@@ -171,14 +202,14 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Plan:",
+                                    "text": text_plan,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
                                 },
                                 {
                                     "type": "text",
-                                    "text": f"{plan}",
+                                    "text": f"{plan} plan",
                                     "size": "sm",
                                     "color": "#111111",
                                     "align": "end"
@@ -191,7 +222,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Remaining Messages:",
+                                    "text": text_Remaining_Messages,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
@@ -211,7 +242,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Next Update Date:",
+                                    "text": text_next_upadate_date,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
@@ -843,7 +874,7 @@ def handle_message_event(event_body):
         next_update_date = db_accessor.get_next_update_date(line_user_id)
         print("remaining_messages:",next_update_date)
 
-        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply)
+        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, user_language, quick_reply)
 
         from linebot.exceptions import LineBotApiError
         try:

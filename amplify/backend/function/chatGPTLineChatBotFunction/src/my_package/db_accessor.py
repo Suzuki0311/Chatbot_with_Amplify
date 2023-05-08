@@ -165,9 +165,9 @@ def get_line_user_data(line_user_id: str) -> dict:
 
 def insert_data(line_user_id: str, user_language: str) -> None:
     now = datetime.now()
-    now_iso = now.isoformat()
+    now_iso = now.strftime('%Y-%m-%dT%H:%M:%S')
     next_update_date = now + timedelta(days=30)
-    next_update_date_iso = next_update_date.isoformat()
+    next_update_date_iso = next_update_date.strftime('%Y-%m-%dT%H:%M:%S')
 
     put_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
@@ -186,6 +186,7 @@ def insert_data(line_user_id: str, user_language: str) -> None:
         dynamodb.put_item(**put_params)
     except Exception as e:
         raise e
+
 
 def get_user_plan(line_user_id: str) -> str:
     query_params = {
@@ -235,9 +236,8 @@ def get_next_update_date(line_user_id: str) -> str:
         query_result = dynamodb.get_item(**query_params)
         if 'Item' in query_result:
             next_update_date_str = query_result['Item']['next_update_date']['S']
-            next_update_date = datetime.strptime(next_update_date_str, '%Y-%m-%dT%H:%M:%S%z')
-            next_update_date_plus_one = next_update_date + timedelta(days=1)
-            formatted_next_update_date = next_update_date_plus_one.strftime('%Y-%m-%d')
+            next_update_date = datetime.strptime(next_update_date_str, '%Y-%m-%dT%H:%M:%S')
+            formatted_next_update_date = next_update_date.strftime('%Y-%m-%d')
             return formatted_next_update_date
         else:
             return None

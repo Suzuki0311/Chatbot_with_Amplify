@@ -883,8 +883,10 @@ def handle_message_event(event_body):
         plan = db_accessor.get_user_plan(line_user_id)
         print("plan:",plan)
         remaining_messages = db_accessor.get_current_message_count(line_user_id)
+        print("remaining_messages:",remaining_messages)
 
         next_update_date = db_accessor.get_next_update_date(line_user_id)
+        print("remaining_messages:",next_update_date)
 
         flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id)
 

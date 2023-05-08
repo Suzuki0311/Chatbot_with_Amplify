@@ -168,6 +168,119 @@ def send_flex_message_upgrade(plan,quick_reply,user_language):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
+def create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id):
+    flex_message = {
+        "type": "bubble",
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": "Plan Details",
+                    "weight": "bold",
+                    "size": "xl",
+                    "margin": "md"
+                },
+                {
+                    "type": "separator",
+                    "margin": "md"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "margin": "md",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Plan:",
+                                    "size": "sm",
+                                    "color": "#555555",
+                                    "flex": 0
+                                },
+                                {
+                                    "type": "text",
+                                    "text": f"{plan}",
+                                    "size": "sm",
+                                    "color": "#111111",
+                                    "align": "end"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Remaining Messages:",
+                                    "size": "sm",
+                                    "color": "#555555",
+                                    "flex": 0
+                                },
+                                {
+                                    "type": "text",
+                                    "text": f"{remaining_messages}",
+                                    "size": "sm",
+                                    "color": "#111111",
+                                    "align": "end"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "Next Update Date:",
+                                    "size": "sm",
+                                    "color": "#555555",
+                                    "flex": 0
+                                },
+                                {
+                                    "type": "text",
+                                    "text": f"{next_update_date}",
+                                    "size": "sm",
+                                    "color": "#111111",
+                                    "align": "end"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "horizontal",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "User ID:",
+                                    "size": "sm",
+                                    "color": "#555555",
+                                    "flex": 0
+                                },
+                                {
+                                    "type": "text",
+                                    "text": f"{line_user_id}",
+                                    "size": "sm",
+                                    "color": "#111111",
+                                    "align": "end"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+
+    return flex_message
+
+
 
 def extract_info_from_event_body(event_body):
     prompt_text = line_request_body_parser.get_prompt_text(event_body)
@@ -208,18 +321,12 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="上司へお礼メール", text="飲み会でお世話になった上司へのお礼メールを書いてください")),
             QuickReplyButton(action=MessageAction(label="日本の有名な観光名所", text="日本で有名な観光名所をいくつか教えてください")),
             QuickReplyButton(action=MessageAction(label="英語学習", text="いくつかビジネスに必須な英単語とその日本語訳をまとめたものを提示してください")),
-            QuickReplyButton(action=MessageAction(label="彼氏・彼女をなぐさめる", text="喧嘩した恋人と仲直りするためのメールを書いてください")),
+            QuickReplyButton(action=MessageAction(label="ステータス", text="今のステータスを教えてください")),
             QuickReplyButton(action=MessageAction(label="アップグレード", text="アップグレードしたいです")),
             QuickReplyButton(action=MessageAction(label="お問い合わせ", text="お問い合わせ")),
             QuickReplyButton(action=MessageAction(label="解約", text="解約したいです"))
     ]
 
-    # elif user_language == 'Chinese':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
     elif user_language == 'Spanish':
         return  [
             QuickReplyButton(action=MessageAction(label="Traducción Española", text="Traduce lo anterior al Español.")),
@@ -236,30 +343,7 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="contacto", text="contacto")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quiero cancelar la aplicación"))
     ]
-    # elif user_language == 'French':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
-    # elif user_language == 'German':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
-    # elif user_language == 'Italian':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
-    # elif user_language == 'Korean':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
+
     elif user_language == 'Portuguese':
         return  [
             QuickReplyButton(action=MessageAction(label="Traduzir portugues", text="Traduza o acima para o portugues")),
@@ -276,12 +360,6 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Contato conosco", text="Contato conosco")),
             QuickReplyButton(action=MessageAction(label="Cancelar", text="Quero cancelar o aplicativo"))
     ]
-    # elif user_language == 'Thai':
-    #     return [
-    #         QuickReplyButton(action=MessageAction(label="お問い合せ", text="お問い合せ")),
-    #         QuickReplyButton(action=MessageAction(label="今日の献立", text="今日の献立を提案してください")),
-    #         QuickReplyButton(action=MessageAction(label="上司へのお礼メール", text="上司へのお礼メールを書いてください"))
-    # ]
 
     elif user_language == 'Vietnamese':
         return [
@@ -310,7 +388,7 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Yaman", text="Sabihin kung paano yumaman")),
             QuickReplyButton(action=MessageAction(label="Detalye", text="Kwento ng mas detalyado")),
             QuickReplyButton(action=MessageAction(label="Aralin Ingles", text="Pakilala ng listahan ng ilang mahalagang salita sa Ingles para sa negosyo at ang pagsasalin nito sa Tagalog")),
-            QuickReplyButton(action=MessageAction(label="Estado", text="Sabihin ang kasalukuyang estado")),
+            QuickReplyButton(action=MessageAction(label="katayuan", text="Sabihin mo sa akin ang status")),
             QuickReplyButton(action=MessageAction(label="Pagod sa trabaho", text="Pagod ako sa trabaho, pakipasaya ako")),
             QuickReplyButton(action=MessageAction(label="I-update", text="Gusto kong i-update ang aking app")),
             QuickReplyButton(action=MessageAction(label="Makipag-ugnay", text="Makipag-ugnay sa amin")),
@@ -566,27 +644,6 @@ def handle_message_event(event_body):
             canceled_subscription = cancel_subscription(subscription_id)
             print(f"Canceled subscription: {canceled_subscription['id']}")
 
-            # if user_language == 'Portuguese':
-            #     text_message = TextSendMessage(text="O cancelamento está completo. Verifique seu e-mail para obter detalhes.", quick_reply=quick_reply)
-            # elif user_language == 'Spanish':
-            #     text_message = TextSendMessage(text="La cancelación está completa. Revisa tu e-mail para más detalles.", quick_reply=quick_reply)
-            # elif user_language == 'Tagalog':
-            #     text_message = TextSendMessage(text="Kumpleto na ang pagkansela. Tingnan ang iyong email para sa mga detalye.", quick_reply=quick_reply)
-            # elif user_language == 'Vietnamese':
-            #     text_message = TextSendMessage(text="Việc hủy bỏ đã hoàn tất. Kiểm tra email của bạn để biết chi tiết.", quick_reply=quick_reply)
-            # elif user_language == 'Japanese':
-            #     text_message = TextSendMessage(text="解約が完了しました。詳細はメールにてご確認ください。", quick_reply=quick_reply)
-            # else:
-            #     text_message = TextSendMessage(text="Cancellation is complete. Check your email for details.", quick_reply=quick_reply)
-
-            # # Push the message to the user
-            # line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
-
-            # from linebot.exceptions import LineBotApiError
-            # try:
-            #     line_bot_api.reply_message(reply_token, text_message)
-            # except LineBotApiError as e:
-            #     print("Error:", e)
         else:
             print("No active subscription found for this customer.")
 
@@ -785,6 +842,7 @@ def handle_message_event(event_body):
         except Exception as e:
             print(f"Error upgrading subscription: {e}")
             return None
+        
     elif prompt_text == "Não, continuarei com meu contrato atual" or prompt_text == "No, continuaré con mi contrato actual." or prompt_text == "Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình" or prompt_text == "Không, tôi sẽ tiếp tục hợp đồng hiện tại của mình" or prompt_text == "いいえ、引き続き今の契約を続けます。"or prompt_text == "No, I will continue my current contract":
          # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
@@ -814,6 +872,28 @@ def handle_message_event(event_body):
             # line_bot_api.reply_message(reply_token, [text_message, flex_message])
         except LineBotApiError as e:
             print("Error:", e)
+    
+    elif prompt_text == "Dime el estado." or prompt_text == "今のステータスを教えてください" or prompt_text == "Diga-me o estado." or prompt_text == "Cho tôi biết trạng thái" or prompt_text == "Sabihin mo sa akin ang status" or prompt_text == "Tell me the status.":
+        # Push the message to the user
+        line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
+        # Create quick reply buttons
+        quick_reply_buttons = create_quick_reply_buttons(user_language)
+        quick_reply = QuickReply(items=quick_reply_buttons)
+
+        plan = db_accessor.get_user_plan(line_user_id)
+        print("plan:",plan)
+        remaining_messages = db_accessor.get_current_message_count(line_user_id)
+
+        next_update_date = db_accessor.get_next_update_date(line_user_id)
+
+        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id)
+
+        from linebot.exceptions import LineBotApiError
+        try:
+            line_bot_api.reply_message(reply_token, flex_message)
+        except LineBotApiError as e:
+            print("Error:", e)
+
 
     else:
         if message_count != 0:

@@ -7,6 +7,7 @@ from botocore.exceptions import ClientError
 import time
 from linebot import LineBotApi, WebhookHandler
 from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, MessageAction,TextSendMessage,TemplateSendMessage, ConfirmTemplate
+from datetime import datetime
 
 stripe.api_key = const.STRIPE_API_KEY
 
@@ -39,6 +40,15 @@ def get_product_id(event_type, event_data):
                 break
 
     return product_id
+
+def get_next_update_date(customer_id):
+    subscriptions = stripe.Subscription.list(customer=customer_id)
+
+    for subscription in subscriptions:
+        if subscription["status"] == "active":
+            next_update_date = subscription["current_period_end"]
+            return datetime.fromtimestamp(next_update_date).strftime('%Y-%m-%dT%H:%M:%S%z')
+    return None
 
 def create_quick_reply_buttons(user_language):
     if user_language == 'Japanese':
@@ -176,29 +186,6 @@ def handler(event, context):
             'body': json.dumps({'message': 'Successfully processed checkout.session.completed event'})
         }
 
-        # try:
-        #     db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
-        #     print("正常にユーザーの回数がアップデートされました")
-        # except ValueError as e:
-        #     print("Error updating message count:", e)
-
-    # elif event_type == 'customer.subscription.updated': #サブスクリプション更新時
-    #     customer_id = body.get('data', {}).get('object', {}).get('customer')
-    #     print("customer.subscription.updatedイベントのcustomer_id:",customer_id)
-
-    #     line_user_id = db_accessor.get_line_user_id_by_customer_id(customer_id)
-    #     print("customer.subscription.updatedイベントのline_user_id:",line_user_id)
-
-    #     product_id = get_product_id(event_type, body)
-    #     print("customer.subscription.updatedイベントのproduct_id:",product_id)
-
-    #     # 商品IDと顧客IDを使用して、メッセージの送信可能回数を更新
-    #     try:
-    #         db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
-        
-    #     except ValueError as e:
-    #         print("Error updating message count:", e)
-
     elif event_type == 'invoice.payment_succeeded': #支払い完了時
         print("invoice.payment_succeededイベント発行")
         def wait_for_line_user_id(customer_id, retries=5, delay=1):
@@ -222,6 +209,8 @@ def handler(event, context):
                 'body': json.dumps({'message': 'line_user_id is still None after 10 retries'})
             }
 
+        next_update_date = get_next_update_date(customer_id)
+        
         product_id = get_product_id(event_type, body)
         print("invoice.payment_succeededイベントのproduct_id:",product_id)
 
@@ -232,7 +221,7 @@ def handler(event, context):
 
         # 商品IDと顧客IDを使用して、メッセージの送信可能回数を更新
         try:
-            db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id)
+            db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id, next_update_date)
             if user_language == 'Portuguese':
                 message = TextSendMessage(text='Seu contrato foi renovado. Seu plano foi assinado. Você pode verificar o status atualizado na guia "status".',quick_reply=quick_reply)
             elif user_language == 'Spanish':

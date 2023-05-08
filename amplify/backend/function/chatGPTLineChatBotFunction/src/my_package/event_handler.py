@@ -168,8 +168,8 @@ def send_flex_message_upgrade(plan,quick_reply,user_language):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id):
-    flex_message = {
+def create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply):
+    flex_message_reply = {
         "type": "bubble",
         "body": {
             "type": "box",
@@ -277,7 +277,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
             ]
         }
     }
-
+    flex_message = FlexSendMessage(alt_text='Your Status', contents=flex_message_reply,quick_reply=quick_reply)
     return flex_message
 
 
@@ -888,7 +888,7 @@ def handle_message_event(event_body):
         next_update_date = db_accessor.get_next_update_date(line_user_id)
         print("remaining_messages:",next_update_date)
 
-        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id)
+        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply)
 
         from linebot.exceptions import LineBotApiError
         try:

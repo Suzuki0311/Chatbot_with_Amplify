@@ -141,7 +141,38 @@ def send_flex_message_upgrade(plan,quick_reply,user_language):
             flex_message = FlexSendMessage(alt_text='Choose a plan', contents=flex_message_reply,quick_reply=quick_reply)
             return flex_message
 
-def create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply):
+def create_status_flex_message(plan, remaining_messages, next_update_date, user_language, quick_reply):
+    if user_language == 'Portuguese':
+        text_title = "Detalhes do plano"
+        text_plan = "Plano:"
+        text_Remaining_Messages = "Mensagens Restantes:"
+        text_next_upadate_date = "Próxima data de atualização:"
+    elif user_language == 'Spanish':
+        text_title = "detalles del plan"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Mensajes restantes:"
+        text_next_upadate_date = "Fecha de próxima actualización:"
+    elif user_language == 'Tagalog':
+        text_title = "mga detalye ng plano"
+        text_plan = "Plano:"
+        text_Remaining_Messages = "Mga Natitirang Mensahe:"
+        text_next_upadate_date = "Susunod na Petsa ng Pag-update:"
+    elif user_language == 'Vietnamese':
+        text_title = "kế hoạch chi tiết"
+        text_plan = "kế hoạch:"
+        text_Remaining_Messages = "Tin nhắn còn lại:"
+        text_next_upadate_date = "Ngày cập nhật tiếp theo:"
+    elif user_language == 'Japanese':
+        text_title = "Plan Details"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Remaining Messages:"
+        text_next_upadate_date = "Next Update Date:"
+    else:
+        text_title = "Plan Details"
+        text_plan = "Plan:"
+        text_Remaining_Messages = "Remaining Messages:"
+        text_next_upadate_date = "Next Update Date:"
+
     flex_message_reply = {
         "type": "bubble",
         "body": {
@@ -150,7 +181,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
             "contents": [
                 {
                     "type": "text",
-                    "text": "Plan Details",
+                    "text": text_title,
                     "weight": "bold",
                     "size": "xl",
                     "margin": "md"
@@ -171,14 +202,14 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Plan:",
+                                    "text": text_plan,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
                                 },
                                 {
                                     "type": "text",
-                                    "text": f"{plan}",
+                                    "text": f"{plan} plan",
                                     "size": "sm",
                                     "color": "#111111",
                                     "align": "end"
@@ -191,7 +222,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Remaining Messages:",
+                                    "text": text_Remaining_Messages,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
@@ -211,7 +242,7 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "Next Update Date:",
+                                    "text": text_next_upadate_date,
                                     "size": "sm",
                                     "color": "#555555",
                                     "flex": 0
@@ -394,24 +425,26 @@ def handle_follow_event(event_body):
     # お問い合わせフォームのURL
     queryformurl = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
 
+    # Create quick reply buttons
+    quick_reply_buttons = create_quick_reply_buttons(user_language)
+    quick_reply = QuickReply(items=quick_reply_buttons) 
+
 
     # If the user doesn't exist in DynamoDB, insert their data
     if user_exists == "No":
         db_accessor.insert_data(line_user_id, user_language)
         if user_language == 'Portuguese':
-            welcome_message = f"Obrigado por se registrar como amigo. O PicToLang responde às suas perguntas diárias. Além disso, ao enviar fotos de documentos escritos em outros idiomas, eles traduzirão e resumirão em alto nível. \nPara uso detalhado, entri no link do Youtube ou site portal. \n{youtubeurl}\n{portalsite}\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , a operadora responderá , então, por favor, aproveite. \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia Atualizar."
+            welcome_message = f'Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível. \nPara obter informações detalhadas sobre o uso, acesse o link do YouTube ou visite nosso site. \nYouTube👇\n{youtubeurl}\n\nnosso site👇{portalsite}\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. , o operador responderá , então, por favor, aproveite. \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia "Atualizar".'
         elif user_language == 'Spanish':
-            welcome_message = f"Gracias por registrarte como amigo. PicToLang responde a sus preguntas diarias. Además, al enviar fotos de documentos escritos en otros idiomas, traducirán y resumirán a un alto nivel. \nPara un uso detallado, ingrese el enlace de Youtube o el sitio del portal. \n{youtubeurl}\n{portalsite}\nSi tiene alguna pregunta, comuníquese con nosotros a través del siguiente enlace. , el operador responderá, así que disfrute. \n{queryformurl}\n\nActualmente eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si desea usar más que eso, renueve su plan en la pestaña Actualizar."
-        elif user_language == 'English':
-            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+            welcome_message = f'Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder tus preguntas diariamente. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y proporcionaremos un resumen de alto nivel. \nPara obtener información detallada sobre el uso, accede al enlace de YouTube o visita nuestro sitio web. \nYouTube👇\n{youtubeurl}\n\nnuestro sitio👇{portalsite}\nSi tienes alguna pregunta, ponte en contacto con el enlace de abajo. El operador responderá, así que disfruta. \n{queryformurl}\n\nPor ahora eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si deseas utilizar más de eso, renueva tu plan en la pestaña "Actualizar".'
         elif user_language == 'Tagalog':
-            welcome_message = f"Salamat sa pagrehistro bilang isang kaibigan. Sinasagot ng PicToLang ang iyong mga pang-araw-araw na tanong. Gayundin, kapag nagpapadala ng mga larawan ng mga dokumentong nakasulat sa ibang mga wika, sila ay magsasalin at magbubuod sa mataas na antas. \nPara sa detalyadong paggamit, pakipasok ang Youtube link o portal site. \n{youtubeurl}\n{portalsite}\nKung mayroon kang anumang mga tanong, mangyaring makipag-ugnayan sa amin gamit ang link sa ibaba. , tutugon ang operator, kaya mangyaring magsaya. \n{queryformurl}\n\nKasalukuyan kang isang libreng user at maaaring magpadala ng 7 mensahe bawat buwan. Kung gusto mong gumamit ng higit pa riyan, i-renew ang iyong plano sa tab na Mag-upgrade."
+            welcome_message = f'Salamat sa pagrehistro bilang kaibigan sa PicToLang. Narito kami upang sagutin ang iyong mga katanungan araw-araw. Bukod dito, sa pagpapadala ng mga larawan ng mga dokumentong nakasulat sa ibang wika, gagawin namin ang pagsasalin at magbibigay ng mataas na antas na buod. \nPara sa detalyadong impormasyon tungkol sa paggamit, bisitahin ang link ng YouTube o bisitahin ang aming website. \nYouTube👇\n{youtubeurl}\n\naming site👇{portalsite}\nKung mayroon kang mga katanungan, mangyaring makipag-ugnay sa link sa ibaba. Ang operator ay tutugon, kaya mangyaring tangkilikin. \n{queryformurl}\n\nSa ngayon ikaw ay isang libreng gumagamit at maaari kang magpadala ng 7 mga mensahe bawat buwan. Kung nais mong gamitin ang higit pa sa iyon, i-update ang iyong plano sa tab na "I-update".'
         elif user_language == 'Vietnamese':
-            welcome_message = f"Cảm ơn bạn đã đăng ký như một người bạn. PicToLang trả lời các câu hỏi hàng ngày của bạn. Ngoài ra, khi gửi ảnh tài liệu viết bằng ngôn ngữ khác, họ sẽ dịch và tóm tắt ở mức độ cao. \nĐể biết cách sử dụng chi tiết, vui lòng nhập liên kết Youtube hoặc trang web cổng thông tin. \n{youtubeurl}\n{portalsite}\nNếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi bằng liên kết bên dưới. , nhà điều hành sẽ trả lời , vì vậy hãy tận hưởng. \n{queryformurl}\n\nBạn hiện là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn thế, hãy gia hạn gói của bạn trên tab Nâng cấp."
+            welcome_message = f'Cảm ơn bạn đã đăng ký làm bạn với PicToLang. Chúng tôi ở đây để trả lời các câu hỏi của bạn hàng ngày. Ngoài ra, khi gửi ảnh của các tài liệu viết bằng các ngôn ngữ khác, chúng tôi sẽ dịch và cung cấp một tóm tắt cấp cao. \nĐể biết thông tin chi tiết về cách sử dụng, hãy truy cập liên kết YouTube hoặc truy cập trang web của chúng tôi. \nYouTube👇\n{youtubeurl}\n\ntrang web của chúng tôi👇{portalsite}\nNếu bạn có thắc mắc, vui lòng liên hệ thông qua liên kết bên dưới. Điều hành viên sẽ trả lời, vì vậy hãy tận hưởng. \n{queryformurl}\n\nHiện tại bạn là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn, hãy cập nhật gói của bạn trong tab "Cập nhật".'
         elif user_language == 'Japanese':
-            welcome_message = f"友達登録ありがとうございます。PicToLangは、あなたが日常的に疑問に思った内容を送ることで、回答してくれます。また、日々他の言語で書かれた書類の写真を送信することで、翻訳や要約を高いレベルでしてくれます。\n詳しい使い方は、以下のYoutubeリンクもしくはポータルサイトをご参照ください。\n{youtubeurl}\n{portalsite}\nまた、分からないことがあれば以下のリンクから問い合わせしてくれますと、運営者が回答してくれますので、ご活用ください。\n{queryformurl}\n\n現時点であなたはfreeユーザーで月に7回のメッセージを送信可能です。それ以上お使いになりたい場合は、アップグレードタブからプランの更新をしてください。"
+            welcome_message = f'PicToLangを友達登録していただきありがとうございます。PicToLangはあなたの日常的な質問に答えます。また、他の言語で書かれた文書の写真を送信すると、翻訳を行い、高レベルの要約を提供します。\n利用方法の詳細については、YouTubeのリンクを参照するか、ウェブサイトをご覧ください。\nYouTube👇\n{youtubeurl}\n\nウェブサイト👇{portalsite}\n質問がある場合は、以下のリンクからお問い合わせください。オペレーターが対応いたします。\n{queryformurl}\n\n現在、あなたは無料ユーザー(free)であり、月に7通のメッセージを送信できます。それ以上の利用を希望する場合は、「アップグレード」タブでプランを更新してください。'
         else:
-            welcome_message = f"Thank you for registering as a friend. PicToLang answers your daily questions. Also, when sending photos of documents written in other languages, they will translate and summarize at a high level. \nFor detailed usage, please enter Youtube link or portal site. \n{youtubeurl}\n{portalsite}\nIf you have any questions, please contact us using the link below. , the operator will respond , so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you want to use more than that, renew your plan on the Upgrade tab."
+            welcome_message = f'Thank you for registering as a friend on PicToLang. We are here to answer your questions daily. In addition, when you send photos of documents written in other languages, we will translate and provide a high-level summary. \nFor detailed information on usage, please access the YouTube link or visit our website. \nYouTube👇\n{youtubeurl}\n\nour website👇{portalsite}\nIf you have any questions, please contact us via the link below. The operator will respond, so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you wish to use more than that, please update your plan in the "Update" tab.'
 
     else:
         user_data = db_accessor.get_line_user_data(line_user_id)
@@ -433,7 +466,7 @@ def handle_follow_event(event_body):
             welcome_message = f"Thank you for joining us again.\nYou are currently a {plan} user and have {message_count} messages left this month.\nThank you for your continued support."
 
     # Reply the welcome message using the LineBotApi instance
-    line_api.reply_message_for_line(reply_token, welcome_message, None)  # Consider removing QuickReply or using a different function for sending the message
+    line_api.reply_message_for_line(reply_token, welcome_message, quick_reply)  # Consider removing QuickReply or using a different function for sending the message
 
 def handle_message_event(event_body):
     # Extract necessary information from event_body
@@ -841,7 +874,7 @@ def handle_message_event(event_body):
         next_update_date = db_accessor.get_next_update_date(line_user_id)
         print("remaining_messages:",next_update_date)
 
-        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, line_user_id, quick_reply)
+        flex_message = create_status_flex_message(plan, remaining_messages, next_update_date, user_language, quick_reply)
 
         from linebot.exceptions import LineBotApiError
         try:

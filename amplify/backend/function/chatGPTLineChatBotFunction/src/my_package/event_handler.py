@@ -26,44 +26,17 @@ def send_flex_message(plan, line_user_id, quick_reply,user_language):
             premium_plan_component = flex_message_contents.premium_plan_component(premium_plan_url,user_language)
 
             if user_language == 'Portuguese':
-                text_below = "A lista de planos está abaixo"
+                text_below = "Lista de planos"
             elif user_language == 'Spanish':
-                text_below = "La lista de planes está abajo"
+                text_below = "Lista de planes"
             elif user_language == 'Tagalog':
-                text_below = "Nasa ibaba ang listahan ng plano"
+                text_below = "Listahan ng Plano"
             elif user_language == 'Vietnamese':
-                text_below = "Danh sách kế hoạch dưới đây"
+                text_below = "Danh sách kế hoạch"
             elif user_language == 'Japanese':
-                text_below = "プラン一覧は以下です"
+                text_below = "プラン一覧"
             else:
-                text_below = "The plan list is below"
-            
-            # flex_message_reply = {
-            #                 "type": "bubble",
-            #                 "body": {
-            #                     "type": "box",
-            #                     "layout": "vertical",
-            #                     "contents": [
-            #                         {
-            #                             "type": "text",
-            #                             "text": text_below,
-            #                             "weight": "bold",
-            #                             "size": "xl"
-            #                         },
-            #                         basic_plan_component,
-            #                         {
-            #                             "type": "spacer",
-            #                             "size": "md"
-            #                         },
-            #                         standard_plan_component,
-            #                         {
-            #                             "type": "spacer",
-            #                             "size": "md"
-            #                         },
-            #                         premium_plan_component
-            #                     ]
-            #                 }
-            #             }
+                text_below = "Plan List"
 
             flex_message_reply = {
                 "type": "bubble",
@@ -93,17 +66,17 @@ def send_flex_message_upgrade(plan,quick_reply,user_language):
             premium_plan_component = flex_message_contents.premium_plan_component_upgrade(user_language)
 
             if user_language == 'Portuguese':
-                text_below = "A lista de planos está abaixo"
+                text_below = "Lista de planos"
             elif user_language == 'Spanish':
-                text_below = "La lista de planes está abajo"
+                text_below = "Lista de planes"
             elif user_language == 'Tagalog':
-                text_below = "Nasa ibaba ang listahan ng plano"
+                text_below = "Listahan ng Plano"
             elif user_language == 'Vietnamese':
-                text_below = "Danh sách kế hoạch dưới đây"
+                text_below = "Danh sách kế hoạch"
             elif user_language == 'Japanese':
-                text_below = "プラン一覧は以下です"
+                text_below = "プラン一覧"
             else:
-                text_below = "The plan list is below"
+                text_below = "Plan List"
 
             if plan == "basic":
                 flex_message_reply = {
@@ -252,27 +225,6 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                                 }
                             ]
                         },
-                        # {
-                        #     "type": "box",
-                        #     "layout": "horizontal",
-                        #     "contents": [
-                        #         {
-                        #             "type": "text",
-                        #             "text": "User ID:",
-                        #             "size": "sm",
-                        #             "color": "#555555",
-                        #             "flex": 0
-                        #         },
-                        #         {
-                        #             "type": "text",
-                        #             "text": f"{line_user_id}",
-                        #             "size": "sm",
-                        #             "color": "#111111",
-                        #             "align": "end",
-                        #             "wrap": True
-                        #         }
-                        #     ]
-                        # }
                     ]
                 }
             ]

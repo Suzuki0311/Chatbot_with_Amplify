@@ -252,26 +252,27 @@ def create_status_flex_message(plan, remaining_messages, next_update_date, line_
                                 }
                             ]
                         },
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "User ID:",
-                                    "size": "sm",
-                                    "color": "#555555",
-                                    "flex": 0
-                                },
-                                {
-                                    "type": "text",
-                                    "text": f"{line_user_id}",
-                                    "size": "sm",
-                                    "color": "#111111",
-                                    "align": "end"
-                                }
-                            ]
-                        }
+                        # {
+                        #     "type": "box",
+                        #     "layout": "horizontal",
+                        #     "contents": [
+                        #         {
+                        #             "type": "text",
+                        #             "text": "User ID:",
+                        #             "size": "sm",
+                        #             "color": "#555555",
+                        #             "flex": 0
+                        #         },
+                        #         {
+                        #             "type": "text",
+                        #             "text": f"{line_user_id}",
+                        #             "size": "sm",
+                        #             "color": "#111111",
+                        #             "align": "end",
+                        #             "wrap": True
+                        #         }
+                        #     ]
+                        # }
                     ]
                 }
             ]

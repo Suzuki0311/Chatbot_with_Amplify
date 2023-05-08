@@ -62,7 +62,7 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="上司へお礼メール", text="飲み会でお世話になった上司へのお礼メールを書いてください")),
             QuickReplyButton(action=MessageAction(label="日本の有名な観光名所", text="日本で有名な観光名所をいくつか教えてください")),
             QuickReplyButton(action=MessageAction(label="英語学習", text="いくつかビジネスに必須な英単語とその日本語訳をまとめたものを提示してください")),
-            QuickReplyButton(action=MessageAction(label="彼氏・彼女をなぐさめる", text="喧嘩した恋人と仲直りするためのメールを書いてください")),
+            QuickReplyButton(action=MessageAction(label="ステータス", text="今のステータスを教えてください")),
             QuickReplyButton(action=MessageAction(label="アップグレード", text="アップグレードしたいです")),
             QuickReplyButton(action=MessageAction(label="お問い合わせ", text="お問い合わせ")),
             QuickReplyButton(action=MessageAction(label="解約", text="解約したいです"))
@@ -129,7 +129,7 @@ def create_quick_reply_buttons(user_language):
             QuickReplyButton(action=MessageAction(label="Yaman", text="Sabihin kung paano yumaman")),
             QuickReplyButton(action=MessageAction(label="Detalye", text="Kwento ng mas detalyado")),
             QuickReplyButton(action=MessageAction(label="Aralin Ingles", text="Pakilala ng listahan ng ilang mahalagang salita sa Ingles para sa negosyo at ang pagsasalin nito sa Tagalog")),
-            QuickReplyButton(action=MessageAction(label="Estado", text="Sabihin ang kasalukuyang estado")),
+            QuickReplyButton(action=MessageAction(label="Status", text="Sabihin ang kasalukuyang status")),
             QuickReplyButton(action=MessageAction(label="Pagod sa trabaho", text="Pagod ako sa trabaho, pakipasaya ako")),
             QuickReplyButton(action=MessageAction(label="I-update", text="Gusto kong i-update ang aking app")),
             QuickReplyButton(action=MessageAction(label="Makipag-ugnay", text="Makipag-ugnay sa amin")),
@@ -223,17 +223,17 @@ def handler(event, context):
         try:
             db_accessor.update_message_count_by_product_id(customer_id, line_user_id, product_id, next_update_date)
             if user_language == 'Portuguese':
-                message = TextSendMessage(text='Seu contrato foi renovado. Seu plano foi assinado. Você pode verificar o status atualizado na guia "status".',quick_reply=quick_reply)
+                message = TextSendMessage(text='Seu plano foi atualizado. Você pode verificar o status atualizado na guia "Estado".',quick_reply=quick_reply)
             elif user_language == 'Spanish':
-                message = TextSendMessage(text='Su contrato ha sido renovado. Su plan ha sido firmado. Puede comprobar el estado actualizado en la pestaña "Estado".',quick_reply=quick_reply)
+                message = TextSendMessage(text='Su plan ha sido actualizado. Puede verificar el estado actualizado en la pestaña "Estado".',quick_reply=quick_reply)
             elif user_language == 'Tagalog':
-                message = TextSendMessage(text='Ang iyong kontrata ay na-renew. Nalagdaan na ang iyong plano. Maaari mong tingnan ang na-update na status sa tab na "status"',quick_reply=quick_reply)
+                message = TextSendMessage(text='Na-update na ang iyong plano. Maaari mong tingnan ang na-update na status sa tab na "Status".',quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
-                message = TextSendMessage(text='Hợp đồng của bạn đã được gia hạn. Kế hoạch của bạn đã được ký kết. Bạn có thể kiểm tra trạng thái cập nhật trong tab "Trạng thái".',quick_reply=quick_reply)
+                message = TextSendMessage(text='Kế hoạch của bạn đã được cập nhật. Bạn có thể kiểm tra trạng thái cập nhật trong tab "Trạng thái".',quick_reply=quick_reply)
             elif user_language == 'Japanese':
-                message = TextSendMessage(text='契約を更新しました。更新されたステータスは"ステータス"タブから確認できます。ぜひ思う存分PicToLangをご活用ください。',quick_reply=quick_reply)
+                message = TextSendMessage(text='あなたのプランを更新しました。更新されたステータスは、"ステータス"タブから確認できます。ぜひ思う存分PicToLangをご活用ください。',quick_reply=quick_reply)
             else:
-                message = TextSendMessage(text='Your contract has been renewed. Your plan has been signed. You can check the updated status in the "status" tab.',quick_reply=quick_reply)
+                message = TextSendMessage(text='Your plan has been updated. You can check the updated status in the "Status" tab.',quick_reply=quick_reply)
             line_bot_api.push_message(line_user_id, message)
 
         except ValueError as e:

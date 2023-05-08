@@ -1,16 +1,16 @@
 def basic_plan_component(basic_plan_url,user_language):
     if user_language == 'Portuguese':
-        text = "100 mensagens por mês por 80 yen por mês"
+        text = "100 mensagens por 80 ienes mensais"
     elif user_language == 'Spanish':
-        text = "100 mensajes por mes por 80 yenes por mes"
+        text = "100 mensajes por 80 yenes mensuales"
     elif user_language == 'Tagalog':
-        text = "100 mensahe bawat buwan para sa 80 yen bawat buwan"
+        text = "100 mensahe para sa 80 yen buwan-buwan"
     elif user_language == 'Vietnamese':
-        text = "100 tin nhắn mỗi tháng với 80 yên mỗi tháng"
+        text = "100 tin nhắn với giá 80 yên hàng tháng"
     elif user_language == 'Japanese':
         text = "月額80円で月に100回メッセージを送信可能"
     else:
-        text = "100 messages per month for 80 yen per month"
+        text = "100 messages for 80 yen monthly"
 
     return {
         "type": "box",
@@ -48,17 +48,17 @@ def basic_plan_component(basic_plan_url,user_language):
 
 def standard_plan_component(standard_plan_url,user_language):
     if user_language == 'Portuguese':
-        text = "300 mensagens por mês por 230 yen por mês"
+        text = "300 mensagens por 230 ienes mensais"
     elif user_language == 'Spanish':
-        text = "300 mensajes por mes por 230 yenes por mes"
+        text = "300 mensajes por 230 yenes mensuales"
     elif user_language == 'Tagalog':
-        text = "300 mensahe bawat buwan para sa 230 yen bawat buwan"
+        text = "300 mensahe para sa 230 yen buwan-buwan"
     elif user_language == 'Vietnamese':
-        text = "300 tin nhắn mỗi tháng với 230 yên mỗi tháng"
+        text = "300 tin nhắn với giá 230 yên hàng tháng"
     elif user_language == 'Japanese':
         text = "月額230円で月に300回メッセージを送信可能"
     else:
-        text = "300 messages per month for 230 yen per month"
+        text = "300 messages for 230 yen monthly"
     return {
         "type": "box",
         "layout": "vertical",
@@ -95,17 +95,17 @@ def standard_plan_component(standard_plan_url,user_language):
 
 def premium_plan_component(premium_plan_url,user_language):
     if user_language == 'Portuguese':
-        text = "Mensagens ilimitadas por 750 yen por mês"
+        text = "Mensagens ilimitadas por 750 ienes mensais"
     elif user_language == 'Spanish':
-        text = "Mensajes ilimitados por 750 yen al mes"
+        text = "Mensajes ilimitados por 750 yenes mensuales"
     elif user_language == 'Tagalog':
-        text = "Walang limitasyong mga mensahe sa halagang 750 yen bawat buwan"
+        text = "Walang limitasyong mga mensahe para sa 750 yen bawat buwan"
     elif user_language == 'Vietnamese':
-        text = "Tin nhắn không giới hạn với giá 750 yên mỗi tháng"
+        text = "Tin nhắn không giới hạn với 750 yên hàng tháng"
     elif user_language == 'Japanese':
         text = "月額750円で無制限にメッセージを送信可能"
     else:
-        text = "Unlimited messages for 750 yen per month"
+        text = "Unlimited messages for 750 yen monthly"
     return {
         "type": "box",
         "layout": "vertical",
@@ -142,23 +142,24 @@ def premium_plan_component(premium_plan_url,user_language):
 
 def basic_plan_component_upgrade(user_language):
     if user_language == 'Portuguese':
-        text = "100 mensagens por mês por 80 yen por mês"
+        text = "100 mensagens por 80 ienes mensais"
         text_send = "Quero assinar o basic plan"
     elif user_language == 'Spanish':
-        text = "100 mensajes por mes por 80 yenes por mes"
+        text = "100 mensajes por 80 yenes mensuales"
         text_send = "Quiero suscribirme al basic plan"
     elif user_language == 'Tagalog':
-        text = "100 mensahe bawat buwan para sa 80 yen bawat buwan"
+        text = "100 mensahe para sa 80 yen buwan-buwan"
         text_send = "Gusto kong mag-subscribe sa basic plan"
     elif user_language == 'Vietnamese':
-        text = "100 tin nhắn mỗi tháng với 80 yên mỗi tháng"
+        text = "100 tin nhắn với giá 80 yên hàng tháng"
         text_send = "Tôi muốn đăng ký basic plan"
     elif user_language == 'Japanese':
         text = "月額80円で月に100回メッセージを送信可能"
         text_send = "basic planを契約したいです。"
     else:
-        text = "100 messages per month for 80 yen per month"
+        text = "100 messages for 80 yen monthly"
         text_send = "I want to subscribe to the basic plan"
+
     return {
         "type": "box",
         "layout": "vertical",
@@ -194,23 +195,24 @@ def basic_plan_component_upgrade(user_language):
 
 def standard_plan_component_upgrade(user_language):
     if user_language == 'Portuguese':
-        text = "300 mensagens por mês por 230 yen por mês"
+        text = "300 mensagens por 230 ienes mensais"
         text_send = "Quero assinar o standard plan"
     elif user_language == 'Spanish':
-        text = "300 mensajes por mes por 230 yenes por mes"
+        text = "300 mensajes por 230 yenes mensuales"
         text_send = "Quiero suscribirme al standard plan"
     elif user_language == 'Tagalog':
-        text = "300 mensahe bawat buwan para sa 230 yen bawat buwan"
+        text = "300 mensahe para sa 230 yen buwan-buwan"
         text_send = "Gusto kong mag-subscribe sa standard plan"
     elif user_language == 'Vietnamese':
-        text = "300 tin nhắn mỗi tháng với 230 yên mỗi tháng"
+        text = "300 tin nhắn với giá 230 yên hàng tháng"
         text_send = "Tôi muốn đăng ký standard plan"
     elif user_language == 'Japanese':
         text = "月額230円で月に300回メッセージを送信可能"
         text_send = "standard planを契約したいです。"
     else:
-        text = "300 messages per month for 230 yen per month"
+        text = "300 messages for 230 yen monthly"
         text_send = "I want to subscribe to the standard plan"
+
     return {
     "type": "box",
     "layout": "vertical",
@@ -246,23 +248,24 @@ def standard_plan_component_upgrade(user_language):
 
 def premium_plan_component_upgrade(user_language):
     if user_language == 'Portuguese':
-        text = "Mensagens ilimitadas por 750 yen por mês"
+        text = "Mensagens ilimitadas por 750 ienes mensais"
         text_send = "Quero assinar o premium plan"
     elif user_language == 'Spanish':
-        text = "Mensajes ilimitados por 750 yen al mes"
+        text = "Mensajes ilimitados por 750 yenes mensuales"
         text_send = "Quiero suscribirme al premium plan"
     elif user_language == 'Tagalog':
-        text = "Walang limitasyong mga mensahe sa halagang 750 yen bawat buwan"
+        text = "Walang limitasyong mga mensahe para sa 750 yen bawat buwan"
         text_send = "Gusto kong mag-subscribe sa premium plan"
     elif user_language == 'Vietnamese':
-        text = "Tin nhắn không giới hạn với giá 750 yên mỗi tháng"
+        text = "Tin nhắn không giới hạn với 750 yên hàng tháng"
         text_send = "Tôi muốn đăng ký premium plan"
     elif user_language == 'Japanese':
         text = "月額750円で無制限にメッセージを送信可能"
         text_send = "premium planを契約したいです。"
     else:
-        text = "Unlimited messages for 750 yen per month"
+        text = "Unlimited messages for 750 yen monthly"
         text_send = "I want to subscribe to the premium plan"
+
     return {
     "type": "box",
     "layout": "vertical",

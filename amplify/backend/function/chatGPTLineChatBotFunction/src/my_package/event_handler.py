@@ -530,7 +530,7 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             if user_language == 'Portuguese':
-                text_message = TextSendMessage(text=f'Por favor, preencha as informações necessárias no link(Enviar um ticket) abaixo e envie-o.\n\nDepois de clicar na link abaixo(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.\nID do usuário:{line_user_id}\n\nClica o link abaixo👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                text_message = TextSendMessage(text=f'Por favor, preencha as informações necessárias no link(Enviar um ticket) abaixo e envie-o.\n\nDepois de clicar no link abaixo(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.\nID do usuário👇\n{line_user_id}\n\nClica o link abaixo👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 text_message = TextSendMessage(text="Complete la información necesaria del siguiente enlace y envíela.\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new", quick_reply=quick_reply)
             elif user_language == 'English':

@@ -61,13 +61,23 @@
           "deploymentBucketName": "amplify-chatgptlinechatbot-prod-212431-deployment",
           "s3Key": "amplify-builds/chatGPTLineChatBotFunction-5549726a327934523041-build.zip",
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
+          "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
-          "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod"
+          "baseSecretPathStripe": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_stripeWebhookHandler_",
+          "priceIdBasic": "price_1N8M7mCykX4OnFNSelnJXgk7",
+          "priceIdPremium": "price_1N8MD6CykX4OnFNSNkNKd9dx",
+          "priceIdStandard": "price_1N8MBgCykX4OnFNSJfFVKONe",
+          "productUrlBasic": "https://buy.stripe.com/9AQ8xe3JAdqFb2EaEE",
+          "productUrlPremium": "https://buy.stripe.com/4gwdRy0xogCRb2EbIK",
+          "productUrlStandard": "https://buy.stripe.com/6oEcNu2Fw5Yd2w84gh"
         },
         "stripeWebhookHandler": {
           "secretsPathAmplifyAppId": "d34o9vgjq1lt33",
-          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
           "dbTableNamePostfix": "-etoqwp64ejhvvgoipwpygwfv6e-prod",
+          "productIdBasic": "prod_NuASBj0hNriXsW",
+          "productIdPremium": "prod_NuAY15LJxnoWLC",
+          "productIdStandard": "prod_NuAW8bzoNXPX9r",
+          "baseSecretChatgptlinechatbotfunctionPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_chatGPTLineChatBotFunction_",
           "baseSecretPath": "/amplify/d34o9vgjq1lt33/prod/AMPLIFY_stripeWebhookHandler_"
         }
       },

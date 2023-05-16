@@ -2,6 +2,8 @@ import boto3
 from datetime import datetime
 from . import const
 import uuid
+from datetime import datetime, timedelta
+
 
 
 TABLE_NAME = f'Messages{const.DB_TABLE_NAME_POSTFIX}'
@@ -161,16 +163,22 @@ def get_line_user_data(line_user_id: str) -> dict:
     except Exception as e:
         raise e
 
-def insert_data(line_user_id: str) -> None:
-    now = datetime.now().isoformat()
+def insert_data(line_user_id: str, user_language: str) -> None:
+    now = datetime.now()
+    now_iso = now.strftime('%Y-%m-%dT%H:%M:%S')
+    next_update_date = now + timedelta(days=30)
+    next_update_date_iso = next_update_date.strftime('%Y-%m-%dT%H:%M:%S')
+
     put_params = {
         'TableName': MESSAGE_COUNT_TABLE_NAME,
         'Item': {
             'id': {'S': line_user_id},
             'plan': {'S': 'free'},
-            'first_purchase_date': {'S': now},
-            'updated_purchase_date': {'S': now},
-            'message_count': {'N': str(7)}
+            'first_purchase_date': {'S': now_iso},
+            'updated_purchase_date': {'S': now_iso},
+            'next_update_date': {'S': next_update_date_iso},  # 追加
+            'message_count': {'N': str(7)},
+            'user_language': {'S': user_language}
         }
     }
 
@@ -178,6 +186,7 @@ def insert_data(line_user_id: str) -> None:
         dynamodb.put_item(**put_params)
     except Exception as e:
         raise e
+
 
 def get_user_plan(line_user_id: str) -> str:
     query_params = {
@@ -210,6 +219,26 @@ def get_customer_id_by_line_user_id(id: str) -> str:
         if 'Item' in query_result:
             customer_id = query_result['Item']['customerId']['S']
             return customer_id
+        else:
+            return None
+    except Exception as e:
+        raise e
+
+def get_next_update_date(line_user_id: str) -> str:
+    query_params = {
+        'TableName': MESSAGE_COUNT_TABLE_NAME,
+        'Key': {
+            'id': {'S': line_user_id}
+        },
+    }
+
+    try:
+        query_result = dynamodb.get_item(**query_params)
+        if 'Item' in query_result:
+            next_update_date_str = query_result['Item']['next_update_date']['S']
+            next_update_date = datetime.strptime(next_update_date_str, '%Y-%m-%dT%H:%M:%S')
+            formatted_next_update_date = next_update_date.strftime('%Y-%m-%d')
+            return formatted_next_update_date
         else:
             return None
     except Exception as e:

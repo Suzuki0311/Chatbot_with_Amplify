@@ -19,12 +19,6 @@
     "secretsPathAmplifyAppId": {
       "Type": "String"
     },
-    "baseSecretPath": {
-      "Type": "String"
-    },
-    "dbTableNamePostfix": {
-      "Type": "String"
-    },
     "productIdBasic": {
       "Type": "String"
     },
@@ -32,6 +26,15 @@
       "Type": "String"
     },
     "productIdPremium": {
+      "Type": "String"
+    },
+    "dbTableNamePostfix": {
+      "Type": "String"
+    },
+    "baseSecretChatgptlinechatbotfunctionPath": {
+      "Type": "String"
+    },
+    "baseSecretPath": {
       "Type": "String"
     }
   },
@@ -132,12 +135,6 @@
                 ]
               ]
             },
-            "BASE_SECRET_PATH": {
-              "Ref": "baseSecretPath"
-            },
-            "DB_TABLE_NAME_POSTFIX": {
-              "Ref": "dbTableNamePostfix"
-            },
             "PRODUCT_ID_BASIC": {
               "Ref": "productIdBasic"
             },
@@ -146,6 +143,15 @@
             },
             "PRODUCT_ID_PREMIUM": {
               "Ref": "productIdPremium"
+            },
+            "DB_TABLE_NAME_POSTFIX": {
+              "Ref": "dbTableNamePostfix"
+            },
+            "BASE_SECRET_CHATGPTLINECHATBOTFUNCTION_PATH": {
+              "Ref": "baseSecretChatgptlinechatbotfunctionPath"
+            },
+            "BASE_SECRET_PATH": {
+              "Ref": "baseSecretPath"
             }
           }
         },

@@ -19,12 +19,6 @@
     "secretsPathAmplifyAppId": {
       "Type": "String"
     },
-    "baseSecretPath": {
-      "Type": "String"
-    },
-    "dbTableNamePostfix": {
-      "Type": "String"
-    },
     "productUrlBasic": {
       "Type": "String"
     },
@@ -44,6 +38,12 @@
       "Type": "String"
     },
     "priceIdPremium": {
+      "Type": "String"
+    },
+    "dbTableNamePostfix": {
+      "Type": "String"
+    },
+    "baseSecretPath": {
       "Type": "String"
     }
   },
@@ -188,12 +188,6 @@
                 ]
               ]
             },
-            "BASE_SECRET_PATH": {
-              "Ref": "baseSecretPath"
-            },
-            "DB_TABLE_NAME_POSTFIX": {
-              "Ref": "dbTableNamePostfix"
-            },
             "PRODUCT_URL_BASIC": {
               "Ref": "productUrlBasic"
             },
@@ -214,6 +208,12 @@
             },
             "PRICE_ID_PREMIUM": {
               "Ref": "priceIdPremium"
+            },
+            "DB_TABLE_NAME_POSTFIX": {
+              "Ref": "dbTableNamePostfix"
+            },
+            "BASE_SECRET_PATH": {
+              "Ref": "baseSecretPath"
             }
           }
         },

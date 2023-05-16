@@ -5,14 +5,6 @@
   ],
   "environmentVariableList": [
     {
-      "cloudFormationParameterName": "baseSecretPath",
-      "environmentVariableName": "BASE_SECRET_PATH"
-    },
-    {
-      "cloudFormationParameterName": "dbTableNamePostfix",
-      "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
-    },
-    {
       "cloudFormationParameterName": "productIdBasic",
       "environmentVariableName": "PRODUCT_ID_BASIC"
     },
@@ -23,6 +15,30 @@
     {
       "cloudFormationParameterName": "productIdPremium",
       "environmentVariableName": "PRODUCT_ID_PREMIUM"
+    },
+    {
+      "cloudFormationParameterName": "dbTableNamePostfix",
+      "environmentVariableName": "DB_TABLE_NAME_POSTFIX"
+    },
+    {
+      "cloudFormationParameterName": "productIdBasic",
+      "environmentVariableName": "PRODUCT_ID_BASIC"
+    },
+    {
+      "cloudFormationParameterName": "productIdPremium",
+      "environmentVariableName": "PRODUCT_ID_PREMIUM"
+    },
+    {
+      "cloudFormationParameterName": "productIdStandard",
+      "environmentVariableName": "PRODUCT_ID_STANDARD"
+    },
+    {
+      "cloudFormationParameterName": "baseSecretChatgptlinechatbotfunctionPath",
+      "environmentVariableName": "BASE_SECRET_CHATGPTLINECHATBOTFUNCTION_PATH"
+    },
+    {
+      "cloudFormationParameterName": "baseSecretPath",
+      "environmentVariableName": "BASE_SECRET_PATH"
     }
   ]
 }

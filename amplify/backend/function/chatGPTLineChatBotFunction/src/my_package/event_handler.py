@@ -416,15 +416,6 @@ def handle_follow_event(event_body):
     # Check if the user exists in DynamoDB
     user_exists = db_accessor.check_line_user_id_exists(line_user_id)
 
-    # YouTubeのURL
-    youtubeurl = 'https://youtu.be/C3AIG2jTjxE'
-
-    # ポータルサイトのURL
-    portalsite = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
-
-    # お問い合わせフォームのURL
-    queryformurl = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
-
     # Create quick reply buttons
     quick_reply_buttons = create_quick_reply_buttons(user_language)
     quick_reply = QuickReply(items=quick_reply_buttons) 
@@ -434,7 +425,36 @@ def handle_follow_event(event_body):
     if user_exists == "No":
         db_accessor.insert_data(line_user_id, user_language)
         if user_language == 'Portuguese':
-            welcome_message = f'Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível. \nPara obter informações detalhadas sobre o uso, acesse o link do YouTube ou visite nosso site.\n\nYouTube👇\n{youtubeurl}\n\nnosso site👇\n{portalsite}\n\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. o operador responderá.👇 \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia "Atualizar".'
+            intro_youtube_url   = "https://youtu.be/3FszqkOB-2A"
+            upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
+            cancel_youtube_url  = "https://youtu.be/y80DEMI_tf8"
+            portalsite          = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
+            queryformurl        = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
+            query_youtube_url   = "https://youtu.be/Zb_UAG20gBU"
+            welcome_message = f'''
+Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível.
+
+Preparamos vídeos no YouTube e um site para ajudá-lo a entender melhor o nosso serviço. Sinta-se à vontade para usar o YouTube e nosso site conforme necessário.
+
+Para uma introdução ao PicToLang e uma demonstração do serviço, assista a este vídeo no YouTube:
+{intro_youtube_url}
+
+Para aprender a atualizar seu plano, assista a este vídeo no YouTube:
+{upgrade_youtube_url}
+
+Para aprender a cancelar seu plano, assista a este vídeo no YouTube:
+{cancel_youtube_url}
+
+Visite também nosso site para mais informações:👇
+{portalsite}
+
+Caso tenha alguma dúvida, você pode entrar em contato através do link abaixo. 👇
+{queryformurl}
+O operador responderá. E se não souber como entrar em contato conosco, assista a este vídeo no YouTube:👇
+{query_youtube_url}
+
+No momento você é um usuário gratuito (free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia "Atualizar".
+'''
         elif user_language == 'Spanish':
             welcome_message = f'Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder tus preguntas diariamente. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y proporcionaremos un resumen de alto nivel. \nPara obtener información detallada sobre el uso, accede al enlace de YouTube o visita nuestro sitio web.\n\nYouTube👇\n{youtubeurl}\n\nnuestro sitio👇\n{portalsite}\nSi tienes alguna pregunta, ponte en contacto con el enlace de abajo. El operador responderá, así que disfruta.👇 \n{queryformurl}\n\nPor ahora eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si deseas utilizar más de eso, renueva tu plan en la pestaña "Actualizar".'
         elif user_language == 'Tagalog':

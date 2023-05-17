@@ -1,7 +1,8 @@
 {
   "lambdaLayers": [],
   "secretNames": [
-    "STRIPE_API_KEY"
+    "STRIPE_API_KEY",
+    "endpoint_secret"
   ],
   "environmentVariableList": [
     {

@@ -135,6 +135,28 @@
                 ]
               ]
             },
+            "endpoint_secret": {
+              "Fn::Join": [
+                "",
+                [
+                  {
+                    "Fn::Sub": [
+                      "/amplify/${appId}/${env}/AMPLIFY_${functionName}_",
+                      {
+                        "appId": {
+                          "Ref": "secretsPathAmplifyAppId"
+                        },
+                        "env": {
+                          "Ref": "env"
+                        },
+                        "functionName": "stripeWebhookHandler"
+                      }
+                    ]
+                  },
+                  "endpoint_secret"
+                ]
+              ]
+            },
             "PRODUCT_ID_BASIC": {
               "Ref": "productIdBasic"
             },

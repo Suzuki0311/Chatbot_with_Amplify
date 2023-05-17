@@ -158,10 +158,10 @@ def handler(event, context):
     # Extract the payload from the event and the Stripe signature from the headers
     payload = event['body']
     sig_header = event['headers']['Stripe-Signature']
-    stripe_event = None
+    body = None
 
     try:
-        stripe_event = stripe.Webhook.construct_event(
+        body = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
     except ValueError:
@@ -179,7 +179,7 @@ def handler(event, context):
     # body = json.loads(stripe_event)
 
     # Get the 'type' key from the parsed body
-    event_type = stripe_event.get('type', '')
+    event_type = body.get('type', '')
 
     if event_type == 'checkout.session.completed': #初回購入時にline_user_idとcustomer_idをDBに紐づけて登録
         print("checkout.session.completedイベント発行")

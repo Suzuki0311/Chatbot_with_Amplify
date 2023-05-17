@@ -673,13 +673,10 @@ def handle_message_event(event_body):
             if user_language == 'Portuguese':
                 upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079074-como-adquirir-nossos-planos-no-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Seu plano é {plan} plan.
+                text_message = TextSendMessage(text=f"""Seu plano é {plan} plan.
                                                     Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.
-                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇
-                                                    {upgrade_youtube_url}
-                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇
-                                                    {upgrade_article_url}
+                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇\n{upgrade_youtube_url}
+                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
@@ -739,22 +736,16 @@ def handle_message_event(event_body):
                 queryformurl = "https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new"
                 query_youtube_url = "query_youtube_url"
                 query_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079236-como-entrar-em-contato-conosco-no-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        Por favor, preencha as informações necessárias no link (Enviar um ticket) abaixo e envie-o.👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""Por favor, preencha as informações necessárias no link (Enviar um ticket) abaixo e envie-o.👇\n{queryformurl}
                                                         Depois de clicar no link(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.
 
-                                                        Seu ID do usuário👇
-                                                        {line_user_id}
+                                                        Seu ID do usuário👇\n{line_user_id}
 
                                                         Além disso, preparamos um vídeo no YouTube e um artigo explicando como entrar em contato conosco. 
 
-                                                        Para assistir ao vídeo, visite este link:👇
-                                                        {query_youtube_url}
+                                                        Para assistir ao vídeo, visite este link:👇\n{query_youtube_url}
 
-                                                        Para ler o artigo sobre como entrar em contato conosco, visite este link:👇
-                                                        {query_article_url}
+                                                        Para ler o artigo sobre como entrar em contato conosco, visite este link:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 queryformurl = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"
@@ -1235,14 +1226,11 @@ def handle_message_event(event_body):
             if user_language == 'Portuguese':
                 upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079074-como-adquirir-nossos-planos-no-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Acabou o seu número máximo de mensagens que pode enviar este mês.
+                text_message = TextSendMessage(text=f"""Acabou o seu número máximo de mensagens que pode enviar este mês.
                                                     Seu plano é {plan} plan.
                                                     Se você deseja enviar mais mensagens, selecione o plano que deseja fazer atualizar no botão abaixo.
-                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇
-                                                    {upgrade_youtube_url}
-                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇
-                                                    {upgrade_article_url}
+                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇\n{upgrade_youtube_url}
+                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"

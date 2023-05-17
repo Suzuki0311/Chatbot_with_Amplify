@@ -10,6 +10,7 @@ from linebot.models import FlexSendMessage, QuickReply, QuickReplyButton, Messag
 from datetime import datetime
 
 stripe.api_key = const.STRIPE_API_KEY
+endpoint_secret = const.endpoint_secret
 
 # LINE Botのアクセストークンとシークレットを設定
 LINE_CHANNEL_ACCESS_TOKEN = const.LINE_CHANNEL_ACCESS_TOKEN
@@ -154,11 +155,28 @@ def create_quick_reply_buttons(user_language):
 
 
 def handler(event, context):
+    # Extract the payload from the event and the Stripe signature from the headers
+    payload = event['body']
+    sig_header = event['headers']['Stripe-Signature']
+    stripe_event = None
+
+    try:
+        stripe_event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError:
+        # Invalid payload
+        return {'statusCode': 400, 'body': json.dumps('Invalid payload')}
+    except stripe.error.SignatureVerificationError:
+        # Invalid signature
+        return {'statusCode': 400, 'body': json.dumps('Invalid signature')}
+    
     print('received event:')
     print(event)
     
     # Parse the 'body' key
-    body = json.loads(event['body'])
+    # body = json.loads(event['body'])
+    body = json.loads(stripe_event)
 
     # Get the 'type' key from the parsed body
     event_type = body.get('type', '')

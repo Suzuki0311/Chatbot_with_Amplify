@@ -176,10 +176,10 @@ def handler(event, context):
     
     # Parse the 'body' key
     # body = json.loads(event['body'])
-    body = json.loads(stripe_event)
+    # body = json.loads(stripe_event)
 
     # Get the 'type' key from the parsed body
-    event_type = body.get('type', '')
+    event_type = stripe_event.get('type', '')
 
     if event_type == 'checkout.session.completed': #初回購入時にline_user_idとcustomer_idをDBに紐づけて登録
         print("checkout.session.completedイベント発行")

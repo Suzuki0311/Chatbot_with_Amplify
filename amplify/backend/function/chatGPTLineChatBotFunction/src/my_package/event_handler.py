@@ -431,8 +431,7 @@ def handle_follow_event(event_body):
             portalsite          = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
             queryformurl        = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
             query_youtube_url   = "https://youtu.be/Zb_UAG20gBU"
-            welcome_message = f'''
-Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível.
+            welcome_message = f'''Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível.
 
 Preparamos vídeos no YouTube e um site para ajudá-lo a entender melhor o nosso serviço. Sinta-se à vontade para usar o YouTube e nosso site conforme necessário.
 
@@ -462,8 +461,7 @@ No momento você é um usuário gratuito (free) e pode enviar 7 mensagens por m�
             queryformurl         = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"
             portalsite           = "https://pictolang-help.freshdesk.com/es-LA/support/home"
             query_website_url    = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079236-c%C3%B3mo-contactarnos-en-chatbot-pictolang-"
-            welcome_message = f'''
-Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder a tus preguntas todos los días. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y te proporcionaremos un resumen de alto nivel.
+            welcome_message = f'''Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder a tus preguntas todos los días. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y te proporcionaremos un resumen de alto nivel.
 
 Hemos preparado un sitio web para ayudarte a entender mejor nuestro servicio. No dudes en utilizar nuestro sitio web según sea necesario.
 
@@ -493,8 +491,7 @@ Actualmente eres un usuario gratuito y puedes enviar 7 mensajes al mes. Si desea
             queryformurl         = "https://pictolang-help.freshdesk.com/fil/support/tickets/new"
             portalsite           = "https://pictolang-help.freshdesk.com/fil/support/home"
             query_website_url    = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079236-paano-makipag-ugnayan-sa-amin-sa-chatbot-pictolang-"
-            welcome_message = f'''
-Salamat sa iyong pagpaparehistro bilang kaibigan sa PicToLang. Nandito kami upang sagutin ang iyong mga katanungan araw-araw. Dagdag pa, sa pagsumite ng mga larawan ng mga dokumentong nakasulat sa iba't ibang wika, kami ay magtatranslate at magbibigay sa iyo ng isang komprehensibong buod.
+            welcome_message = f'''Salamat sa iyong pagpaparehistro bilang kaibigan sa PicToLang. Nandito kami upang sagutin ang iyong mga katanungan araw-araw. Dagdag pa, sa pagsumite ng mga larawan ng mga dokumentong nakasulat sa iba't ibang wika, kami ay magtatranslate at magbibigay sa iyo ng isang komprehensibong buod.
 
 Naghanda kami ng website upang matulungan kang mas maunawaan ang aming serbisyo. Huwag mag-atubiling gamitin ang aming website kung kinakailangan.
 
@@ -525,8 +522,7 @@ Sa kasalukuyan, ikaw ay isang libreng gumagamit at maaaring magpadala ng 7 mga m
             queryformurl         = "https://pictolang-help.freshdesk.com/vi/support/tickets/new"
             portalsite           = "https://pictolang-help.freshdesk.com/vi/support/home"
             query_website_url    = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079236-c%C3%A1ch-li%C3%AAn-h%E1%BB%87-v%E1%BB%9Bi-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
-            welcome_message = f'''
-Cảm ơn bạn đã đăng ký làm bạn với PicToLang. Chúng tôi ở đây để trả lời câu hỏi của bạn mỗi ngày. Ngoài ra, bằng cách gửi ảnh của các tài liệu viết bằng ngôn ngữ khác, chúng tôi sẽ thực hiện việc dịch và cung cấp cho bạn một bản tóm tắt cấp cao.
+            welcome_message = f'''Cảm ơn bạn đã đăng ký làm bạn với PicToLang. Chúng tôi ở đây để trả lời câu hỏi của bạn mỗi ngày. Ngoài ra, bằng cách gửi ảnh của các tài liệu viết bằng ngôn ngữ khác, chúng tôi sẽ thực hiện việc dịch và cung cấp cho bạn một bản tóm tắt cấp cao.
 
 Chúng tôi đã chuẩn bị một trang web để giúp bạn hiểu rõ hơn về dịch vụ của chúng tôi. Hãy sử dụng trang web của chúng tôi khi cần.
 
@@ -557,8 +553,7 @@ Hiện tại, bạn là người dùng miễn phí và có thể gửi 7 tin nh�
             queryformurl         = "https://pictolang-help.freshdesk.com/ja-JP/support/tickets/new"
             portalsite           = "https://pictolang-help.freshdesk.com/en/support/home"
             query_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
-            welcome_message = f'''
-PicToLangを友達登録いただき、ありがとうございます。私たちの日常的に生じる疑問にお答えしています。さらに、他の言語で書かれた文書の写真を投稿することで、高いレベルで翻訳や要約を提供します。
+            welcome_message = f'''PicToLangを友達登録いただき、ありがとうございます。私たちの日常的に生じる疑問にお答えしています。さらに、他の言語で書かれた文書の写真を投稿することで、高いレベルで翻訳や要約を提供します。
 
 私たちのサービスをよりよく理解頂くためにWebサイトをご用意しました。必要に応じてご活用ください。
 
@@ -589,8 +584,7 @@ PicToLangの紹介は、以下のこの記事をご覧ください：
             queryformurl         = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
             portalsite           = "https://pictolang-help.freshdesk.com/en/support/home"
             query_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
-            welcome_message = f'''
-Thank you for registering as a friend in PicToLang. We are here to answer your questions every day. Additionally, by submitting photos of documents written in other languages, we will do the translation and provide you with a high-level summary.
+            welcome_message = f'''Thank you for registering as a friend in PicToLang. We are here to answer your questions every day. Additionally, by submitting photos of documents written in other languages, we will do the translation and provide you with a high-level summary.
 
 We have prepared a website to help you better understand our service. Feel free to utilize our website as needed.
 
@@ -734,18 +728,14 @@ def handle_message_event(event_body):
         try:
             if user_language == 'Portuguese':
                 queryformurl = "https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new"
-                query_youtube_url = "query_youtube_url"
+                query_youtube_url = "https://youtu.be/Zb_UAG20gBU"
                 query_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079236-como-entrar-em-contato-conosco-no-chatbot-pictolang-"
                 text_message = TextSendMessage(text=f"""Por favor, preencha as informações necessárias no link (Enviar um ticket) abaixo e envie-o.👇\n{queryformurl}
                                                         Depois de clicar no link(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.
 
                                                         Seu ID do usuário👇\n{line_user_id}
 
-                                                        Além disso, preparamos um vídeo no YouTube e um artigo explicando como entrar em contato conosco. 
-
-                                                        Para assistir ao vídeo, visite este link:👇\n{query_youtube_url}
-
-                                                        Para ler o artigo sobre como entrar em contato conosco, visite este link:👇\n{query_article_url}
+                                                        Além disso, preparamos um vídeo no YouTube e um artigo explicando como entrar em contato conosco. Para assistir ao vídeo, visite este link:👇\n{query_youtube_url}                                                        Para ler o artigo sobre como entrar em contato conosco, visite este link:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 queryformurl = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"

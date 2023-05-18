@@ -674,43 +674,33 @@ def handle_message_event(event_body):
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Tu plan es {plan} plan.
+                text_message = TextSendMessage(text=f"""Tu plan es {plan} plan.
                                                     Por favor, selecciona el plan que deseas actualizar o degradar en el botón de abajo.
-                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇
-                                                    {upgrade_article_url}
+                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Tagalog':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079074-paano-bumili-ng-aming-mga-plano-sa-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Ang iyong plano ay {plan} plan.
+                text_message = TextSendMessage(text=f"""Ang iyong plano ay {plan} plan.
                                                     Mangyaring piliin ang plano na nais mong i-upgrade o i-downgrade gamit ang button sa ibaba.
-                                                    Bukod dito, nag-ihanda kami ng isang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇
-                                                    {upgrade_article_url}
+                                                    Bukod dito, nag-ihanda kami ng isang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079074-c%C3%A1ch-%C4%91%E1%BB%83-mua-c%C3%A1c-g%C3%B3i-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Kế hoạch của bạn là {plan} plan.
+                text_message = TextSendMessage(text=f"""Kế hoạch của bạn là {plan} plan.
                                                     Vui lòng chọn kế hoạch bạn muốn nâng cấp hoặc hạ cấp bằng cách sử dụng nút dưới đây.
-                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, hãy truy cập liên kết này:👇
-                                                    {upgrade_article_url}
+                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, hãy truy cập liên kết này:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Japanese':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    あなたのプランは {plan} planです。
+                text_message = TextSendMessage(text=f"""あなたのプランは {plan} planです。
                                                     下のボタンからアップグレードまたはダウングレードしたいプランを選択してください。
-                                                    また、アップグレード方法に関する記事は以下になります:👇
-                                                    {upgrade_article_url}
+                                                    また、アップグレード方法に関する記事は以下になります:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             else:
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Your plan is {plan} plan.
+                text_message = TextSendMessage(text=f"""Your plan is {plan} plan.
                                                     Please select the plan you wish to upgrade or downgrade using the button below.
-                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇
-                                                    {upgrade_article_url}
+                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
@@ -1189,48 +1179,38 @@ def handle_message_event(event_body):
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Ha finalizado el número máximo de mensajes que puede enviar este mes.
+                text_message = TextSendMessage(text=f"""Ha finalizado el número máximo de mensajes que puede enviar este mes.
                                                     Tu plan es {plan} plan.
                                                     Si desea enviar más mensajes, selecciona el plan que deseas actualizar en el botón de abajo.
-                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇
-                                                    {upgrade_article_url}
+                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Tagalog':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079074-paano-bumili-ng-aming-mga-plano-sa-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Ang maximum na bilang ng mga mensahe na maaari mong ipadala ngayong buwan ay natapos na.
+                text_message = TextSendMessage(text=f"""Ang maximum na bilang ng mga mensahe na maaari mong ipadala ngayong buwan ay natapos na.
                                                     Ang iyong plano ay {plan} plan.
                                                     Kung nais mong magpadala ng mas maraming mga mensahe, Mangyaring piliin ang plano na nais mong i-upgrade gamit ang pindutan sa ibaba.
-                                                    Karagdagan, mayroon kaming inihandang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇
-                                                    {upgrade_article_url}
+                                                    Karagdagan, mayroon kaming inihandang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079074-c%C3%A1ch-%C4%91%E1%BB%83-mua-c%C3%A1c-g%C3%B3i-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Số tin nhắn tối đa bạn có thể gửi trong tháng này đã hết.
+                text_message = TextSendMessage(text=f"""Số tin nhắn tối đa bạn có thể gửi trong tháng này đã hết.
                                                     Gói của bạn là gói {plan}.
                                                     Nếu bạn muốn gửi thêm tin nhắn, vui lòng chọn gói mà bạn muốn nâng cấp bằng cách sử dụng nút bên dưới.
-                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, vui lòng truy cập liên kết này:👇
-                                                    {upgrade_article_url}
+                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, vui lòng truy cập liên kết này:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             elif user_language == 'Japanese':
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    今月送信可能なメッセージ回数が終了しました。
+                text_message = TextSendMessage(text=f"""今月送信可能なメッセージ回数が終了しました。
                                                     あなたのプランは {plan} planです。
                                                     さらにメッセージを送信したい場合は、下のボタンからアップグレードしたいプランを選択してください。
-                                                    また、アップグレード方法に関する記事は以下になります:👇
-                                                    {upgrade_article_url}
+                                                    また、アップグレード方法に関する記事は以下になります:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
             else:
                 upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                    Your maximum number of messages you can send this month has ended.
+                text_message = TextSendMessage(text=f"""Your maximum number of messages you can send this month has ended.
                                                     Your plan is {plan} plan.
                                                     If you want to send more messages, Please select the plan you wish to upgrade using the button below.
-                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇
-                                                    {upgrade_article_url}
+                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇\n{upgrade_article_url}
                                                     """, quick_reply=quick_reply)
  
             # Push the message to the user

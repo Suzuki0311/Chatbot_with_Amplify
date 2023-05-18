@@ -416,15 +416,6 @@ def handle_follow_event(event_body):
     # Check if the user exists in DynamoDB
     user_exists = db_accessor.check_line_user_id_exists(line_user_id)
 
-    # YouTubeのURL
-    youtubeurl = 'https://youtu.be/C3AIG2jTjxE'
-
-    # ポータルサイトのURL
-    portalsite = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
-
-    # お問い合わせフォームのURL
-    queryformurl = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
-
     # Create quick reply buttons
     quick_reply_buttons = create_quick_reply_buttons(user_language)
     quick_reply = QuickReply(items=quick_reply_buttons) 
@@ -434,17 +425,189 @@ def handle_follow_event(event_body):
     if user_exists == "No":
         db_accessor.insert_data(line_user_id, user_language)
         if user_language == 'Portuguese':
-            welcome_message = f'Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível. \nPara obter informações detalhadas sobre o uso, acesse o link do YouTube ou visite nosso site.\n\nYouTube👇\n{youtubeurl}\n\nnosso site👇\n{portalsite}\n\nCaso tenha alguma dúvida, entre em contato pelo link abaixo. o operador responderá.👇 \n{queryformurl}\n\nNo momento você é um usuário gratuito(free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia "Atualizar".'
+            intro_youtube_url   = "https://youtu.be/3FszqkOB-2A"
+            upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
+            cancel_youtube_url  = "https://youtu.be/y80DEMI_tf8"
+            portalsite          = 'https://pictolang-help.freshdesk.com/pt-BR/support/home'
+            queryformurl        = 'https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new'
+            query_youtube_url   = "https://youtu.be/Zb_UAG20gBU"
+            welcome_message = f'''Obrigado por se registrar como amigo no PicToLang. Estamos aqui para responder às suas dúvidas diariamente. Além disso, ao enviar fotos de documentos escritos em outros idiomas, nós faremos a tradução e forneceremos um resumo de alto nível.
+
+Preparamos vídeos no YouTube e um site para ajudá-lo a entender melhor o nosso serviço. Sinta-se à vontade para usar o YouTube e nosso site conforme necessário.
+
+Para uma introdução ao PicToLang do serviço, assista a este vídeo no YouTube:
+{intro_youtube_url}
+
+Para aprender a atualizar seu plano, assista a este vídeo no YouTube:
+{upgrade_youtube_url}
+
+Para aprender a cancelar seu plano, assista a este vídeo no YouTube:
+{cancel_youtube_url}
+
+Visite também nosso site para mais informações:👇
+{portalsite}
+
+Caso tenha alguma dúvida, você pode entrar em contato através do link abaixo. 👇
+{queryformurl}
+O operador responderá. E se não souber como entrar em contato conosco, assista a este vídeo no YouTube:👇
+{query_youtube_url}
+
+No momento você é um usuário gratuito (free) e pode enviar 7 mensagens por mês. Se você quiser usar mais do que isso, renove seu plano na guia "Atualizar".
+'''
         elif user_language == 'Spanish':
-            welcome_message = f'Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder tus preguntas diariamente. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y proporcionaremos un resumen de alto nivel. \nPara obtener información detallada sobre el uso, accede al enlace de YouTube o visita nuestro sitio web.\n\nYouTube👇\n{youtubeurl}\n\nnuestro sitio👇\n{portalsite}\nSi tienes alguna pregunta, ponte en contacto con el enlace de abajo. El operador responderá, así que disfruta.👇 \n{queryformurl}\n\nPor ahora eres un usuario gratuito(free) y puedes enviar 7 mensajes al mes. Si deseas utilizar más de eso, renueva tu plan en la pestaña "Actualizar".'
+            intro_website_url    = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000076969-pictolang-un-asistente-virtual-revolucionario-que-trasciende-las-barreras-del-idioma"
+            upgrade_website_url  = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
+            cancel_website_url   = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079261-c%C3%B3mo-cancelar-tu-suscripci%C3%B3n-en-chatbot-pictolang-"
+            queryformurl         = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"
+            portalsite           = "https://pictolang-help.freshdesk.com/es-LA/support/home"
+            query_website_url    = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079236-c%C3%B3mo-contactarnos-en-chatbot-pictolang-"
+            welcome_message = f'''Gracias por registrarte como amigo en PicToLang. Estamos aquí para responder a tus preguntas todos los días. Además, al enviar fotos de documentos escritos en otros idiomas, haremos la traducción y te proporcionaremos un resumen de alto nivel.
+
+Hemos preparado un sitio web para ayudarte a entender mejor nuestro servicio. No dudes en utilizar nuestro sitio web según sea necesario.
+
+Para una introducción a PicToLang y una demostración del servicio, visita este artículo en nuestro sitio web:
+{intro_website_url}
+
+Para aprender a actualizar tu plan, visita este artículo en nuestro sitio web:
+{upgrade_website_url}
+
+Para aprender a cancelar tu plan, visita este artículo en nuestro sitio web:
+{cancel_website_url}
+
+También puedes visitar nuestro sitio web para más información:👇
+{portalsite}
+
+Si tienes alguna pregunta, puedes ponerte en contacto a través del siguiente enlace. 👇
+{queryformurl}
+El operador responderá. Y si no sabes cómo ponerte en contacto con nosotros, lee este artículo en nuestro sitio web:👇
+{query_website_url}
+
+Actualmente eres un usuario gratuito y puedes enviar 7 mensajes al mes. Si deseas usar más que eso, renueva tu plan en la pestaña "Actualizar".
+'''
         elif user_language == 'Tagalog':
-            welcome_message = f'Salamat sa pagrehistro bilang kaibigan sa PicToLang. Narito kami upang sagutin ang iyong mga katanungan araw-araw. Bukod dito, sa pagpapadala ng mga larawan ng mga dokumentong nakasulat sa ibang wika, gagawin namin ang pagsasalin at magbibigay ng mataas na antas na buod. \nPara sa detalyadong impormasyon tungkol sa paggamit, bisitahin ang link ng YouTube o bisitahin ang aming website.\n\nYouTube👇\n{youtubeurl}\n\naming site👇\n{portalsite}\nKung mayroon kang mga katanungan, mangyaring makipag-ugnay sa link sa ibaba. Ang operator ay tutugon, kaya mangyaring tangkilikin.👇 \n{queryformurl}\n\nSa ngayon ikaw ay isang libreng gumagamit at maaari kang magpadala ng 7 mga mensahe bawat buwan. Kung nais mong gamitin ang higit pa sa iyon, i-update ang iyong plano sa tab na "I-update".'
+            intro_website_url    = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000076969-pictolang-isang-makabagong-virtual-na-assistant-na-lumalagpas-sa-mga-hadlang-ng-wika"
+            upgrade_website_url  = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079074-paano-bumili-ng-aming-mga-plano-sa-chatbot-pictolang-"
+            cancel_website_url   = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079261-paano-kanselahin-ang-iyong-subscription-sa-chatbot-pictolang-"
+            queryformurl         = "https://pictolang-help.freshdesk.com/fil/support/tickets/new"
+            portalsite           = "https://pictolang-help.freshdesk.com/fil/support/home"
+            query_website_url    = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079236-paano-makipag-ugnayan-sa-amin-sa-chatbot-pictolang-"
+            welcome_message = f'''Salamat sa iyong pagpaparehistro bilang kaibigan sa PicToLang. Nandito kami upang sagutin ang iyong mga katanungan araw-araw. Dagdag pa, sa pagsumite ng mga larawan ng mga dokumentong nakasulat sa iba't ibang wika, kami ay magtatranslate at magbibigay sa iyo ng isang komprehensibong buod.
+
+Naghanda kami ng website upang matulungan kang mas maunawaan ang aming serbisyo. Huwag mag-atubiling gamitin ang aming website kung kinakailangan.
+
+Para sa isang introduksyon sa PicToLang at isang demonstrasyon ng serbisyo, bisitahin ang artikulong ito sa aming website:
+{intro_website_url}
+
+Para malaman kung paano i-upgrade ang iyong plano, bisitahin ang artikulong ito sa aming website:
+{upgrade_website_url}
+
+Para malaman kung paano kanselahin ang iyong plano, bisitahin ang artikulong ito sa aming website:
+{cancel_website_url}
+
+Maaari mo ring bisitahin ang aming website para sa karagdagang impormasyon:👇
+{portalsite}
+
+Kung mayroon kang anumang katanungan, maaari kang makipag-ugnay sa pamamagitan ng sumusunod na link. 👇
+{queryformurl}
+Ang operator ay magrerespond. At kung hindi mo alam kung paano makipag-ugnay sa amin, basahin ang artikulong ito sa aming website:👇
+{query_website_url}
+
+Sa kasalukuyan, ikaw ay isang libreng gumagamit at maaaring magpadala ng 7 mga mensahe kada buwan. Kung nais mong gumamit ng higit pa sa iyon, i-renew ang iyong plano sa tab na "Update".
+'''
+
         elif user_language == 'Vietnamese':
-            welcome_message = f'Cảm ơn bạn đã đăng ký làm bạn với PicToLang. Chúng tôi ở đây để trả lời các câu hỏi của bạn hàng ngày. Ngoài ra, khi gửi ảnh của các tài liệu viết bằng các ngôn ngữ khác, chúng tôi sẽ dịch và cung cấp một tóm tắt cấp cao. \nĐể biết thông tin chi tiết về cách sử dụng, hãy truy cập liên kết YouTube hoặc truy cập trang web của chúng tôi.\n\nYouTube👇\n{youtubeurl}\n\ntrang web của chúng tôi👇\n{portalsite}\nNếu bạn có thắc mắc, vui lòng liên hệ thông qua liên kết bên dưới. Điều hành viên sẽ trả lời, vì vậy hãy tận hưởng.👇 \n{queryformurl}\n\nHiện tại bạn là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn, hãy cập nhật gói của bạn trong tab "Cập nhật".'
+            intro_website_url    = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000076969-pictolang-tr%E1%BB%A3-l%C3%BD-%E1%BA%A3o-c%C3%A1ch-m%E1%BA%A1ng-v%C6%B0%E1%BB%A3t-qua-r%C3%A0o-c%E1%BA%A3n-ng%C3%B4n-ng%E1%BB%AF"
+            upgrade_website_url  = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079074-c%C3%A1ch-%C4%91%E1%BB%83-mua-c%C3%A1c-g%C3%B3i-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
+            cancel_website_url   = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079261-c%C3%A1ch-h%E1%BB%A7y-%C4%91%C4%83ng-k%C3%BD-tr%C3%AAn-chatbot-pictolang-"
+            queryformurl         = "https://pictolang-help.freshdesk.com/vi/support/tickets/new"
+            portalsite           = "https://pictolang-help.freshdesk.com/vi/support/home"
+            query_website_url    = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079236-c%C3%A1ch-li%C3%AAn-h%E1%BB%87-v%E1%BB%9Bi-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
+            welcome_message = f'''Cảm ơn bạn đã đăng ký làm bạn với PicToLang. Chúng tôi ở đây để trả lời câu hỏi của bạn mỗi ngày. Ngoài ra, bằng cách gửi ảnh của các tài liệu viết bằng ngôn ngữ khác, chúng tôi sẽ thực hiện việc dịch và cung cấp cho bạn một bản tóm tắt cấp cao.
+
+Chúng tôi đã chuẩn bị một trang web để giúp bạn hiểu rõ hơn về dịch vụ của chúng tôi. Hãy sử dụng trang web của chúng tôi khi cần.
+
+Để tìm hiểu về PicToLang và dịch vụ, hãy truy cập bài viết này trên trang web của chúng tôi:
+{intro_website_url}
+
+Để tìm hiểu cách nâng cấp kế hoạch của bạn, hãy truy cập bài viết này trên trang web của chúng tôi:
+{upgrade_website_url}
+
+Để tìm hiểu cách hủy kế hoạch của bạn, hãy truy cập bài viết này trên trang web của chúng tôi:
+{cancel_website_url}
+
+Bạn cũng có thể truy cập trang web của chúng tôi để biết thêm thông tin:👇
+{portalsite}
+
+Nếu bạn có bất kỳ câu hỏi nào, bạn có thể liên hệ qua liên kết sau. 👇
+{queryformurl}
+Người điều hành sẽ trả lời. Và nếu bạn không biết cách liên hệ với chúng tôi, hãy đọc bài viết này trên trang web của chúng tôi:👇
+{query_website_url}
+
+Hiện tại, bạn là người dùng miễn phí và có thể gửi 7 tin nhắn mỗi tháng. Nếu bạn muốn sử dụng nhiều hơn, hãy gia hạn kế hoạch của bạn trong tab "Cập nhật".
+'''
+
         elif user_language == 'Japanese':
-            welcome_message = f'PicToLangを友達登録していただきありがとうございます。PicToLangはあなたの日常的な質問に答えます。また、他の言語で書かれた文書の写真を送信すると、翻訳を行い、高レベルの要約を提供します。\n利用方法の詳細については、YouTubeのリンクを参照するか、ウェブサイトをご覧ください。\n\nYouTube👇\n{youtubeurl}\n\nウェブサイト👇\n{portalsite}\n質問がある場合は、以下のリンクからお問い合わせください。オペレーターが対応いたします。\n{queryformurl}\n\n現在、あなたは無料ユーザー(free)であり、月に7通のメッセージを送信できます。それ以上の利用を希望する場合は、「アップグレード」タブでプランを更新してください。'
+            intro_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000076969-pictolang-a-revolutionary-virtual-assistant-that-transcends-language-barriers"
+            upgrade_website_url  = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+            cancel_website_url   = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079261-how-to-cancel-your-subscription-in-chatbot-pictolang-"
+            queryformurl         = "https://pictolang-help.freshdesk.com/ja-JP/support/tickets/new"
+            portalsite           = "https://pictolang-help.freshdesk.com/en/support/home"
+            query_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
+            welcome_message = f'''PicToLangを友達登録いただき、ありがとうございます。私たちの日常的に生じる疑問にお答えしています。さらに、他の言語で書かれた文書の写真を投稿することで、高いレベルで翻訳や要約を提供します。
+
+私たちのサービスをよりよく理解頂くためにWebサイトをご用意しました。必要に応じてご活用ください。
+
+PicToLangの紹介は、以下のこの記事をご覧ください：
+{intro_website_url}
+
+プランのアップグレード方法については、以下の記事をご覧ください：
+{upgrade_website_url}
+
+プランのキャンセル方法については、以下の記事をご覧ください：
+{cancel_website_url}
+
+また、ポートタルサイトは以下になります：👇
+{portalsite}
+
+お問合せは、以下のリンクからお願いいたします。👇
+{queryformurl}
+オペレーターが回答します。お問合せ方法が分からない場合は、以下の記事をご覧ください：👇
+{query_website_url}
+
+現在、あなたは無料ユーザー(free)であり、月に7件のメッセージを送信できます。それ以上を使用したい場合は、"更新"タブからプランを更新してください。
+'''
+
         else:
-            welcome_message = f'Thank you for registering as a friend on PicToLang. We are here to answer your questions daily. In addition, when you send photos of documents written in other languages, we will translate and provide a high-level summary. \nFor detailed information on usage, please access the YouTube link or visit our website.\n\nYouTube👇\n{youtubeurl}\n\nour website👇\n{portalsite}\nIf you have any questions, please contact us via the link below. The operator will respond, so please enjoy. \n{queryformurl}\n\nYou are currently a free user and can send 7 messages per month. If you wish to use more than that, please update your plan in the "Update" tab.'
+            intro_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000076969-pictolang-a-revolutionary-virtual-assistant-that-transcends-language-barriers"
+            upgrade_website_url  = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+            cancel_website_url   = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079261-how-to-cancel-your-subscription-in-chatbot-pictolang-"
+            queryformurl         = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
+            portalsite           = "https://pictolang-help.freshdesk.com/en/support/home"
+            query_website_url    = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
+            welcome_message = f'''Thank you for registering as a friend in PicToLang. We are here to answer your questions every day. Additionally, by submitting photos of documents written in other languages, we will do the translation and provide you with a high-level summary.
+
+We have prepared a website to help you better understand our service. Feel free to utilize our website as needed.
+
+For an introduction to PicToLang of the service, visit this article on our website:
+{intro_website_url}
+
+To learn how to upgrade your plan, visit this article on our website:
+{upgrade_website_url}
+
+To learn how to cancel your plan, visit this article on our website:
+{cancel_website_url}
+
+You can also visit our website for more information:👇
+{portalsite}
+
+If you have any questions, you can get in touch through the following link. 👇
+{queryformurl}
+The operator will respond. And if you don't know how to contact us, read this article on our website:👇
+{query_website_url}
+
+Currently, you are a free user and can send 7 messages per month. If you wish to use more than that, renew your plan in the "Update" tab.
+'''
+
 
     else:
         user_data = db_accessor.get_line_user_data(line_user_id)
@@ -502,25 +665,49 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             if user_language == 'Portuguese':
-                text_message = TextSendMessage(text=f"Seu plano é {plan} plan. Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.", quick_reply=quick_reply)
+                upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079074-como-adquirir-nossos-planos-no-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Seu plano é {plan} plan.
+                                                    Por favor, selecione o plano que deseja fazer atualizar ou rebaixar no botão abaixo.
+                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇\n{upgrade_youtube_url}
+                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
-                text_message = TextSendMessage(text=f"Su plan es {plan} plan. Seleccione el plan que desea actualizar o degradar usando el botón a continuación.", quick_reply=quick_reply)
-            elif user_language == 'English':
-                text_message = TextSendMessage(text=f"Your plan is {plan} plan. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Tu plan es {plan} plan.
+                                                    Por favor, selecciona el plan que deseas actualizar o degradar en el botón de abajo.
+                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             elif user_language == 'Tagalog':
-                text_message = TextSendMessage(text=f"Ang iyong plano ay {plan} plan. Pakipili ang planong gusto mong i-upgrade o i-downgrade gamit ang button sa ibaba.", quick_reply=quick_reply)
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079074-paano-bumili-ng-aming-mga-plano-sa-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Ang iyong plano ay {plan} plan.
+                                                    Mangyaring piliin ang plano na nais mong i-upgrade o i-downgrade gamit ang button sa ibaba.
+                                                    Bukod dito, nag-ihanda kami ng isang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
-                text_message = TextSendMessage(text=f"Kế hoạch của bạn là {plan} plan. Vui lòng chọn gói bạn muốn nâng cấp hoặc hạ cấp từ nút bên dưới.", quick_reply=quick_reply)
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079074-c%C3%A1ch-%C4%91%E1%BB%83-mua-c%C3%A1c-g%C3%B3i-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Kế hoạch của bạn là {plan} plan.
+                                                    Vui lòng chọn kế hoạch bạn muốn nâng cấp hoặc hạ cấp bằng cách sử dụng nút dưới đây.
+                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, hãy truy cập liên kết này:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             elif user_language == 'Japanese':
-                text_message = TextSendMessage(text=f"あなたのプランは{plan} planです。下記のボタンからアップグレードもしくはダウングレードしたいプランを選択してください。", quick_reply=quick_reply)
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""あなたのプランは {plan} planです。
+                                                    下のボタンからアップグレードまたはダウングレードしたいプランを選択してください。
+                                                    また、アップグレード方法に関する記事は以下になります:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             else:
-                text_message = TextSendMessage(text=f"Your plan is {plan} plan. Please select the plan you wish to upgrade or downgrade using the button below.", quick_reply=quick_reply)
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Your plan is {plan} plan.
+                                                    Please select the plan you wish to upgrade or downgrade using the button below.
+                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
             line_bot_api.reply_message(reply_token, [text_message, flex_message])
             
         except LineBotApiError as e:
             print("Error:", e)
 
-    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" or prompt_text == "Liên hệ với chúng tôi" or prompt_text == "Makipag-ugnay sa amin" or prompt_text == "Contact us":
+    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合わせ" or prompt_text == "Liên hệ với chúng tôi" or prompt_text == "Makipag-ugnay sa amin" or prompt_text == "Contact us":
          # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
         # Create quick reply buttons
@@ -530,17 +717,68 @@ def handle_message_event(event_body):
         from linebot.exceptions import LineBotApiError
         try:
             if user_language == 'Portuguese':
-                text_message = TextSendMessage(text=f'Por favor, preencha as informações necessárias no link(Enviar um ticket) abaixo e envie-o.\n\nDepois de clicar no link abaixo(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.\n\nSeu ID do usuário👇\n{line_user_id}\n\nClica o link abaixo👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/pt-BR/support/tickets/new"
+                query_youtube_url = "https://youtu.be/Zb_UAG20gBU"
+                query_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079236-como-entrar-em-contato-conosco-no-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Por favor, preencha as informações necessárias no link (Enviar um ticket) abaixo e envie-o.👇\n{queryformurl}
+                                                        Depois de clicar no link(Enviar um ticket), se você inserir o seguinte valor em "ID do usuário", poderei pesquisar seu histórico e status de mensagens anteriores. Você obterá melhores respostas. Se você não se importa, insira os seguintes valores e envie.
+
+                                                        Seu ID do usuário👇\n{line_user_id}
+
+                                                        Além disso, preparamos um vídeo no YouTube e um artigo explicando como entrar em contato conosco. Para assistir ao vídeo, visite este link:👇\n{query_youtube_url}                                                        Para ler o artigo sobre como entrar em contato conosco, visite este link:👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
             elif user_language == 'Spanish':
-                text_message = text_message = TextSendMessage(text=f'Por favor, complete la información necesaria en el siguiente enlace (Enviar un ticket) y envíelo.\n\nDespués de hacer clic en el enlace de abajo (Enviar un ticket), si introduce el siguiente valor en "ID del usuario", podré buscar su historial y el estado de sus mensajes anteriores. Obtendrá mejores respuestas. Si no le importa, introduzca los siguientes valores y envíe.\n\nSu ID de usuario👇\n{line_user_id}\n\nHaga clic en el enlace de abajo👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"
+                query_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079236-c%C3%B3mo-contactarnos-en-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Por favor, completa la información necesaria en el enlace (Enviar un ticket) a continuación y envíalo.👇\n{queryformurl}
+                                                        Después de hacer clic en el enlace (Enviar un ticket), si introduces el siguiente valor en "ID de usuario", podré buscar tu historial y estado de mensajes anteriores. Obtendrás mejores respuestas. Si no te importa, introduce los siguientes valores y envía.
+
+                                                        Tu ID de usuario👇\n{line_user_id}
+
+                                                        Además, hemos preparado un artículo que explica cómo ponerse en contacto con nosotros. Para leer el artículo sobre cómo ponerse en contacto con nosotros, visita este enlace:👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
+
             elif user_language == 'Tagalog':
-                text_message = TextSendMessage(text=f'Mangyaring punan ang kinakailangang impormasyon mula sa link sa ibaba (Isumite ang isang ticket) at ipadala ito.\n\nPagkatapos i-click ang link sa ibaba (Isumite ang isang ticket), kung ipapasok mo ang sumusunod na halaga sa "User ID", maaari kong hanapin ang iyong kasaysayan at ang estado ng iyong mga nakaraang mensahe. Makakakuha ka ng mas mahusay na mga sagot. Kung hindi ka nag-aalala, mangyaring ipasok ang mga sumusunod na halaga at ipadala.\n\nAng iyong User ID👇\n{line_user_id}\n\nI-click ang link sa ibaba👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/fil/support/tickets/new"
+                query_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079236-paano-makipag-ugnayan-sa-amin-sa-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Pakipunan ang kinakailangang impormasyon sa link (Magsumite ng isang ticket) sa ibaba at ipadala ito.👇\n{queryformurl}
+                                                        Pagkatapos mag-click sa link (Magsumite ng isang ticket), kung ipapasok mo ang sumusunod na halaga sa "User ID", maaari kong hanapin ang iyong kasaysayan ng nakaraang mensahe at estado. Makakakuha ka ng mas mahusay na mga tugon. Kung hindi ka nag-aalala, pakipasok ang mga sumusunod na halaga at ipadala.
+
+                                                        Ang iyong User ID👇\n{line_user_id}
+
+                                                        Bukod dito, nakahanda kami ng isang artikulo na nagpapaliwanag kung paano makipag-ugnay sa amin.Para mabasa ang artikulo tungkol sa kung paano makipag-ugnay sa amin, bisitahin ang link na ito:👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
-                text_message = TextSendMessage(text=f'Vui lòng điền các thông tin cần thiết từ liên kết dưới đây (Gửi một vé) và gửi nó.\n\nSau khi nhấp vào liên kết dưới đây (Gửi một vé), nếu bạn nhập giá trị sau vào "ID người dùng", tôi có thể tìm kiếm lịch sử và trạng thái của các tin nhắn trước đó của bạn. Bạn sẽ nhận được câu trả lời tốt hơn. Nếu bạn không quan tâm, vui lòng nhập các giá trị sau và gửi.\n\nID người dùng của bạn👇\n{line_user_id}\n\nNhấp vào liên kết dưới đây👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/vi/support/tickets/new"
+                query_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079236-c%C3%A1ch-li%C3%AAn-h%E1%BB%87-v%E1%BB%9Bi-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Vui lòng điền thông tin cần thiết vào liên kết (Gửi một vé) dưới đây và gửi đi.👇\n{queryformurl}
+                                                        Sau khi nhấp vào liên kết (Gửi một vé), nếu bạn nhập giá trị sau vào "User ID", tôi có thể tìm kiếm lịch sử tin nhắn trước đó và trạng thái của bạn. Bạn sẽ nhận được các phản hồi tốt hơn. Nếu bạn không phiền, vui lòng nhập các giá trị sau và gửi đi.
+
+                                                        User ID của bạn👇\n{line_user_id}
+
+                                                        Ngoài ra, chúng tôi đã chuẩn bị một bài viết giải thích cách liên lạc với chúng tôi.Để đọc bài viết về cách liên lạc với chúng tôi, hãy truy cập liên kết này:👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
             elif user_language == 'Japanese':
-                text_message = TextSendMessage(text=f'下記リンクから必要事項を記入し、送信してください。\n\n下記のリンク（チケットを提出する）をクリックした後、"ユーザーID"に次の値を入力すると、あなたのメッセージの送信履歴とステータスを検索することができます。それにより、オペレータから精度の高い回答が得られます。よろしければ、以下の値を入力して送信してください。\n\nあなたのユーザーID👇\n{line_user_id}\n\n下記のリンクをクリックしてください👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
+                query_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""必要な情報を以下のリンク（チケットを提出）に入力して送信してください。👇\n{queryformurl}
+                                                        リンク（チケットを提出）をクリックした後、「User ID」に次の値を入力すると、ユーザーの過去のメッセージの履歴とステータスを検索することができます。より良い回答を得ることができます。もしよろしければ、以下の値を入力して送信してください。
+
+                                                        あなたのUser ID👇\n{line_user_id}
+
+                                                        また、問い合わせ方法を説明した記事を用意しています。 記事は以下になります。ご参照ください：👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
             else:
-                text_message = TextSendMessage(text=f'Please fill in the necessary information from the link below (Submit a ticket) and send it.\n\nAfter clicking the link below (Submit a ticket), if you enter the following value in "User ID", I can search your history and the status of your previous messages. You will get better answers. If you do not mind, please enter the following values and send.\n\nYour User ID👇\n{line_user_id}\n\nClick the link below👇\nhttps://pictolang-help.freshdesk.com/pt-BR/support/tickets/new', quick_reply=quick_reply)
+                queryformurl = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
+                query_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Please fill in the necessary information in the link (Submit a ticket) below and send it.👇\n{queryformurl}
+                                                        After clicking the link (Submit a ticket), if you enter the following value in "User ID", I can search your previous message history and status. You will get better responses. If you don't mind, please enter the following values and send.
+
+                                                        Your User ID👇\n{line_user_id}
+
+                                                        In addition, we've prepared an article explaining how to get in touch with us.To read the article on how to contact us, visit this link:👇\n{query_article_url}
+                                                        """, quick_reply=quick_reply)
+
 
 
             line_bot_api.reply_message(reply_token, text_message)
@@ -657,13 +895,13 @@ def handle_message_event(event_body):
         if prompt_text == "Quero assinar o basic plan"  or prompt_text == "Quero assinar o standard plan" or prompt_text == "Quero assinar o premium plan":
             if prompt_text == "Quero assinar o basic plan":
                 plan = "basic"
-                send_text = "Você pode enviar 100 mensagens por mês por 80 yen por mês."
+                send_text = "Você pode enviar 100 mensagens por 80 ienes mensais."
             elif prompt_text == "Quero assinar o standard plan":
                 plan = "standard"
-                send_text = "Você pode enviar 300 mensagens por mês por 230 yen por mês."
+                send_text = "Você pode enviar 300 mensagens por 230 ienes mensais."
             elif prompt_text == "Quero assinar o premium plan":
                 plan = "premium"
-                send_text = "Você pode enviar mensagens ilimitadas por 750yen por mês."
+                send_text = "Você pode enviar mensagens ilimitadas por 750 ienes mensais."
             label_yes = "Sim"
             label_no = "Não"
             text_yes = f"sim. Eu assino o {plan}."
@@ -930,6 +1168,50 @@ def handle_message_event(event_body):
                 text_message = TextSendMessage(text=f"今月送信可能なメッセージ回数が終了しました。あなたのプランは {plan} です。さらにメッセージを送信したい場合は、下のボタンからアップグレードしたいプランを選択してください。", quick_reply=quick_reply)
             else :
                 text_message = TextSendMessage(text=f"Your maximum number of messages you can send this month has ended. Your plan is {plan}. If you want to send more messages, select the plan you want to upgrade from the button below.", quick_reply=quick_reply)
+            if user_language == 'Portuguese':
+                upgrade_youtube_url = "https://youtu.be/H4mDq9cNlgg"
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/pt-BR/support/solutions/articles/150000079074-como-adquirir-nossos-planos-no-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Acabou o seu número máximo de mensagens que pode enviar este mês.
+                                                    Seu plano é {plan} plan.
+                                                    Se você deseja enviar mais mensagens, selecione o plano que deseja fazer atualizar no botão abaixo.
+                                                    Para aprender a atualizar seu plano, assista a este vídeo no YouTube:👇\n{upgrade_youtube_url}
+                                                    Além disso, também preparamos um artigo que pode ser útil para você. Para acessar o artigo, visite este link:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
+            elif user_language == 'Spanish':
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079074-c%C3%B3mo-adquirir-nuestros-planes-en-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Ha finalizado el número máximo de mensajes que puede enviar este mes.
+                                                    Tu plan es {plan} plan.
+                                                    Si desea enviar más mensajes, selecciona el plan que deseas actualizar en el botón de abajo.
+                                                    Además, hemos preparado un artículo que podría ser útil para ti. Para acceder al artículo, visita este enlace:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
+            elif user_language == 'Tagalog':
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079074-paano-bumili-ng-aming-mga-plano-sa-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Ang maximum na bilang ng mga mensahe na maaari mong ipadala ngayong buwan ay natapos na.
+                                                    Ang iyong plano ay {plan} plan.
+                                                    Kung nais mong magpadala ng mas maraming mga mensahe, Mangyaring piliin ang plano na nais mong i-upgrade gamit ang pindutan sa ibaba.
+                                                    Karagdagan, mayroon kaming inihandang artikulo na maaaring makatulong sa iyo. Para ma-access ang artikulo, bisitahin ang link na ito:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
+            elif user_language == 'Vietnamese':
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079074-c%C3%A1ch-%C4%91%E1%BB%83-mua-c%C3%A1c-g%C3%B3i-c%E1%BB%A7a-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Số tin nhắn tối đa bạn có thể gửi trong tháng này đã hết.
+                                                    Gói của bạn là gói {plan}.
+                                                    Nếu bạn muốn gửi thêm tin nhắn, vui lòng chọn gói mà bạn muốn nâng cấp bằng cách sử dụng nút bên dưới.
+                                                    Ngoài ra, chúng tôi đã chuẩn bị một bài viết có thể hữu ích cho bạn. Để truy cập bài viết, vui lòng truy cập liên kết này:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
+            elif user_language == 'Japanese':
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""今月送信可能なメッセージ回数が終了しました。
+                                                    あなたのプランは {plan} planです。
+                                                    さらにメッセージを送信したい場合は、下のボタンからアップグレードしたいプランを選択してください。
+                                                    また、アップグレード方法に関する記事は以下になります:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
+            else:
+                upgrade_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079074-how-to-acquire-our-plans-in-chatbot-pictolang-"
+                text_message = TextSendMessage(text=f"""Your maximum number of messages you can send this month has ended.
+                                                    Your plan is {plan} plan.
+                                                    If you want to send more messages, Please select the plan you wish to upgrade using the button below.
+                                                    In addition, we've prepared an article that might be helpful to you. To access the article, visit this link:👇\n{upgrade_article_url}
+                                                    """, quick_reply=quick_reply)
  
             # Push the message to the user
             line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)

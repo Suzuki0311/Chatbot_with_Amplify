@@ -707,7 +707,7 @@ def handle_message_event(event_body):
         except LineBotApiError as e:
             print("Error:", e)
 
-    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合せ" or prompt_text == "Liên hệ với chúng tôi" or prompt_text == "Makipag-ugnay sa amin" or prompt_text == "Contact us":
+    elif prompt_text == "Contato conosco" or prompt_text == "contacto" or prompt_text == "お問い合わせ" or prompt_text == "Liên hệ với chúng tôi" or prompt_text == "Makipag-ugnay sa amin" or prompt_text == "Contact us":
          # Push the message to the user
         line_bot_api = LineBotApi(const.LINE_CHANNEL_ACCESS_TOKEN)
         # Create quick reply buttons

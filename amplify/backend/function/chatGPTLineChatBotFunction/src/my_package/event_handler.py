@@ -740,88 +740,53 @@ def handle_message_event(event_body):
             elif user_language == 'Spanish':
                 queryformurl = "https://pictolang-help.freshdesk.com/es-LA/support/tickets/new"
                 query_article_url = "https://pictolang-help.freshdesk.com/es-LA/support/solutions/articles/150000079236-c%C3%B3mo-contactarnos-en-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        Por favor, completa la información necesaria en el enlace (Enviar un ticket) a continuación y envíalo.👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""Por favor, completa la información necesaria en el enlace (Enviar un ticket) a continuación y envíalo.👇\n{queryformurl}
                                                         Después de hacer clic en el enlace (Enviar un ticket), si introduces el siguiente valor en "ID de usuario", podré buscar tu historial y estado de mensajes anteriores. Obtendrás mejores respuestas. Si no te importa, introduce los siguientes valores y envía.
 
-                                                        Tu ID de usuario👇
-                                                        {line_user_id}
+                                                        Tu ID de usuario👇\n{line_user_id}
 
-                                                        Además, hemos preparado un artículo que explica cómo ponerse en contacto con nosotros. 
-
-                                                        Para leer el artículo sobre cómo ponerse en contacto con nosotros, visita este enlace:👇
-                                                        {query_article_url}
+                                                        Además, hemos preparado un artículo que explica cómo ponerse en contacto con nosotros. Para leer el artículo sobre cómo ponerse en contacto con nosotros, visita este enlace:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
 
             elif user_language == 'Tagalog':
                 queryformurl = "https://pictolang-help.freshdesk.com/fil/support/tickets/new"
                 query_article_url = "https://pictolang-help.freshdesk.com/fil/support/solutions/articles/150000079236-paano-makipag-ugnayan-sa-amin-sa-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        Pakipunan ang kinakailangang impormasyon sa link (Magsumite ng isang ticket) sa ibaba at ipadala ito.👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""Pakipunan ang kinakailangang impormasyon sa link (Magsumite ng isang ticket) sa ibaba at ipadala ito.👇\n{queryformurl}
                                                         Pagkatapos mag-click sa link (Magsumite ng isang ticket), kung ipapasok mo ang sumusunod na halaga sa "User ID", maaari kong hanapin ang iyong kasaysayan ng nakaraang mensahe at estado. Makakakuha ka ng mas mahusay na mga tugon. Kung hindi ka nag-aalala, pakipasok ang mga sumusunod na halaga at ipadala.
 
-                                                        Ang iyong User ID👇
-                                                        {line_user_id}
+                                                        Ang iyong User ID👇\n{line_user_id}
 
-                                                        Bukod dito, nakahanda kami ng isang artikulo na nagpapaliwanag kung paano makipag-ugnay sa amin.
-
-                                                        Para mabasa ang artikulo tungkol sa kung paano makipag-ugnay sa amin, bisitahin ang link na ito:👇
-                                                        {query_article_url}
+                                                        Bukod dito, nakahanda kami ng isang artikulo na nagpapaliwanag kung paano makipag-ugnay sa amin.Para mabasa ang artikulo tungkol sa kung paano makipag-ugnay sa amin, bisitahin ang link na ito:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
             elif user_language == 'Vietnamese':
                 queryformurl = "https://pictolang-help.freshdesk.com/vi/support/tickets/new"
                 query_article_url = "https://pictolang-help.freshdesk.com/vi/support/solutions/articles/150000079236-c%C3%A1ch-li%C3%AAn-h%E1%BB%87-v%E1%BB%9Bi-ch%C3%BAng-t%C3%B4i-tr%C3%AAn-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        Vui lòng điền thông tin cần thiết vào liên kết (Gửi một vé) dưới đây và gửi đi.👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""Vui lòng điền thông tin cần thiết vào liên kết (Gửi một vé) dưới đây và gửi đi.👇\n{queryformurl}
                                                         Sau khi nhấp vào liên kết (Gửi một vé), nếu bạn nhập giá trị sau vào "User ID", tôi có thể tìm kiếm lịch sử tin nhắn trước đó và trạng thái của bạn. Bạn sẽ nhận được các phản hồi tốt hơn. Nếu bạn không phiền, vui lòng nhập các giá trị sau và gửi đi.
 
-                                                        User ID của bạn👇
-                                                        {line_user_id}
+                                                        User ID của bạn👇\n{line_user_id}
 
-                                                        Ngoài ra, chúng tôi đã chuẩn bị một bài viết giải thích cách liên lạc với chúng tôi.
-
-                                                        Để đọc bài viết về cách liên lạc với chúng tôi, hãy truy cập liên kết này:👇
-                                                        {query_article_url}
+                                                        Ngoài ra, chúng tôi đã chuẩn bị một bài viết giải thích cách liên lạc với chúng tôi.Để đọc bài viết về cách liên lạc với chúng tôi, hãy truy cập liên kết này:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
             elif user_language == 'Japanese':
                 queryformurl = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
                 query_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        必要な情報を以下のリンク（チケットを提出）に入力して送信してください。👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""必要な情報を以下のリンク（チケットを提出）に入力して送信してください。👇\n{queryformurl}
                                                         リンク（チケットを提出）をクリックした後、「User ID」に次の値を入力すると、ユーザーの過去のメッセージの履歴とステータスを検索することができます。より良い回答を得ることができます。もしよろしければ、以下の値を入力して送信してください。
 
-                                                        あなたのUser ID👇
-                                                        {line_user_id}
+                                                        あなたのUser ID👇\n{line_user_id}
 
-                                                        また、問い合わせ方法を説明した記事を用意しています。
-
-                                                        記事は以下になります。ご参照ください：👇
-                                                        {query_article_url}
+                                                        また、問い合わせ方法を説明した記事を用意しています。 記事は以下になります。ご参照ください：👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
             else:
                 queryformurl = "https://pictolang-help.freshdesk.com/en/support/tickets/new"
                 query_article_url = "https://pictolang-help.freshdesk.com/en/support/solutions/articles/150000079236-how-to-contact-us-in-chatbot-pictolang-"
-                text_message = TextSendMessage(text=f"""
-                                                        Please fill in the necessary information in the link (Submit a ticket) below and send it.👇
-                                                        {queryformurl}
-
+                text_message = TextSendMessage(text=f"""Please fill in the necessary information in the link (Submit a ticket) below and send it.👇\n{queryformurl}
                                                         After clicking the link (Submit a ticket), if you enter the following value in "User ID", I can search your previous message history and status. You will get better responses. If you don't mind, please enter the following values and send.
 
-                                                        Your User ID👇
-                                                        {line_user_id}
+                                                        Your User ID👇\n{line_user_id}
 
-                                                        In addition, we've prepared an article explaining how to get in touch with us.
-
-                                                        To read the article on how to contact us, visit this link:👇
-                                                        {query_article_url}
+                                                        In addition, we've prepared an article explaining how to get in touch with us.To read the article on how to contact us, visit this link:👇\n{query_article_url}
                                                         """, quick_reply=quick_reply)
 
 
@@ -940,13 +905,13 @@ def handle_message_event(event_body):
         if prompt_text == "Quero assinar o basic plan"  or prompt_text == "Quero assinar o standard plan" or prompt_text == "Quero assinar o premium plan":
             if prompt_text == "Quero assinar o basic plan":
                 plan = "basic"
-                send_text = "Você pode enviar 100 mensagens por mês por 80 yen por mês."
+                send_text = "Você pode enviar 100 mensagens por 80 ienes mensais."
             elif prompt_text == "Quero assinar o standard plan":
                 plan = "standard"
-                send_text = "Você pode enviar 300 mensagens por mês por 230 yen por mês."
+                send_text = "Você pode enviar 300 mensagens por 230 ienes mensais."
             elif prompt_text == "Quero assinar o premium plan":
                 plan = "premium"
-                send_text = "Você pode enviar mensagens ilimitadas por 750yen por mês."
+                send_text = "Você pode enviar mensagens ilimitadas por 750 ienes mensais."
             label_yes = "Sim"
             label_no = "Não"
             text_yes = f"sim. Eu assino o {plan}."
